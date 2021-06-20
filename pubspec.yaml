@@ -15,23 +15,66 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 0.0.1+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
 
+  #core
+  get: ^4.1.4
+  json_annotation: ^4.0.1
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
+  #widget
+  im_stepper: ^0.1.3
+  gradient_loading_button: ^0.1.0-nullsafety.0
+
+  #utility
+  flutter_easyloading: ^3.0.0
+  ant_icons: ^2.0.0-nullsafety.0
+
+  #utility with native
+  google_sign_in: ^5.0.4
+  shared_preferences: ^2.0.6
+  pref: ^2.2.0
+  flutter_keyboard_visibility: ^5.0.2
+
+  #firebase
+  firebase_core: ^1.3.0
+  firebase_auth: ^1.4.1
+  firebase_messaging: ^10.0.2
+  firebase_crashlytics: ^2.0.6
+
+dependency_overrides:
+  args: ^2.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^2.0.4
+  json_serializable: ^4.1.3
+  flutter_gen_runner: ^3.1.1
+  flutter_launcher_icons: ^0.9.0
+  flutter_native_splash: ^1.2.0
+
+flutter_gen:
+  output: lib/generated/
+
+flutter_icons:
+  android: "ic_launcher"
+  ios: false,
+  image_path: "images/logo.png"
+
+flutter_native_splash:
+  image: "images/logo.png"
+  color: "FFFFFF"
+  ios: false
+  fill: false
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -48,6 +91,8 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -74,3 +119,16 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Gotham HTF
+      fonts:
+        - asset: fonts/GOTHAMHTF.OTF
+        - asset: fonts/GOTHAMHTF-LIGHT.OTF
+          style: normal
+    - family: Moneta Sans
+      fonts:
+        - asset: fonts/MONETASANS-BOLD.OTF
+          weight: 700
+flutter_intl:
+  enabled: true
+  main_locale: id
