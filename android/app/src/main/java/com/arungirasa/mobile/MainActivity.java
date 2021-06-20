@@ -1,4 +1,4 @@
-package com.arungirasa.mobile.arungi_rasa;
+package com.arungirasa.mobile;
 
 import io.flutter.embedding.android.FlutterActivity;
 
