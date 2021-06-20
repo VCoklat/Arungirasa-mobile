@@ -1,0 +1,29 @@
+{
+  "aboutShortText": "Discover The Taste of Indonesia With Us Now",
+  "pleaseWait": "Please Wait",
+  "loading": "Loading...",
+  "errorOccurred": "An error occurred",
+  "unableToConnectToServer": "Unable to connect to server",
+
+  "doubleBackPressedToExit": "Press back button again to exit.",
+
+  "or": "Or",
+  "skip": "Skip",
+  "next": "Next",
+
+  "signIn": "Sign In",
+  "signOut": "Sign Out",
+  "signUp": "Sign Up",
+  "hello": "Hello",
+  "signUpText": "Don't have an account yet?",
+  "signInWith": "Sign In with",
+  "signInWithGoogle": "Sign In with Google",
+  "signInWithFacebook": "Sign In with Facebook",
+  "email": "Email",
+  "password": "Password",
+  "errorEmailEmpty": "Email must not be empty.",
+  "errorEmailInvalid": "Invalid email.",
+  "errorPasswordEmpty": "Password must not be empty.",
+  "errorEmailNotFound": "Email was not registered.",
+  "errorPasswordInvalid": "Invalid password."
+}

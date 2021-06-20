@@ -1,0 +1,29 @@
+{
+  "aboutShortText": "Temukan Cita Rasa Indonesia Bersama Kami Sekarang",
+  "pleaseWait": "Mohon menunggu",
+  "loading": "Memuat...",
+  "errorOccurred": "Terjadi kesalahan",
+  "unableToConnectToServer": "Tidak dapat menghubungi server.",
+
+  "doubleBackPressedToExit": "Tekan sekali lagi untuk keluar.",
+
+  "or": "Atau",
+  "skip": "Lewati",
+  "next": "Selanjutnya",
+
+  "signIn": "Masuk",
+  "signOut": "Keluar",
+  "signUp": "Daftar",
+  "hello": "Halo",
+  "signUpText": "Belum Punya Akun?",
+  "signInWith": "Masuk dengan",
+  "signInWithGoogle": "Masuk dengan Google",
+  "signInWithFacebook": "Masuk dengan Facebook",
+  "email": "Email",
+  "password": "Kata Sandi",
+  "errorEmailEmpty": "Email tidak boleh kosong.",
+  "errorEmailInvalid": "Email tidak valid.",
+  "errorPasswordEmpty": "Kata sandi tidak boleh kosong.",
+  "errorEmailNotFound": "Email tidak terdaftar.",
+  "errorPasswordInvalid": "Kata sandi yang anda masukkan salah."
+}
