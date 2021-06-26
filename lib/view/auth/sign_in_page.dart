@@ -4,6 +4,7 @@ import 'package:arungi_rasa/common/helper.dart';
 import 'package:arungi_rasa/common/mixin_controller_worker.dart';
 import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
+import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/service/session_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +80,7 @@ class SignInPage extends GetView<_SignInPageController> {
   Widget get image => new KeyboardVisibilityBuilder(
     builder: ( _, isVisible ) => isVisible ? const SizedBox() : new Center(
       child: Assets.images.logoWithText.image(
-        height: Get.height * 0.3 - 10,
+        height: Get.height * 0.25 - 10,
         fit: BoxFit.fitHeight,
       ),
     ),
@@ -223,7 +224,7 @@ class _SignInPageController extends GetxController with MixinControllerWorker {
     }
   }
 
-  void signUp() {}
+  void signUp() => Get.toNamed( Routes.signUp );
 
   Future<void> signInGoogle() async {
     final result = await SessionService.instance.signInGoogle();
