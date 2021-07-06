@@ -15,3 +15,7 @@ const TABLE_FONT_SIZE = 16.0;
 const PHONE_NUMBER_MAX_LENGTH = 15; ///E.164 Standard https://en.wikipedia.org/wiki/E.164
 
 const REST_TIMEOUT = 15000;
+
+///default lat lng Monas Indonesia
+const DEFAULT_LATITUDE = -6.1754137242424445;
+const DEFAULT_LONGITUDE = 106.82715279991743;
