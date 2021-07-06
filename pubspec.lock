@@ -448,6 +448,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.4"
+  get_connect_repo_mixin:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "37ea19de14b82b8c5f8ff63c4420c0859170695e"
+      url: "https://github.com/LeonColt/get_connect_repo_mixin.git"
+    source: git
+    version: "0.0.1"
   glob:
     dependency: transitive
     description:

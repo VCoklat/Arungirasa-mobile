@@ -43,6 +43,9 @@ dependencies:
   flutter_easyloading: ^3.0.0
   ant_icons: ^2.0.0-nullsafety.0
   flutter_luban: ^0.1.13
+  get_connect_repo_mixin:
+    git:
+      url: https://github.com/LeonColt/get_connect_repo_mixin.git
 
   #utility with native
   google_sign_in: ^5.0.4
