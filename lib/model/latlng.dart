@@ -1,7 +1,7 @@
 class LatLng {
   final double lat;
   final double lng;
-  LatLng({ required this.lat, required this.lng });
+  const LatLng({ required this.lat, required this.lng });
   factory LatLng.fromJson( final Map<String, dynamic> json ) {
     ArgumentError.checkNotNull( json, "LatLng json map" );
     if ( json.containsKey("type") && json["type"] == "Point" ) {
