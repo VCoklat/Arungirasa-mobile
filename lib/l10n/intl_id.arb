@@ -10,6 +10,7 @@
   "or": "Atau",
   "skip": "Lewati",
   "next": "Selanjutnya",
+  "add": "Tambah",
 
   "signIn": "Masuk",
   "signOut": "Keluar",
@@ -39,5 +40,8 @@
   "errorPhoneNumberTooLong": "No Hp terlalu panjang.",
   "errorPhoneNumberAlreadyExists": "No Hp telah terdaftar.",
   "errorConfirmPasswordEmpty": "Ulangi Password tidak boleh kosong.",
-  "errorConfirmPasswordNotEqual": "Password dan Ulangi Password tidak sama."
+  "errorConfirmPasswordNotEqual": "Password dan Ulangi Password tidak sama.",
+
+  "location": "Lokasi",
+  "searchCulinary": "Search Culinary..."
 }

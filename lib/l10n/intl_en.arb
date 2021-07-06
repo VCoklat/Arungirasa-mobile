@@ -10,6 +10,7 @@
   "or": "Or",
   "skip": "Skip",
   "next": "Next",
+  "add": "Add",
 
   "signIn": "Sign In",
   "signOut": "Sign Out",
@@ -39,5 +40,8 @@
   "errorPhoneNumberTooLong": "Phone Number is too long.",
   "errorPhoneNumberAlreadyExists": "Phone Number already exists.",
   "errorConfirmPasswordEmpty": "Confirm Password must not be empty.",
-  "errorConfirmPasswordNotEqual": "Password and Confirm Password are not equal."
+  "errorConfirmPasswordNotEqual": "Password and Confirm Password are not equal.",
+
+  "location": "Location",
+  "searchCulinary": "Cari Kuliner..."
 }
