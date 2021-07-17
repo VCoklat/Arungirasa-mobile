@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:arungi_rasa/common/config.dart';
 import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/common/helper.dart';
+import 'package:arungi_rasa/model/latlng.dart';
 import 'package:arungi_rasa/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _HAS_VIEW_INTRO_KEY = "has-view-intro";
@@ -33,6 +36,10 @@ class InvalidRefreshTokenException implements Exception {
 class SessionService extends GetxService {
   static SessionService get instance => Get.find<SessionService>();
   final user = new Rxn<User>();
+  final location = new Rx<LatLng>( new LatLng(
+    lat: DEFAULT_LATITUDE,
+    lng: DEFAULT_LONGITUDE,
+  ) );
 
   late StreamSubscription<User?> sessionSubscription;
 
@@ -69,7 +76,10 @@ class SessionService extends GetxService {
       navigate();
   }
 
-  void navigate() => Get.offAllNamed( Routes.home );
+  Future<void> navigate() async {
+    await _fetchLocation();
+    Get.offAllNamed( Routes.home );
+  }
 
   Future<void> signOut() => FirebaseAuth.instance.signOut();
 
@@ -111,5 +121,29 @@ class SessionService extends GetxService {
   Future<bool> signInFacebook() async {
     await Helper.showError( text: "Not Yet Implemented." );
     return false;
+  }
+
+  Future<void> _fetchLocation() async {
+    final locator = new Location();
+
+    bool serviceEnabled = await locator.serviceEnabled();
+    if ( !serviceEnabled ) {
+      serviceEnabled = await locator.requestService();
+      if ( !serviceEnabled ) return;
+    }
+
+    PermissionStatus permission = await locator.hasPermission();
+    if ( permission == PermissionStatus.denied ) {
+      permission = await locator.requestPermission();
+      if ( permission != PermissionStatus.granted ){
+        return;
+      }
+    }
+
+    final locationData = await locator.getLocation();
+    location.value = new LatLng(
+      lat: locationData.latitude ?? DEFAULT_LATITUDE,
+      lng: locationData.longitude ?? DEFAULT_LONGITUDE,
+    );
   }
 }
