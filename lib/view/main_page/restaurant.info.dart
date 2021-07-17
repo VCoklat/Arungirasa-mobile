@@ -7,11 +7,13 @@ class _RestaurantInfo extends GetView<_MainPageController> {
     child: new Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        new Text(
-          "Rekan Rasa 3 - Bintaro",
-          style: new TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Get.theme.primaryColor,
+        new Obx(
+          () => new Text(
+            controller.restaurant.value?.name ?? S.current.appName,
+            style: new TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Get.theme.primaryColor,
+            ),
           ),
         ),
         new Row(

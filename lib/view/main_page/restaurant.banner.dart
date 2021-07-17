@@ -27,9 +27,13 @@ class _RestaurantBanner extends GetView<_MainPageController> {
     child: new Material(
       shape: new RoundedRectangleBorder( borderRadius: const BorderRadius.all( const Radius.circular( 20.0 ) ) ),
       clipBehavior: Clip.antiAliasWithSaveLayer,
-      child: new Image.network(
-        "https://firebasestorage.googleapis.com/v0/b/arungi-rasa.appspot.com/o/restaurant%2F1%2Fmenu%2F1%2Fsate.jpg?alt=media&token=9650894a-0fbf-499e-ad6a-c8d846928e44",
-        fit: BoxFit.cover,
+      child: new Obx(
+        () => new OctoImage(
+          image: new CachedNetworkImageProvider( controller.restaurant.value?.imageList.first.url ?? "" ),
+          placeholderBuilder: OctoPlaceholder.blurHash( controller.restaurant.value?.imageList.first.blurhash ?? "LCGHeu025XtQ00~V=_NI0h\$ewIRP" ),
+          errorBuilder: OctoError.blurHash( controller.restaurant.value?.imageList.first.blurhash ?? "LCGHeu025XtQ00~V=_NI0h\$ewIRP" ),
+          fit: BoxFit.cover,
+        ),
       ),
     ),
   );

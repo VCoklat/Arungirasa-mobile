@@ -2,6 +2,8 @@ import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/food_drink_menu.dart';
 import 'package:arungi_rasa/model/image_with_blur_hash.dart';
+import 'package:arungi_rasa/model/restaurant.dart';
+import 'package:arungi_rasa/repository/restaurant_repository.dart';
 import 'package:arungi_rasa/service/session_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -71,6 +73,7 @@ class MainPage extends GetView<_MainPageController> {
 class _MainPageController extends GetxController {
   final menuListKey = new GlobalKey<AnimatedListState>();
 
+  final restaurant = new Rxn<Restaurant>();
   final menuList = new RxList<FoodDrinkMenu>();
 
   Future<void> onSort() async {}
@@ -78,7 +81,12 @@ class _MainPageController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    new Future.delayed( Duration.zero, _loadMenu );
+    new Future.delayed( Duration.zero, _loadRestaurant );
+  }
+
+  Future<void> _loadRestaurant() async {
+    restaurant.value = await RestaurantRepository.instance.findOneNearest( SessionService.instance.location.value );
+    _loadMenu();
   }
 
   Future<void> _loadMenu() async {
@@ -150,9 +158,7 @@ class _UserPhotoProfile extends StatelessWidget {
 
 class _SearchTextField extends StatelessWidget {
   final ValueChanged<String>? onChange;
-
   const _SearchTextField({Key? key, this.onChange}) : super(key: key);
-
   @override
   Widget build(BuildContext context) => new TextField(
     decoration: new InputDecoration(
@@ -171,40 +177,34 @@ class ImageContinuousClipper extends CustomClipper<Path> {
     return ContinuousRectangleBorder(borderRadius: BorderRadius.circular(200 * 0.625))
         .getOuterPath(Rect.fromLTWH(0, 0, size.width, size.height));
   }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
-  }
+  @override bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
 
 class _RestaurantSelector extends GetView<_MainPageController> {
   const _RestaurantSelector();
   @override
   Widget build(BuildContext context) => new Center(
-    child: new Container(
-      //color: Colors.redAccent,
-      //width: 120,
-      child: new Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          new Center(
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                new Text(
-                  S.current.location,
-                  style: const TextStyle( color: Colors.grey, fontSize: 14.0, ),
-                ),
-                new Icon( Icons.keyboard_arrow_down_sharp, color: Get.theme.primaryColor, size: 30.0, ),
-              ],
-            ),
+    child: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        new Center(
+          child: new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              new Text(
+                S.current.location,
+                style: const TextStyle( color: Colors.grey, fontSize: 14.0, ),
+              ),
+              new Icon( Icons.keyboard_arrow_down_sharp, color: Get.theme.primaryColor, size: 30.0, ),
+            ],
           ),
-          new Center(
-            child: new Text(
-              "Bintaro Tangerang",
+        ),
+        new Center(
+          child: new Obx(
+            () => new Text(
+              controller.restaurant.value?.name ?? S.current.appName,
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
@@ -212,8 +212,8 @@ class _RestaurantSelector extends GetView<_MainPageController> {
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
 }
