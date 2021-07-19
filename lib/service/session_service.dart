@@ -70,7 +70,7 @@ class SessionService extends GetxService {
     user.value = FirebaseAuth.instance.currentUser;
     if ( user.value == null )
       Get.offAllNamed( Routes.signIn );
-    else if ( await hasViewIntro )
+    else if ( !await hasViewIntro )
       viewIntro();
     else
       navigate();
