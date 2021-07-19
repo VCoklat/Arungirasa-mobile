@@ -1,8 +1,9 @@
+import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/food_drink_menu.dart';
-import 'package:arungi_rasa/model/image_with_blur_hash.dart';
 import 'package:arungi_rasa/model/restaurant.dart';
+import 'package:arungi_rasa/repository/menu_repository.dart';
 import 'package:arungi_rasa/repository/restaurant_repository.dart';
 import 'package:arungi_rasa/service/session_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -35,35 +36,39 @@ class MainPage extends GetView<_MainPageController> {
           actions: [ const _UserPhotoProfile() ],
         ),
       ],
-      body: new Padding(
-        padding: const EdgeInsets.symmetric( horizontal: 20.0 ),
-        child: new Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox( height: 10, ),
-            new _SearchTextField(),
-            const SizedBox( height: 20.0, ),
-            const _RestaurantBanner(),
-            const SizedBox( height: 7.0, ),
-            const _RestaurantInfo(),
-            const SizedBox( height: 10.0, ),
-            new Expanded(
-              child: new SingleChildScrollView(
-                child: new AnimatedList(
-                  key: controller.menuListKey,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: ( _, index, animation ) => new _MenuCard(
-                    menu: controller.menuList[index],
-                    animation: animation,
-                    isInWishList: false,
-                    onPressed: (_){},
-                    onAddPressed: (_){},
+      body: new RefreshIndicator(
+        key: controller.refreshKey,
+        onRefresh: controller.loadRestaurant,
+        child: new Padding(
+          padding: const EdgeInsets.symmetric( horizontal: 20.0 ),
+          child: new Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox( height: 10, ),
+              new _SearchTextField(),
+              const SizedBox( height: 20.0, ),
+              const _RestaurantBanner(),
+              const SizedBox( height: 7.0, ),
+              const _RestaurantInfo(),
+              const SizedBox( height: 10.0, ),
+              new Expanded(
+                child: new SingleChildScrollView(
+                  child: new AnimatedList(
+                    key: controller.menuListKey,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: ( _, index, animation ) => new _MenuCard(
+                      menu: controller.menuList[index],
+                      animation: animation,
+                      isInWishList: false,
+                      onPressed: (_){},
+                      onAddPressed: (_){},
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     ),
@@ -71,6 +76,7 @@ class MainPage extends GetView<_MainPageController> {
 }
 
 class _MainPageController extends GetxController {
+  final refreshKey = new GlobalKey<RefreshIndicatorState>();
   final menuListKey = new GlobalKey<AnimatedListState>();
 
   final restaurant = new Rxn<Restaurant>();
@@ -81,49 +87,38 @@ class _MainPageController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    new Future.delayed( Duration.zero, _loadRestaurant );
+    new Future.delayed( Duration.zero, () => refreshKey.currentState!.show() );
   }
 
-  Future<void> _loadRestaurant() async {
+  Future<void> loadRestaurant() async {
     restaurant.value = await RestaurantRepository.instance.findOneNearest( SessionService.instance.location.value );
-    _loadMenu();
+    loadMenu();
   }
 
-  Future<void> _loadMenu() async {
-    await new Future.delayed( const Duration( seconds: 2 ) );
-    menuList.add( new FoodDrinkMenu(
-      id: "1", name: "Sate Ayam", description: "1 Pax isi 10 tusuk",
-      imageList: [ new ImageWithBlurHash( "https://firebasestorage.googleapis.com/v0/b/arungi-rasa.appspot.com/o/restaurant%2F1%2Fmenu%2F1%2Fsate.jpg?alt=media&token=9650894a-0fbf-499e-ad6a-c8d846928e44", "LBGkml4p_Jpa1HRR0N.6BOS#+L\$i") ],
-      price: 50000,
-    ) );
-    menuListKey.currentState!.insertItem( 0 );
+  Future<void> loadMenu() async {
+    if ( restaurant.value == null ) return;
+    try {
+      await cleanUpMenu();
 
-    await new Future.delayed( const Duration( milliseconds: 50 ) );
+      final list = await FoodDrinkMenuRepository.instance.find( restaurant.value!.id );
+      for ( final menu in list ) {
+        menuList.add( menu );
+        menuListKey.currentState!.insertItem( 0 );
+        await new Future.delayed( const Duration( milliseconds: 500 ) );
+      }
+    } catch ( error, st ) {
+      ErrorReporter.instance.captureException( error, st );
+    }
+  }
 
-    menuList.add( new FoodDrinkMenu(
-      id: "2", name: "Bebek Goreng", description: "Bebek yang enak!!!",
-      imageList: [ new ImageWithBlurHash( "https://firebasestorage.googleapis.com/v0/b/arungi-rasa.appspot.com/o/restaurant%2F1%2Fmenu%2F1%2Fbebek%20goreng.jpg?alt=media&token=cbb407a2-8f63-46f9-82d8-7f5afddccf28", "UPJ@n0E1~VDit5IoM{tlxvaeIANasDRPWBoe" ) ],
-      price: 70000,
-    ) );
-    menuListKey.currentState!.insertItem( 1 );
-
-    await new Future.delayed( const Duration( milliseconds: 50 ) );
-
-    menuList.add( new FoodDrinkMenu(
-      id: "3", name: "Rendang", description: "1 Pax isi 3 potong",
-      imageList: [new ImageWithBlurHash( "https://firebasestorage.googleapis.com/v0/b/arungi-rasa.appspot.com/o/restaurant%2F1%2Fmenu%2F1%2Frendang.jpg?alt=media&token=ff851293-461d-44d0-9f33-863ea94e961c", "U%NJXiNH.8sp-=t7RQjb?^n~xakCogV[NFWB")],
-      price: 60000,
-    ) );
-    menuListKey.currentState!.insertItem( 2 );
-
-    await new Future.delayed( const Duration( milliseconds: 50 ) );
-
-    menuList.add( new FoodDrinkMenu(
-      id: "4", name: "Gado Gado", description: "Gado gado yang menyegarkan dan enak.",
-      imageList: [ new ImageWithBlurHash( "https://firebasestorage.googleapis.com/v0/b/arungi-rasa.appspot.com/o/restaurant%2F1%2Fmenu%2F1%2Fgado-gado.jpg?alt=media&token=e9c02f2d-cd46-4771-bf7b-a30e35cd2fdd", "UGGkzU01SlRh~CNaI;s+9cR%wIxtX9Rkae%0" ) ],
-      price: 10000,
-    ) );
-    menuListKey.currentState!.insertItem( 3 );
+  Future<void> cleanUpMenu() async {
+    for ( int i = menuList.length - 1; i > -1; --i ) {
+      menuListKey.currentState!.removeItem( i, (_, animation) => new _MenuCard(
+        menu: menuList[i], animation: animation, isInWishList: false,
+      ), duration: const Duration( milliseconds: 300 ) );
+      await new Future.delayed( const Duration( milliseconds: 300 )  );
+    }
+    menuList.clear();
   }
 
 }
