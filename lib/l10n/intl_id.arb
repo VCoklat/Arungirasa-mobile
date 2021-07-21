@@ -44,5 +44,8 @@
   "errorConfirmPasswordNotEqual": "Password dan Ulangi Password tidak sama.",
 
   "location": "Lokasi",
-  "searchCulinary": "Search Culinary..."
+  "searchCulinary": "Search Culinary...",
+
+  "cart": "Keranjang",
+  "addToCart": "Tambah Keranjang"
 }

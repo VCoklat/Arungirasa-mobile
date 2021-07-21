@@ -44,5 +44,8 @@
   "errorConfirmPasswordNotEqual": "Password and Confirm Password are not equal.",
 
   "location": "Location",
-  "searchCulinary": "Cari Kuliner..."
+  "searchCulinary": "Cari Kuliner...",
+
+  "cart": "Cart",
+  "addToCart": "Add To Cart"
 }
