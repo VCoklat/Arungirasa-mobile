@@ -1,11 +1,14 @@
 import 'package:arungi_rasa/common/error_reporter.dart';
+import 'package:arungi_rasa/common/helper.dart';
 import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/food_drink_menu.dart';
 import 'package:arungi_rasa/model/restaurant.dart';
 import 'package:arungi_rasa/repository/menu_repository.dart';
 import 'package:arungi_rasa/repository/restaurant_repository.dart';
+import 'package:arungi_rasa/service/cart_service.dart';
 import 'package:arungi_rasa/service/session_service.dart';
+import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +18,9 @@ import 'package:octo_image/octo_image.dart';
 part 'restaurant.banner.dart';
 part 'restaurant.info.dart';
 part 'menu.card.dart';
+part 'cart.button.dart';
+part 'add.to.cart.dialog.dart';
+
 const _kPriceColor = const Color(0XFFF7931E);
 
 class MainPageBinding implements Bindings {
@@ -35,7 +41,11 @@ class MainPage extends GetView<_MainPageController> {
               backgroundColor: Get.theme.scaffoldBackgroundColor,
               elevation: 0.0,
               title: const _RestaurantSelector(),
-              actions: [const _UserPhotoProfile()],
+              leading: const _UserPhotoProfile(),
+              actions: [
+                const _CartButton(),
+                const SizedBox(width: 10.0),
+              ],
             ),
           ],
           body: new RefreshIndicator(
@@ -71,8 +81,7 @@ class MainPage extends GetView<_MainPageController> {
                           menu: controller.menuList[index],
                           animation: animation,
                           isInWishList: false,
-                          onPressed: (_) {},
-                          onAddPressed: (_) {},
+                          onAddPressed: controller.showAddToCartDialog,
                         ),
                       ),
                     ),
@@ -137,6 +146,10 @@ class _MainPageController extends GetxController {
       await new Future.delayed(const Duration(milliseconds: 300));
     }
     menuList.clear();
+  }
+
+  Future<void> showAddToCartDialog(final FoodDrinkMenu menu) async {
+    await Get.bottomSheet(new _AddToCartDialog(menu: menu));
   }
 }
 
