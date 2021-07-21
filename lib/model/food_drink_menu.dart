@@ -7,7 +7,7 @@ part 'food_drink_menu.g.dart';
 @JsonSerializable(createToJson: false)
 class FoodDrinkMenu {
   @JsonKey(required: true, disallowNullValue: true)
-  final String id;
+  final int id;
 
   @JsonKey(required: true, disallowNullValue: true)
   final String name;
@@ -34,7 +34,7 @@ class FoodDrinkMenu {
 
   @override
   bool operator ==(final other) {
-    if (other is String)
+    if (other is int)
       return id == other;
     else if (other is FoodDrinkMenu)
       return id == other.id;
@@ -48,18 +48,17 @@ class FoodDrinkMenu {
 }
 
 class FoodDrinkMenuRef {
-  final String id;
+  final int id;
   FoodDrinkMenu? value;
   FoodDrinkMenuRef(this.id);
-  factory FoodDrinkMenuRef.fromId(final String id) => new FoodDrinkMenuRef(id);
-  static FoodDrinkMenuRef fromJson(final String id) =>
-      FoodDrinkMenuRef.fromId(id);
-  static String toJson(final FoodDrinkMenuRef ref) => ref.id;
+  factory FoodDrinkMenuRef.fromId(final int id) => new FoodDrinkMenuRef(id);
+  static FoodDrinkMenuRef fromJson(final int id) => FoodDrinkMenuRef.fromId(id);
+  static int toJson(final FoodDrinkMenuRef ref) => ref.id;
   @override
   int get hashCode => id.hashCode;
   @override
   bool operator ==(other) {
-    if (other is String)
+    if (other is int)
       return id == other;
     else if (other is FoodDrinkMenuRef)
       return id == other.id;
