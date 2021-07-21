@@ -70,7 +70,7 @@ class _MenuCard extends StatelessWidget {
         "Rp. ${menu.price}",
         style: const TextStyle(
           fontWeight: FontWeight.w600,
-          color: const Color( 0XFFF7931E ),
+              color: _kPriceColor,
         ),
       ),
     ),

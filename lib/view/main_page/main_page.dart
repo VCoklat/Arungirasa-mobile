@@ -15,6 +15,7 @@ import 'package:octo_image/octo_image.dart';
 part 'restaurant.banner.dart';
 part 'restaurant.info.dart';
 part 'menu.card.dart';
+const _kPriceColor = const Color(0XFFF7931E);
 
 class MainPageBinding implements Bindings {
   @override
