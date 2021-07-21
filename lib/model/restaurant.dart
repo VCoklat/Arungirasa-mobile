@@ -24,4 +24,23 @@ class Restaurant {
 
   Restaurant(this.id, this.name, this.latLng, this.imageList, this.interestList);
   factory Restaurant.fromJson( final Map<String, dynamic> json ) => _$RestaurantFromJson( json );
+
+  RestaurantRef get ref => new RestaurantRef( id );
+}
+
+class RestaurantRef {
+  final int id;
+  Restaurant? value;
+  RestaurantRef(this.id);
+  factory RestaurantRef.fromId( final int id ) => new RestaurantRef( id );
+  static RestaurantRef fromJson( final int id) => RestaurantRef.fromId(id);
+  static int toJson( final RestaurantRef ref ) => ref.id;
+  @override int get hashCode => id.hashCode;
+  @override
+  bool operator ==(other) {
+    if ( other is int ) return id == other;
+    else if ( other is RestaurantRef ) return id == other.id;
+    else if ( other is Restaurant ) return id == other.id;
+    else return false;
+  }
 }

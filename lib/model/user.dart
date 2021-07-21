@@ -38,6 +38,24 @@ class User {
   });
 
   factory User.fromJson( final Map<String, dynamic> json ) => _$UserFromJson( json );
+  UserRef get ref => new UserRef( id );
+}
+
+class UserRef {
+  final String id;
+  User? value;
+  UserRef(this.id);
+  factory UserRef.fromId( final String id ) => new UserRef( id );
+  static UserRef fromJson( final String id) => UserRef.fromId(id);
+  static String toJson( final UserRef ref ) => ref.id;
+  @override int get hashCode => id.hashCode;
+  @override
+  bool operator ==(other) {
+    if ( other is String ) return id == other;
+    else if ( other is UserRef ) return id == other.id;
+    else if ( other is User ) return id == other.id;
+    else return false;
+  }
 }
 
 @JsonSerializable( includeIfNull: false )
