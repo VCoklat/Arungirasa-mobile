@@ -79,6 +79,7 @@ class SessionService extends GetxService {
       viewIntro();
     else
       navigate();
+    print("Access Token: ${await this.accessToken}");
   }
 
   Future<void> navigate() async {

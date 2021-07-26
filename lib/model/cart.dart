@@ -9,20 +9,23 @@ class Cart {
   final String uuid;
 
   @JsonKey(
-      name: "menuId",
-      required: true,
-      disallowNullValue: true,
-      fromJson: FoodDrinkMenuRef.fromJson,
-      toJson: FoodDrinkMenuRef.toJson)
-  final FoodDrinkMenuRef menuRef;
+    name: "menu",
+    required: true,
+    disallowNullValue: true,
+  )
+  final FoodDrinkMenu menu;
 
   @JsonKey(required: true, disallowNullValue: true)
   final int qty;
 
-  Cart(this.uuid, this.menuRef, this.qty);
+  @JsonKey(required: true, disallowNullValue: true)
+  final int price;
+
+  Cart(this.uuid, this.menu, this.qty, this.price);
 
   factory Cart.fromJson(final Map<String, dynamic> json) =>
       _$CartFromJson(json);
 
-  Cart updateQty(final int qty) => new Cart(this.uuid, this.menuRef, qty);
+  Cart updateQty(final int qty) =>
+      new Cart(this.uuid, this.menu, qty, this.price);
 }

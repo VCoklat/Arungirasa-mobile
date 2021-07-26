@@ -6,6 +6,7 @@ import 'package:arungi_rasa/model/food_drink_menu.dart';
 import 'package:arungi_rasa/model/restaurant.dart';
 import 'package:arungi_rasa/repository/menu_repository.dart';
 import 'package:arungi_rasa/repository/restaurant_repository.dart';
+import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
 import 'package:arungi_rasa/service/session_service.dart';
 import 'package:badges/badges.dart';
@@ -120,8 +121,8 @@ class _MainPageController extends GetxController {
     try {
       await cleanUpMenu();
 
-      final list =
-          await FoodDrinkMenuRepository.instance.find(restaurant.value!.id);
+      final list = await FoodDrinkMenuRepository.instance
+          .find(restaurantRef: restaurant.value!.ref);
       int index = 0;
       for (final menu in list) {
         menuList.add(menu);

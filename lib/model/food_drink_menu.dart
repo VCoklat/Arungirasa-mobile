@@ -44,7 +44,7 @@ class FoodDrinkMenu {
 
   @override
   int get hashCode => id.hashCode;
-  FoodDrinkMenuRef get ref => new FoodDrinkMenuRef(id);
+  FoodDrinkMenuRef get ref => new FoodDrinkMenuRef(id)..value = this;
 }
 
 class FoodDrinkMenuRef {

@@ -53,7 +53,7 @@ class _AddToCartDialog extends StatelessWidget {
           child: new Text(S.current.addToCart),
           onPressed: () async {
             await CartService.instance
-                .addCart(menu, CartService.instance.getQty(menu.ref) + 1);
+                .insertCart(menu, CartService.instance.getQty(menu.ref) + 1);
             Get.back();
           },
         ),

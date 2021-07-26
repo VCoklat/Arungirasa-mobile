@@ -15,6 +15,6 @@ class _CartButton extends GetView<CartService> {
           ),
           badgeColor: Colors.white,
         ),
-        onPressed: () {},
+        onPressed: () => Get.toNamed(Routes.cart),
       );
 }
