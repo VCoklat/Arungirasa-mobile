@@ -60,7 +60,9 @@ class MainPage extends GetView<_MainPageController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  new _SearchTextField(),
+                  new _SearchTextField(
+                    onSubmitted: controller.onSearch,
+                  ),
                   const SizedBox(
                     height: 20.0,
                   ),
@@ -114,6 +116,24 @@ class _MainPageController extends GetxController {
     restaurant.value = await RestaurantRepository.instance
         .findOneNearest(SessionService.instance.location.value);
     loadMenu();
+  }
+
+  Future<void> onSearch(final String query) async {
+    if (restaurant.value == null) return;
+    try {
+      await cleanUpMenu();
+
+      final list = await FoodDrinkMenuRepository.instance
+          .find(restaurantRef: restaurant.value!.ref, query: query);
+      int index = 0;
+      for (final menu in list) {
+        menuList.add(menu);
+        menuListKey.currentState!.insertItem(index++);
+        await new Future.delayed(const Duration(milliseconds: 500));
+      }
+    } catch (error, st) {
+      ErrorReporter.instance.captureException(error, st);
+    }
   }
 
   Future<void> loadMenu() async {
@@ -185,8 +205,8 @@ class _UserPhotoProfile extends StatelessWidget {
 }
 
 class _SearchTextField extends StatelessWidget {
-  final ValueChanged<String>? onChange;
-  const _SearchTextField({Key? key, this.onChange}) : super(key: key);
+  final ValueChanged<String>? onSubmitted;
+  const _SearchTextField({Key? key, this.onSubmitted}) : super(key: key);
   @override
   Widget build(BuildContext context) => new TextField(
         decoration: new InputDecoration(
@@ -197,7 +217,7 @@ class _SearchTextField extends StatelessWidget {
               borderRadius: const BorderRadius.all(const Radius.circular(30))),
           suffixIcon: const Icon(Icons.search),
         ),
-        onChanged: onChange,
+        onSubmitted: onSubmitted,
       );
 }
 
