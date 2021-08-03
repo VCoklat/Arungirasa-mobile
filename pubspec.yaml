@@ -27,7 +27,7 @@ dependencies:
     sdk: flutter
 
   #core
-  get: ^4.3.0
+  get: ^4.3.4
   json_annotation: ^4.1.0
   uuid: ^3.0.4
 
@@ -49,11 +49,11 @@ dependencies:
       url: https://github.com/LeonColt/get_connect_repo_mixin.git
 
   #utility with native
-  google_sign_in: ^5.0.5
+  google_sign_in: ^5.0.7
   shared_preferences: ^2.0.6
   pref: ^2.4.0
   flutter_keyboard_visibility: ^5.0.3
-  image_picker: ^0.8.2
+  image_picker: ^0.8.3
   image_cropper: ^1.4.1
   location: ^4.3.0
 
@@ -72,11 +72,11 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^2.0.6
+  build_runner: ^2.1.0
   json_serializable: ^5.0.0
   flutter_gen_runner: ^3.1.1
   flutter_launcher_icons: ^0.9.1
-  flutter_native_splash: ^1.2.0
+  flutter_native_splash: ^1.2.1
 
 flutter_gen:
   output: lib/generated/
