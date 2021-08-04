@@ -5,6 +5,7 @@ import 'package:arungi_rasa/repository/interest_repository.dart';
 import 'package:arungi_rasa/repository/mapbox_repository.dart';
 import 'package:arungi_rasa/repository/menu_repository.dart';
 import 'package:arungi_rasa/repository/restaurant_repository.dart';
+import 'package:arungi_rasa/service/address_service.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
 import 'package:arungi_rasa/service/session_service.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ class InitialBinding implements Bindings {
   void dependencies() {
     Get.put(new SessionService(), permanent: true);
     Get.put(new CartService(), permanent: true);
+    Get.put(new AddressService(), permanent: true);
 
     ///Repository
     Get.put(new AddressRepository(), permanent: true);
