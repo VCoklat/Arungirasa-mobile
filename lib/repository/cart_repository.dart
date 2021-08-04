@@ -55,7 +55,8 @@ class CartRepository extends GetConnect
   }
 
   @override
-  Future<String> get accessToken => SessionService.instance.accessToken;
+  Future<String> get accessToken async =>
+      "Bearer ${await SessionService.instance.accessToken}";
 
   @override
   List<int> get certificate => const [];
