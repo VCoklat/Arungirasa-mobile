@@ -39,6 +39,9 @@ dependencies:
 
   #widget with native
   cached_network_image: ^3.1.0
+  mapbox_gl:
+    git:
+      url: https://github.com/tobrun/flutter-mapbox-gl.git
 
   #utility
   flutter_easyloading: ^3.0.0
@@ -47,6 +50,7 @@ dependencies:
   get_connect_repo_mixin:
     git:
       url: https://github.com/LeonColt/get_connect_repo_mixin.git
+      ref: 0.0.3
 
   #utility with native
   google_sign_in: ^5.0.7
@@ -56,6 +60,7 @@ dependencies:
   image_picker: ^0.8.3
   image_cropper: ^1.4.1
   location: ^4.3.0
+  geocoding: ^2.0.0
 
   #firebase
   firebase_core: ^1.4.0
@@ -68,6 +73,15 @@ dependency_overrides:
   args: ^2.2.0
   meta: ^1.7.0
   analyzer: ^2.0.0
+  image: ^3.0.2
+  mapbox_gl_platform_interface:
+    git:
+      url: https://github.com/tobrun/flutter-mapbox-gl.git
+      path: mapbox_gl_platform_interface
+  mapbox_gl_web:
+    git:
+      url: https://github.com/tobrun/flutter-mapbox-gl.git
+      path: mapbox_gl_web
 
 dev_dependencies:
   flutter_test:
