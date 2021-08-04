@@ -5,4 +5,7 @@ class Routes {
   static const String signUp = "/signup";
   static const String home = "/home";
   static const String cart = "/cart";
+  static const String profile = "/profile";
+  static const String address = "/address";
+  static const String addAddress = "/address/add";
 }

@@ -1,10 +1,13 @@
 import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/service/session_service.dart';
+import 'package:arungi_rasa/view/address/address_create_form.dart';
+import 'package:arungi_rasa/view/address/address_list_page.dart';
 import 'package:arungi_rasa/view/auth/sign_in_page.dart';
 import 'package:arungi_rasa/view/auth/sign_up_page.dart';
 import 'package:arungi_rasa/view/cart/cart_page.dart';
 import 'package:arungi_rasa/view/intro_page.dart';
 import 'package:arungi_rasa/view/main_page/main_page.dart';
+import 'package:arungi_rasa/view/profile/profile_page.dart';
 import 'package:arungi_rasa/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,6 +48,28 @@ class PageRouter {
           name: Routes.cart,
           page: () => const CartPage(),
           binding: CartPage.binding(),
+          middlewares: [
+            new _AuthGuardMiddleWare(),
+          ],
+        ),
+        new GetPage(
+          name: Routes.profile,
+          page: () => const ProfilePage(),
+          middlewares: [
+            new _AuthGuardMiddleWare(),
+          ],
+        ),
+        new GetPage(
+          name: Routes.address,
+          page: () => const AddressListPage(),
+          middlewares: [
+            new _AuthGuardMiddleWare(),
+          ],
+        ),
+        new GetPage(
+          name: Routes.addAddress,
+          page: () => const AddressCreateFormPage(),
+          binding: AddressCreateFormPage.binding(),
           middlewares: [
             new _AuthGuardMiddleWare(),
           ],

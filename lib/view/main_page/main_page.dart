@@ -177,30 +177,33 @@ class _MainPageController extends GetxController {
 class _UserPhotoProfile extends StatelessWidget {
   const _UserPhotoProfile();
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          width: 40.0,
-          height: 60.0,
-          child: new Material(
-            shape: new ContinuousRectangleBorder(
-              borderRadius: const BorderRadius.all(const Radius.circular(15)),
-            ),
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            borderOnForeground: true,
-            child: new ObxValue<Rxn<User>>(
-              (data) => data.value == null || data.value?.photoURL == null
-                  ? Assets.images.placeholderProfile.image(
-                      fit: BoxFit.cover,
-                    )
-                  : new Image.network(
-                      data.value!.photoURL!,
-                      fit: BoxFit.cover,
-                    ),
-              SessionService.instance.user,
+  Widget build(BuildContext context) => new InkWell(
+        child: new Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            width: 40.0,
+            height: 60.0,
+            child: new Material(
+              shape: new ContinuousRectangleBorder(
+                borderRadius: const BorderRadius.all(const Radius.circular(15)),
+              ),
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              borderOnForeground: true,
+              child: new ObxValue<Rxn<User>>(
+                (data) => data.value == null || data.value?.photoURL == null
+                    ? Assets.images.placeholderProfile.image(
+                        fit: BoxFit.cover,
+                      )
+                    : new Image.network(
+                        data.value!.photoURL!,
+                        fit: BoxFit.cover,
+                      ),
+                SessionService.instance.user,
+              ),
             ),
           ),
         ),
+        onTap: () => Get.toNamed(Routes.profile),
       );
 }
 
