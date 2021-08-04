@@ -5,6 +5,8 @@
   "loading": "Memuat...",
   "errorOccurred": "Terjadi kesalahan",
   "unableToConnectToServer": "Tidak dapat menghubungi server.",
+  "noData": "Tidak ada data.",
+  "requiredToFill": "Harus diisi",
 
   "doubleBackPressedToExit": "Tekan sekali lagi untuk keluar.",
 
@@ -12,6 +14,7 @@
   "skip": "Lewati",
   "next": "Selanjutnya",
   "add": "Tambah",
+  "confirm": "Konfirmasi",
 
   "signIn": "Masuk",
   "signOut": "Keluar",
@@ -47,5 +50,23 @@
   "searchCulinary": "Search Culinary...",
 
   "cart": "Keranjang",
-  "addToCart": "Tambah Keranjang"
+  "addToCart": "Tambah Keranjang",
+
+  "editProfile": "Ubah Profil",
+
+  "address": "Alamat",
+  "savedAddresses": "Alamat Tersimpan",
+  "addAddress": "Tambah Alamat",
+  "searchAddress": "Mencari Alamat",
+  "enterAddress": "Masukkan Alamat",
+
+  "name": "Nama",
+  "detail": "Detail",
+  "note": "Note",
+  "contactName": "Nama Kontak",
+  "contactPhoneNumber": "Nomor HP Kontak",
+  "errorNameEmpty": "Nama tidak boleh kosong.",
+  "errorContactPhoneNumberInvalid": "Nomor HP Kontak tidak valid.",
+  "errorAddressEmpty": "Alamat tidak boleh kosong.",
+  "pinPointLocation": "Pin Point Lokasi"
 }

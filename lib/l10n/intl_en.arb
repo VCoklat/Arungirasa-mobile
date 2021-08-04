@@ -5,6 +5,8 @@
   "loading": "Loading...",
   "errorOccurred": "An error occurred",
   "unableToConnectToServer": "Unable to connect to server",
+  "noData": "No Data.",
+  "requiredToFill": "required",
 
   "doubleBackPressedToExit": "Press back button again to exit.",
 
@@ -12,6 +14,7 @@
   "skip": "Skip",
   "next": "Next",
   "add": "Add",
+  "confirm": "Confirm",
 
   "signIn": "Sign In",
   "signOut": "Sign Out",
@@ -47,5 +50,23 @@
   "searchCulinary": "Cari Kuliner...",
 
   "cart": "Cart",
-  "addToCart": "Add To Cart"
+  "addToCart": "Add To Cart",
+
+  "editProfile": "Edit Profile",
+
+  "address": "Address",
+  "savedAddresses": "Saved Addresses",
+  "addAddress": "Add Address",
+  "searchAddress": "Search Address",
+  "enterAddress": "Enter Address",
+
+  "name": "Name",
+  "detail": "Detail",
+  "note": "Note",
+  "contactName": "Contact Name",
+  "contactPhoneNumber": "Contact Phone Number",
+  "errorNameEmpty": "Name must not be empty.",
+  "errorContactPhoneNumberInvalid": "Contact Phone Number is not valid.",
+  "errorAddressEmpty": "Error must not be empty.",
+  "pinPointLocation": "Pin Point Location"
 }
