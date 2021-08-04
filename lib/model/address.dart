@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'address.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class CreateUpdateAddress {
   @JsonKey(required: true, disallowNullValue: true)
   final String name;
