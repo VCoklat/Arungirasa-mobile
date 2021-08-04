@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:arungi_rasa/common/config.dart';
 import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/common/helper.dart';
+import 'package:arungi_rasa/service/address_service.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
 import 'package:arungi_rasa/model/latlng.dart';
 import 'package:arungi_rasa/routes/routes.dart';
@@ -93,8 +94,10 @@ class SessionService extends GetxService {
     this.user.value = user;
     if (user == null) {
       CartService.instance.clear();
+      AddressService.instance.clear();
     } else {
       CartService.instance.load();
+      AddressService.instance.load();
     }
   }
 
