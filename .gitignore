@@ -41,3 +41,5 @@ app.*.symbols
 app.*.map.json
 /lib/generated/
 **/lib/**/*.g.dart
+
+/lib/env/env.json
