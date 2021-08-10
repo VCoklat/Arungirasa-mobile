@@ -83,9 +83,11 @@ class SessionService extends GetxService {
     print("Access Token: ${await this.accessToken}");
   }
 
-  Future<void> navigate() async {
-    await _fetchLocation();
-    Get.offAllNamed(Routes.home);
+  void navigate() {
+    _fetchLocation().then((_) => Get.offAllNamed(Routes.home)).timeout(
+          const Duration(seconds: 10),
+          onTimeout: () => Get.offAllNamed(Routes.home),
+        );
   }
 
   Future<void> signOut() => FirebaseAuth.instance.signOut();
@@ -143,26 +145,30 @@ class SessionService extends GetxService {
   }
 
   Future<void> _fetchLocation() async {
-    final locator = new Location();
+    try {
+      final locator = new Location();
 
-    bool serviceEnabled = await locator.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await locator.requestService();
-      if (!serviceEnabled) return;
-    }
-
-    PermissionStatus permission = await locator.hasPermission();
-    if (permission == PermissionStatus.denied) {
-      permission = await locator.requestPermission();
-      if (permission != PermissionStatus.granted) {
-        return;
+      bool serviceEnabled = await locator.serviceEnabled();
+      if (!serviceEnabled) {
+        serviceEnabled = await locator.requestService();
+        if (!serviceEnabled) return;
       }
-    }
 
-    final locationData = await locator.getLocation();
-    location.value = new LatLng(
-      lat: locationData.latitude ?? DEFAULT_LATITUDE,
-      lng: locationData.longitude ?? DEFAULT_LONGITUDE,
-    );
+      PermissionStatus permission = await locator.hasPermission();
+      if (permission == PermissionStatus.denied) {
+        permission = await locator.requestPermission();
+        if (permission != PermissionStatus.granted) {
+          return;
+        }
+      }
+
+      final locationData = await locator.getLocation();
+      location.value = new LatLng(
+        lat: locationData.latitude ?? DEFAULT_LATITUDE,
+        lng: locationData.longitude ?? DEFAULT_LONGITUDE,
+      );
+    } catch (error, st) {
+      ErrorReporter.instance.captureException(error, st);
+    }
   }
 }
