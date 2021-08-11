@@ -21,6 +21,22 @@ class AddressService extends GetxService {
     itemList.add(item);
   }
 
+  Future<void> update(
+      final Address oldAddress, final CreateUpdateAddress address) async {
+    final index = itemList.indexWhere((e) => e.id == oldAddress.id);
+    if (index == -1) return;
+    final item =
+        await AddressRepository.instance.update(oldAddress.id, address);
+    itemList[index] = item;
+  }
+
+  Future<void> remove(final Address address) async {
+    final index = itemList.indexWhere((e) => e.id == address.id);
+    if (index == -1) return;
+    await AddressRepository.instance.remove(address.id);
+    itemList.removeAt(index);
+  }
+
   void clear() {
     itemList.clear();
   }

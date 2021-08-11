@@ -40,6 +40,7 @@ class _AddressTile extends StatelessWidget {
         title: new Text(address.name),
         subtitle:
             new _AddressSubtitle(future: Helper.latLngToString(address.latLng)),
+        onTap: () => Get.toNamed(Routes.addAddress, arguments: address),
       );
 }
 

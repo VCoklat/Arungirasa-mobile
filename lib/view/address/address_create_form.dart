@@ -1,8 +1,10 @@
 import 'package:arungi_rasa/common/error_reporter.dart';
+import 'package:arungi_rasa/common/helper.dart';
 import 'package:arungi_rasa/common/mixin_controller_worker.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/address.dart';
 import 'package:arungi_rasa/model/mapbox.dart';
+import 'package:arungi_rasa/repository/mapbox_repository.dart';
 import 'package:arungi_rasa/service/address_service.dart';
 import 'package:arungi_rasa/widget/address_text_field.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +27,19 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
   Widget build(BuildContext context) => new Scaffold(
         body: new NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
-            new SliverAppBar(title: new Text(S.current.addAddress)),
+            new SliverAppBar(
+              title: new Text(
+                controller.currentAddress.value == null
+                    ? S.current.addAddress
+                    : S.current.editAddress,
+              ),
+              actions: [
+                new IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: controller.removeAddress,
+                )
+              ],
+            ),
           ],
           body: new ListView(
             padding: const EdgeInsets.all(20),
@@ -33,6 +47,7 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
             children: [
               new Obx(
                 () => new TextField(
+                  controller: controller.nameFieldController,
                   decoration: new InputDecoration(
                     labelText:
                         "${S.current.name} ( ${S.current.requiredToFill} )",
@@ -51,6 +66,7 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
               ),
               const SizedBox(height: 10),
               new TextField(
+                controller: controller.detailFieldController,
                 decoration: new InputDecoration(
                   labelText: S.current.detail,
                   prefixIcon: const Icon(Icons.note_sharp),
@@ -60,6 +76,7 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
               ),
               const SizedBox(height: 10),
               new TextField(
+                controller: controller.contactNameFieldController,
                 decoration: new InputDecoration(
                   labelText: S.current.contactName,
                   prefixIcon: const Icon(Icons.person_sharp),
@@ -68,6 +85,7 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
               const SizedBox(height: 10),
               new Obx(
                 () => new TextField(
+                  controller: controller.contactPhoneNumberFieldController,
                   decoration: new InputDecoration(
                     labelText: S.current.contactPhoneNumber,
                     prefixIcon: const Icon(Icons.contact_phone_sharp),
@@ -80,7 +98,11 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
                 child: new SizedBox(
                   width: 250,
                   child: new LoadingButton(
-                    child: new Text(S.current.addAddress),
+                    child: new Text(
+                      controller.currentAddress.value == null
+                          ? S.current.addAddress
+                          : S.current.editAddress,
+                    ),
                     successChild: const Icon(
                       Icons.check_sharp,
                       size: 35,
@@ -115,6 +137,8 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
 
 class _AddressCreateFormPageController extends GetxController
     with MixinControllerWorker {
+  final currentAddress = new Rxn<Address>();
+
   final name = new RxString("");
   final detail = new RxString("");
   final contactName = new RxString("");
@@ -124,24 +148,52 @@ class _AddressCreateFormPageController extends GetxController
   final addressValidator = new RxnString();
   final contactPhoneNumberValidator = new RxnString();
 
+  late TextEditingController nameFieldController;
   late AddressFieldController addressFieldController;
+  late TextEditingController detailFieldController;
+  late TextEditingController contactNameFieldController;
+  late TextEditingController contactPhoneNumberFieldController;
 
   @override
   void onInit() {
+    nameFieldController = new TextEditingController();
     addressFieldController = new AddressFieldController();
+    detailFieldController = new TextEditingController();
+    contactNameFieldController = new TextEditingController();
+    contactPhoneNumberFieldController = new TextEditingController();
     super.onInit();
+    if (Get.arguments != null && Get.arguments is Address) {
+      currentAddress.value = Get.arguments;
+    }
   }
 
   @override
   void dispose() {
+    nameFieldController.dispose();
     addressFieldController.dispose();
+    detailFieldController.dispose();
+    contactNameFieldController.dispose();
+    contactPhoneNumberFieldController.dispose();
     super.dispose();
+  }
+
+  Future<void> removeAddress() async {
+    try {
+      Helper.showLoading();
+      await AddressService.instance.remove(currentAddress.value!);
+      Helper.hideLoadingWithSuccess();
+      await new Future.delayed(const Duration(milliseconds: 500));
+      Get.back();
+    } catch (error, st) {
+      ErrorReporter.instance.captureException(error, st);
+      Helper.hideLoadingWithError();
+    }
   }
 
   Future<void> create(final LoadingButtonController controller) async {
     try {
       controller.loading();
-      await AddressService.instance.add(new CreateUpdateAddress(
+      final data = new CreateUpdateAddress(
         name: name.value,
         latitude: addressFieldController.item.value!.geometry.lat,
         longitude: addressFieldController.item.value!.geometry.lng,
@@ -150,8 +202,15 @@ class _AddressCreateFormPageController extends GetxController
         contactName: contactName.value.isEmpty ? null : contactName.value,
         contactNumber:
             contactPhoneNumber.value.isEmpty ? null : contactPhoneNumber.value,
-      ));
+      );
+      if (currentAddress.value == null) {
+        await AddressService.instance.add(data);
+      } else {
+        await AddressService.instance.update(currentAddress.value!, data);
+      }
       controller.success();
+      await new Future.delayed(const Duration(milliseconds: 500));
+      Get.back();
     } catch (error, st) {
       controller.error();
       ErrorReporter.instance.captureException(error, st);
@@ -163,6 +222,7 @@ class _AddressCreateFormPageController extends GetxController
         ever<String>(name, _validateName),
         ever<MapBoxFeature?>(addressFieldController.item, _validateAddress),
         ever<String>(contactPhoneNumber, _validateContactPhoneNumber),
+        ever<Address?>(currentAddress, _onCurrentAddressChanged),
       ];
 
   void _validateName(final String name) =>
@@ -179,5 +239,28 @@ class _AddressCreateFormPageController extends GetxController
     } else {
       contactPhoneNumberValidator.value = null;
     }
+  }
+
+  Future<void> _onCurrentAddressChanged(final Address? address) async {
+    if (address == null) return;
+
+    name.value = address.name;
+    nameFieldController.text = address.name;
+
+    detail.value = address.detail ?? "";
+    detailFieldController.text = address.detail ?? "";
+
+    contactName.value = address.contactName ?? "";
+    contactNameFieldController.text = address.contactName ?? "";
+
+    contactPhoneNumber.value = address.contactNumber ?? "";
+    contactPhoneNumberFieldController.text = address.contactNumber ?? "";
+
+    final locationResult = await MapBoxRepository.instance.findByLatLng(
+      address.latLng.lat,
+      address.latLng.lng,
+    );
+    if (locationResult.features.isEmpty) return;
+    addressFieldController.item.value = locationResult.features.first;
   }
 }
