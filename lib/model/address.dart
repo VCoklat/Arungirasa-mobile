@@ -42,7 +42,7 @@ class CreateUpdateAddress {
   Map<String, dynamic> toJson() => _$CreateUpdateAddressToJson(this);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Address {
   @JsonKey(required: true, disallowNullValue: true)
   final String id;
@@ -70,4 +70,6 @@ class Address {
 
   factory Address.fromJson(final Map<String, dynamic> json) =>
       _$AddressFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AddressToJson(this);
 }

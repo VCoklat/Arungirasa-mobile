@@ -4,7 +4,7 @@ import 'image_with_blur_hash.dart';
 
 part 'food_drink_menu.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class FoodDrinkMenu {
   @JsonKey(required: true, disallowNullValue: true)
   final int id;
@@ -31,6 +31,8 @@ class FoodDrinkMenu {
 
   factory FoodDrinkMenu.fromJson(final Map<String, dynamic> json) =>
       _$FoodDrinkMenuFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FoodDrinkMenuToJson(this);
 
   @override
   bool operator ==(final other) {
