@@ -43,10 +43,6 @@ class MainPage extends GetView<_MainPageController> {
               elevation: 0.0,
               title: const _RestaurantSelector(),
               leading: const _UserPhotoProfile(),
-              actions: [
-                const _CartButton(),
-                const SizedBox(width: 10.0),
-              ],
             ),
           ],
           body: new RefreshIndicator(
@@ -94,6 +90,7 @@ class MainPage extends GetView<_MainPageController> {
             ),
           ),
         ),
+        floatingActionButton: const _CartButton(),
       );
 }
 
