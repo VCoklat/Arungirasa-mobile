@@ -70,5 +70,21 @@
   "errorNameEmpty": "Nama tidak boleh kosong.",
   "errorContactPhoneNumberInvalid": "Nomor HP Kontak tidak valid.",
   "errorAddressEmpty": "Alamat tidak boleh kosong.",
-  "pinPointLocation": "Pin Point Lokasi"
+  "pinPointLocation": "Pin Point Lokasi",
+
+  "ordeButtonr": "Pesan",
+  "order": "Pesanan",
+  "sentAddress": "Alamat Antar",
+  "sentAddressDetail": "Detail Alamat Antar",
+  "paymentSummary": "Ringkasan Pembayaran",
+
+  "price": "Harga",
+  "transportCost": "Ongkos Kirim",
+  "appFee": "Biaya Jasa Aplikasi",
+  "discount": "Diskon",
+  "totalPayment": "Total Pembayaran",
+
+  "payment": "Pembayaran",
+  "uploadPayment": "Upload Gambar Pembayaran",
+  "processTransaction": "Proses Transaksi"
 }

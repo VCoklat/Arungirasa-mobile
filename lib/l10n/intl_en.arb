@@ -70,5 +70,21 @@
   "errorNameEmpty": "Name must not be empty.",
   "errorContactPhoneNumberInvalid": "Contact Phone Number is not valid.",
   "errorAddressEmpty": "Error must not be empty.",
-  "pinPointLocation": "Pin Point Location"
+  "pinPointLocation": "Pin Point Location",
+
+  "ordeButtonr": "Place Order",
+  "order": "Order",
+  "sentAddress": "Sent Address",
+  "sentAddressDetail": "Sent Address Detail",
+  "paymentSummary": "Payment Summary",
+
+  "price": "Price",
+  "transportCost": "Transport cost",
+  "appFee": "Application Fee",
+  "discount": "Discount",
+  "totalPayment": "Total Payment",
+
+  "payment": "Payment",
+  "uploadPayment": "Upload Payment",
+  "processTransaction": "Process Transaction"
 }
