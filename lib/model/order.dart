@@ -1,4 +1,5 @@
 import 'package:arungi_rasa/common/enum.dart';
+import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/address.dart';
 import 'package:arungi_rasa/model/food_drink_menu.dart';
 import 'package:arungi_rasa/model/payment.dart';
@@ -14,6 +15,29 @@ enum OrderStatus {
   arrived,
   complained,
   cancelled,
+}
+
+extension OrderStatusReadableText on OrderStatus {
+  String toReadable() {
+    switch (this) {
+      case OrderStatus.unpaid:
+        return S.current.unpaid;
+      case OrderStatus.awaitingConfirmation:
+        return S.current.awaitingConfirmation;
+      case OrderStatus.onProcess:
+        return S.current.onProcess;
+      case OrderStatus.sent:
+        return S.current.sent;
+      case OrderStatus.arrived:
+        return S.current.arrived;
+      case OrderStatus.complained:
+        return S.current.complained;
+      case OrderStatus.cancelled:
+        return S.current.cancelled;
+      default:
+        return "";
+    }
+  }
 }
 
 final orderStatusValues = EnumValues<String, OrderStatus>({

@@ -87,5 +87,13 @@
   "payment": "Payment",
   "uploadPayment": "Upload Payment",
   "processTransaction": "Process Transaction",
-  "deliverTo": "Deliver to"
+  "deliverTo": "Deliver to",
+
+  "unpaid": "Unpaid",
+  "awaitingConfirmation": "Awaiting Confirmation",
+  "onProcess": "On Process",
+  "sent": "Sent",
+  "arrived": "Arrived",
+  "complained": "Complained",
+  "cancelled": "Cancelled"
 }

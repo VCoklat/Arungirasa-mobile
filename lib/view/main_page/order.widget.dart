@@ -78,6 +78,12 @@ class _OrderCard extends StatelessWidget {
                   ),
                 ),
               ),
+              const Divider(),
+              new Center(
+                child: new Text(
+                  order.status.toReadable(),
+                ),
+              ),
             ],
           ),
         ),

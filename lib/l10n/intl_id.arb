@@ -87,5 +87,13 @@
   "payment": "Pembayaran",
   "uploadPayment": "Upload Gambar Pembayaran",
   "processTransaction": "Proses Transaksi",
-  "deliverTo": "Antar ke"
+  "deliverTo": "Antar ke",
+
+  "unpaid": "Belum Dibayar",
+  "awaitingConfirmation": "Mengunggu Konfirmasi",
+  "onProcess": "Sedang Diproses",
+  "sent": "Diantarkan",
+  "arrived": "Sudah Sampai",
+  "complained": "Dikomplain",
+  "cancelled": "Dibatalkan"
 }
