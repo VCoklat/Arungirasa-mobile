@@ -35,7 +35,8 @@ String _orderStatusToJson(final OrderStatus type) =>
 class OrderMenu {
   final String note;
   final FoodDrinkMenu menu;
-  OrderMenu(this.note, this.menu);
+  final int qty;
+  OrderMenu(this.note, this.menu, [this.qty = 1]);
   factory OrderMenu.fromJson(final Map<String, dynamic> json) =>
       _$OrderMenuFromJson(json);
 }
@@ -77,4 +78,10 @@ class Order {
       this.appFee, this.discount, this.address, this.paymentList);
   factory Order.fromJson(final Map<String, dynamic> json) =>
       _$OrderFromJson(json);
+
+  double get total =>
+      appFee +
+      transportFee +
+      menuList.fold<double>(.0, (prev, e) => prev + e.qty * e.menu.price) -
+      discount;
 }
