@@ -25,6 +25,8 @@ class _AnimatedMenuCard extends StatelessWidget {
         child: new _MenuCard(
           menu: menu,
           isInWishList: isInWishList,
+          onAddPressed: onAddPressed,
+          onFavoriteChanged: onFavoriteChanged,
         ),
       );
 }
@@ -95,7 +97,7 @@ class _MenuCard extends StatelessWidget {
   Widget get _priceText => new Expanded(
         child: new FittedBox(
           child: new Text(
-            "Rp. ${menu.price}",
+            Helper.formatMoney(menu.price.toDouble()),
             style: const TextStyle(
               fontWeight: FontWeight.w600,
               color: _kPriceColor,
