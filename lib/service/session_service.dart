@@ -7,6 +7,7 @@ import 'package:arungi_rasa/service/address_service.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
 import 'package:arungi_rasa/model/latlng.dart';
 import 'package:arungi_rasa/routes/routes.dart';
+import 'package:arungi_rasa/service/order_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -97,9 +98,11 @@ class SessionService extends GetxService {
     if (user == null) {
       CartService.instance.clear();
       AddressService.instance.clear();
+      OrderService.instance.clear();
     } else {
       CartService.instance.load();
       AddressService.instance.load();
+      OrderService.instance.load();
     }
   }
 
