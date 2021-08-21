@@ -9,6 +9,13 @@ class OrderService extends GetxService {
 
   final itemList = new RxList<Order>();
 
+  List<Order> get onGoingOrder => itemList
+      .where((e) =>
+          e.status != OrderStatus.arrived &&
+          e.status != OrderStatus.cancelled &&
+          e.status != OrderStatus.complained)
+      .toList(growable: false);
+
   int get count => itemList.length;
 
   final _onAddIndexCallbackList = <ValueChanged<int>>[];
