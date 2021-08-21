@@ -86,5 +86,6 @@
 
   "payment": "Pembayaran",
   "uploadPayment": "Upload Gambar Pembayaran",
-  "processTransaction": "Proses Transaksi"
+  "processTransaction": "Proses Transaksi",
+  "deliverTo": "Antar ke"
 }

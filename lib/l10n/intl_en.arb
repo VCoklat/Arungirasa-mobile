@@ -86,5 +86,6 @@
 
   "payment": "Payment",
   "uploadPayment": "Upload Payment",
-  "processTransaction": "Process Transaction"
+  "processTransaction": "Process Transaction",
+  "deliverTo": "Deliver to"
 }
