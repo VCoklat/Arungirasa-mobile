@@ -1,13 +1,17 @@
+import 'dart:math';
+
 import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/common/helper.dart';
 import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/food_drink_menu.dart';
+import 'package:arungi_rasa/model/order.dart';
 import 'package:arungi_rasa/model/restaurant.dart';
 import 'package:arungi_rasa/repository/menu_repository.dart';
 import 'package:arungi_rasa/repository/restaurant_repository.dart';
 import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
+import 'package:arungi_rasa/service/order_service.dart';
 import 'package:arungi_rasa/service/session_service.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -16,11 +20,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:octo_image/octo_image.dart';
 
+part 'controller.dart';
 part 'restaurant.banner.dart';
 part 'restaurant.info.dart';
+part 'restaurant.selector.dart';
 part 'menu.card.dart';
 part 'cart.button.dart';
 part 'add.to.cart.dialog.dart';
+part 'order.widget.dart';
 
 const _kPriceColor = const Color(0XFFF7931E);
 
@@ -50,40 +57,15 @@ class MainPage extends GetView<_MainPageController> {
             onRefresh: controller.loadRestaurant,
             child: new Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: new Column(
-                mainAxisSize: MainAxisSize.min,
+              child: new Stack(
+                clipBehavior: Clip.antiAliasWithSaveLayer,
                 children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  new _SearchTextField(
-                    onSubmitted: controller.onSearch,
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  const _RestaurantBanner(),
-                  const SizedBox(
-                    height: 7.0,
-                  ),
-                  const _RestaurantInfo(),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  new Expanded(
-                    child: new SingleChildScrollView(
-                      child: new AnimatedList(
-                        key: controller.menuListKey,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (_, index, animation) => new _MenuCard(
-                          menu: controller.menuList[index],
-                          animation: animation,
-                          isInWishList: false,
-                          onAddPressed: controller.showAddToCartDialog,
-                        ),
-                      ),
-                    ),
+                  const _MainPageContent(),
+                  new Positioned(
+                    bottom: 10,
+                    left: 10,
+                    right: 10,
+                    child: const _OrderList(),
                   ),
                 ],
               ),
@@ -94,81 +76,46 @@ class MainPage extends GetView<_MainPageController> {
       );
 }
 
-class _MainPageController extends GetxController {
-  final refreshKey = new GlobalKey<RefreshIndicatorState>();
-  final menuListKey = new GlobalKey<AnimatedListState>();
-
-  final restaurant = new Rxn<Restaurant>();
-  final menuList = new RxList<FoodDrinkMenu>();
-
-  Future<void> onSort() async {}
-
+class _MainPageContent extends GetView<_MainPageController> {
+  const _MainPageContent();
   @override
-  void onReady() {
-    super.onReady();
-    new Future.delayed(Duration.zero, () => refreshKey.currentState!.show());
-  }
-
-  Future<void> loadRestaurant() async {
-    restaurant.value = await RestaurantRepository.instance
-        .findOneNearest(SessionService.instance.location.value);
-    loadMenu();
-  }
-
-  Future<void> onSearch(final String query) async {
-    if (restaurant.value == null) return;
-    try {
-      await cleanUpMenu();
-
-      final list = await FoodDrinkMenuRepository.instance
-          .find(restaurantRef: restaurant.value!.ref, query: query);
-      int index = 0;
-      for (final menu in list) {
-        menuList.add(menu);
-        menuListKey.currentState!.insertItem(index++);
-        await new Future.delayed(const Duration(milliseconds: 500));
-      }
-    } catch (error, st) {
-      ErrorReporter.instance.captureException(error, st);
-    }
-  }
-
-  Future<void> loadMenu() async {
-    if (restaurant.value == null) return;
-    try {
-      await cleanUpMenu();
-
-      final list = await FoodDrinkMenuRepository.instance
-          .find(restaurantRef: restaurant.value!.ref);
-      int index = 0;
-      for (final menu in list) {
-        menuList.add(menu);
-        menuListKey.currentState!.insertItem(index++);
-        await new Future.delayed(const Duration(milliseconds: 500));
-      }
-    } catch (error, st) {
-      ErrorReporter.instance.captureException(error, st);
-    }
-  }
-
-  Future<void> cleanUpMenu() async {
-    for (int i = menuList.length - 1; i > -1; --i) {
-      menuListKey.currentState!.removeItem(
-          i,
-          (_, animation) => new _MenuCard(
-                menu: menuList[i],
-                animation: animation,
-                isInWishList: false,
+  Widget build(BuildContext context) => new Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          new _SearchTextField(
+            onSubmitted: controller.onSearch,
+          ),
+          const SizedBox(
+            height: 20.0,
+          ),
+          const _RestaurantBanner(),
+          const SizedBox(
+            height: 7.0,
+          ),
+          const _RestaurantInfo(),
+          const SizedBox(
+            height: 10.0,
+          ),
+          new Expanded(
+            child: new SingleChildScrollView(
+              child: new AnimatedList(
+                key: controller.menuListKey,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (_, index, animation) => new _AnimatedMenuCard(
+                  menu: controller.menuList[index],
+                  animation: animation,
+                  isInWishList: false,
+                  onAddPressed: controller.showAddToCartDialog,
+                ),
               ),
-          duration: const Duration(milliseconds: 300));
-      await new Future.delayed(const Duration(milliseconds: 300));
-    }
-    menuList.clear();
-  }
-
-  Future<void> showAddToCartDialog(final FoodDrinkMenu menu) async {
-    await Get.bottomSheet(new _AddToCartDialog(menu: menu));
-  }
+            ),
+          ),
+        ],
+      );
 }
 
 class _UserPhotoProfile extends StatelessWidget {
@@ -218,62 +165,5 @@ class _SearchTextField extends StatelessWidget {
           suffixIcon: const Icon(Icons.search),
         ),
         onSubmitted: onSubmitted,
-      );
-}
-
-class ImageContinuousClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    return ContinuousRectangleBorder(
-            borderRadius: BorderRadius.circular(200 * 0.625))
-        .getOuterPath(Rect.fromLTWH(0, 0, size.width, size.height));
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-}
-
-class _RestaurantSelector extends GetView<_MainPageController> {
-  const _RestaurantSelector();
-  @override
-  Widget build(BuildContext context) => new Center(
-        child: new Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            new Center(
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  new Text(
-                    S.current.location,
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14.0,
-                    ),
-                  ),
-                  new Icon(
-                    Icons.keyboard_arrow_down_sharp,
-                    color: Get.theme.primaryColor,
-                    size: 30.0,
-                  ),
-                ],
-              ),
-            ),
-            new Center(
-              child: new Obx(
-                () => new Text(
-                  controller.restaurant.value?.name ?? S.current.appName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
       );
 }
