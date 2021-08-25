@@ -61,10 +61,9 @@ class _MainPageController extends GetxController {
     for (int i = menuList.length - 1; i > -1; --i) {
       menuListKey.currentState!.removeItem(
           i,
-          (_, animation) => new _AnimatedMenuCard(
+          (_, animation) => new AnimatedMenuCard(
                 menu: menuList[i],
                 animation: animation,
-                isInWishList: false,
               ),
           duration: const Duration(milliseconds: 300));
       await new Future.delayed(const Duration(milliseconds: 300));

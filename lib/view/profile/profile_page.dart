@@ -20,6 +20,10 @@ class ProfilePage extends StatelessWidget {
                 text: S.current.savedAddresses,
                 onPressed: () => Get.toNamed(Routes.address),
               ),
+              new _ProfileListTile(
+                text: "Wish List",
+                onPressed: () => Get.toNamed(Routes.wishList),
+              ),
             ],
           ),
         ),
