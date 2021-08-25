@@ -13,6 +13,7 @@ import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
 import 'package:arungi_rasa/service/order_service.dart';
 import 'package:arungi_rasa/service/session_service.dart';
+import 'package:arungi_rasa/widget/menu_card.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +25,6 @@ part 'controller.dart';
 part 'restaurant.banner.dart';
 part 'restaurant.info.dart';
 part 'restaurant.selector.dart';
-part 'menu.card.dart';
 part 'cart.button.dart';
 part 'add.to.cart.dialog.dart';
 part 'order.widget.dart';
@@ -105,10 +105,9 @@ class _MainPageContent extends GetView<_MainPageController> {
                 key: controller.menuListKey,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (_, index, animation) => new _AnimatedMenuCard(
+                itemBuilder: (_, index, animation) => new AnimatedMenuCard(
                   menu: controller.menuList[index],
                   animation: animation,
-                  isInWishList: false,
                   onAddPressed: controller.showAddToCartDialog,
                 ),
               ),

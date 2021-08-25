@@ -1,19 +1,24 @@
-part of 'main_page.dart';
+import 'package:arungi_rasa/common/helper.dart';
+import 'package:arungi_rasa/generated/l10n.dart';
+import 'package:arungi_rasa/model/food_drink_menu.dart';
+import 'package:arungi_rasa/service/wistlist_service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:octo_image/octo_image.dart';
 
-class _AnimatedMenuCard extends StatelessWidget {
+const _kPriceColor = const Color(0XFFF7931E);
+
+class AnimatedMenuCard extends StatelessWidget {
   final FoodDrinkMenu menu;
   final Animation<double> animation;
-  final bool isInWishList;
   final ValueChanged<FoodDrinkMenu>? onAddPressed;
-  final ValueChanged<bool>? onFavoriteChanged;
 
-  const _AnimatedMenuCard({
+  const AnimatedMenuCard({
     Key? key,
     required this.menu,
     required this.animation,
-    required this.isInWishList,
     this.onAddPressed,
-    this.onFavoriteChanged,
   }) : super(key: key);
 
   @override
@@ -22,27 +27,21 @@ class _AnimatedMenuCard extends StatelessWidget {
           begin: const Offset(-1, 0),
           end: const Offset(0, 0),
         ).animate(animation),
-        child: new _MenuCard(
+        child: new MenuCard(
           menu: menu,
-          isInWishList: isInWishList,
           onAddPressed: onAddPressed,
-          onFavoriteChanged: onFavoriteChanged,
         ),
       );
 }
 
-class _MenuCard extends StatelessWidget {
+class MenuCard extends StatelessWidget {
   final FoodDrinkMenu menu;
-  final bool isInWishList;
   final ValueChanged<FoodDrinkMenu>? onAddPressed;
-  final ValueChanged<bool>? onFavoriteChanged;
 
-  const _MenuCard({
+  const MenuCard({
     Key? key,
     required this.menu,
-    required this.isInWishList,
     this.onAddPressed,
-    this.onFavoriteChanged,
   }) : super(key: key);
 
   @override
@@ -109,20 +108,21 @@ class _MenuCard extends StatelessWidget {
   Widget get _wishlistButton => new SizedBox(
         height: 25.0,
         child: new IconButton(
-          icon: isInWishList
-              ? const Icon(
-                  Icons.favorite_sharp,
-                  color: Colors.red,
-                )
-              : const Icon(
-                  Icons.favorite_border_sharp,
-                  color: Colors.red,
-                ),
+          icon: new ObxValue<RxList<FoodDrinkMenu>>(
+            (obs) => obs.any((e) => e.ref == menu.ref)
+                ? const Icon(
+                    Icons.favorite_sharp,
+                    color: Colors.red,
+                  )
+                : const Icon(
+                    Icons.favorite_border_sharp,
+                    color: Colors.red,
+                  ),
+            WishListService.instance.itemList,
+          ),
           padding: EdgeInsets.zero,
           iconSize: 30,
-          onPressed: onFavoriteChanged != null
-              ? () => onFavoriteChanged!(!isInWishList)
-              : null,
+          onPressed: () => WishListService.instance.toggle(menu),
         ),
       );
 
