@@ -154,15 +154,20 @@ class _SearchTextField extends StatelessWidget {
   final ValueChanged<String>? onSubmitted;
   const _SearchTextField({Key? key, this.onSubmitted}) : super(key: key);
   @override
-  Widget build(BuildContext context) => new TextField(
-        decoration: new InputDecoration(
-          labelText: S.current.searchCulinary,
-          border: new OutlineInputBorder(
-              borderRadius: const BorderRadius.all(const Radius.circular(30))),
-          focusedBorder: new OutlineInputBorder(
-              borderRadius: const BorderRadius.all(const Radius.circular(30))),
-          suffixIcon: const Icon(Icons.search),
+  Widget build(BuildContext context) => new SizedBox(
+        height: 40,
+        child: new TextField(
+          decoration: new InputDecoration(
+            labelText: S.current.searchCulinary,
+            border: new OutlineInputBorder(
+                borderRadius:
+                    const BorderRadius.all(const Radius.circular(30))),
+            focusedBorder: new OutlineInputBorder(
+                borderRadius:
+                    const BorderRadius.all(const Radius.circular(30))),
+            suffixIcon: const Icon(Icons.search),
+          ),
+          onSubmitted: onSubmitted,
         ),
-        onSubmitted: onSubmitted,
       );
 }
