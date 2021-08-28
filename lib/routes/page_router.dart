@@ -8,6 +8,7 @@ import 'package:arungi_rasa/view/cart/cart_page.dart';
 import 'package:arungi_rasa/view/intro_page.dart';
 import 'package:arungi_rasa/view/main_page/main_page.dart';
 import 'package:arungi_rasa/view/order/make_order_page.dart';
+import 'package:arungi_rasa/view/order/page/order_page.dart';
 import 'package:arungi_rasa/view/profile/profile_page.dart';
 import 'package:arungi_rasa/view/profile/wishlist_page.dart';
 import 'package:arungi_rasa/view/splash_screen.dart';
@@ -80,6 +81,14 @@ class PageRouter {
           name: Routes.makeOrder,
           page: () => const MakeOrderPage(),
           binding: MakeOrderPage.binding(),
+          middlewares: [
+            new _AuthGuardMiddleWare(),
+          ],
+        ),
+        new GetPage(
+          name: Routes.order,
+          page: () => const OrderPage(),
+          binding: OrderPage.binding(),
           middlewares: [
             new _AuthGuardMiddleWare(),
           ],

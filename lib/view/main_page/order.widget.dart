@@ -12,8 +12,7 @@ class _OrderList extends GetView<OrderService> {
             child: new _OrderCard(
               order: controller.onGoingOrder[index],
             ),
-            onTap: () => OrderService.instance.itemList
-                .removeWhere((e) => e.id == controller.onGoingOrder[index].id),
+            onTap: () => Routes.openOrder(controller.onGoingOrder[index].id),
           ),
         ),
       );

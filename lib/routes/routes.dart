@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class Routes {
   static const String initial = "/";
   static const String intro = "/intro";
@@ -10,4 +12,7 @@ class Routes {
   static const String addAddress = "/address/add";
   static const String makeOrder = "/order/make";
   static const String wishList = "/wishlist";
+  static const String order = "/order/:orderId";
+
+  static openOrder(final String id) => Get.toNamed("/order/$id");
 }
