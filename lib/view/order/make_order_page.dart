@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:arungi_rasa/common/config.dart';
 import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/common/helper.dart';
+import 'package:arungi_rasa/common/pick_image_option.dart';
 import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/cart.dart';
@@ -20,13 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gradient_loading_button/gradient_loading_button.dart';
 import 'package:octo_image/octo_image.dart';
-
-enum PickMaterialImageOptions {
-  CLOSE,
-  OPEN,
-  CAMERA,
-  GALLERY,
-}
 
 class _MakeOrderPageBinding implements Bindings {
   @override
@@ -270,7 +264,7 @@ class _MakeOrderPageController extends GetxController {
 
   Future<void> selectImage() async {
     try {
-      final option = await Get.bottomSheet<PickMaterialImageOptions>(
+      final option = await Get.bottomSheet<PickImageOption>(
         new SizedBox(
           width: Get.width,
           child: new Material(
@@ -282,20 +276,17 @@ class _MakeOrderPageController extends GetxController {
                   new ListTile(
                     title: new Text("close".tr),
                     leading: const Icon(Icons.close),
-                    onTap: () =>
-                        Get.back(result: PickMaterialImageOptions.CLOSE),
+                    onTap: () => Get.back(result: PickImageOption.CLOSE),
                   ),
                   new ListTile(
                     title: new Text("camera".tr),
                     leading: const Icon(Icons.camera),
-                    onTap: () =>
-                        Get.back(result: PickMaterialImageOptions.CAMERA),
+                    onTap: () => Get.back(result: PickImageOption.CAMERA),
                   ),
                   new ListTile(
                     title: new Text("gallery".tr),
                     leading: const Icon(Icons.camera_alt),
-                    onTap: () =>
-                        Get.back(result: PickMaterialImageOptions.GALLERY),
+                    onTap: () => Get.back(result: PickImageOption.GALLERY),
                   ),
                 ]
                     .where((e) => e != null)
@@ -308,10 +299,10 @@ class _MakeOrderPageController extends GetxController {
       );
       ScannerFileSource? source;
       switch (option) {
-        case PickMaterialImageOptions.CAMERA:
+        case PickImageOption.CAMERA:
           source = ScannerFileSource.CAMERA;
           break;
-        case PickMaterialImageOptions.GALLERY:
+        case PickImageOption.GALLERY:
           source = ScannerFileSource.GALLERY;
           break;
         default:
