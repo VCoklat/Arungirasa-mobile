@@ -37,6 +37,7 @@ dependencies:
   octo_image: ^1.0.0+1
   badges: ^2.0.1
   select_dialog: ^2.0.0
+  card_swiper: ^1.0.4
 
   #widget with native
   cached_network_image: ^3.1.0
