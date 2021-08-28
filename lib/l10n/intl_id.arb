@@ -7,6 +7,8 @@
   "unableToConnectToServer": "Tidak dapat menghubungi server.",
   "noData": "Tidak ada data.",
   "requiredToFill": "Harus diisi",
+  "tryAgaub": "Coba Lagi",
+  "unknown": "Tidak diketahui",
 
   "doubleBackPressedToExit": "Tekan sekali lagi untuk keluar.",
 
@@ -95,5 +97,13 @@
   "sent": "Diantarkan",
   "arrived": "Sudah Sampai",
   "complained": "Dikomplain",
-  "cancelled": "Dibatalkan"
+  "cancelled": "Dibatalkan",
+
+  "orderWasNotFound": "Pesanan tidak ditemukan.",
+  "orderUnpaid": "Pesanan anda belum dibayar...",
+  "orderConfirm": "Menunggu konfirmasi...",
+  "orderOnProcess": "Hidangan Anda sedang disiapkan..",
+  "orderSent": "Hidangan Anda dalam perjalanan...",
+  "orderArrived": "Hidangan Anda telah sampai...",
+  "pay": "Pay"
 }

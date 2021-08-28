@@ -7,6 +7,8 @@
   "unableToConnectToServer": "Unable to connect to server",
   "noData": "No Data.",
   "requiredToFill": "required",
+  "tryAgaub": "Try Again",
+  "unknown": "Unknown",
 
   "doubleBackPressedToExit": "Press back button again to exit.",
 
@@ -95,5 +97,13 @@
   "sent": "Sent",
   "arrived": "Arrived",
   "complained": "Complained",
-  "cancelled": "Cancelled"
+  "cancelled": "Cancelled",
+
+  "orderWasNotFound": "Order was not found.",
+  "orderUnpaid": "Order has not yet paid...",
+  "orderConfirm": "Awaiting confirmation...",
+  "orderOnProcess": "Your food is in process..",
+  "orderSent": "Your food is sent...",
+  "orderArrived": "Your food is arrived...",
+  "pay": "Pay"
 }
