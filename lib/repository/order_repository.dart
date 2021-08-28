@@ -42,6 +42,15 @@ class OrderRepository extends GetConnect
     }
   }
 
+  Future<Order> findOne(final String id) async {
+    final response = await get("$kRestUrl/order/$id");
+    if (response.isOk) {
+      return Order.fromJson(response.body as Map<String, dynamic>);
+    } else {
+      throw getException(response);
+    }
+  }
+
   @override
   List<int> get certificate => [];
 
