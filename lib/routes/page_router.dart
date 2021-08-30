@@ -11,6 +11,7 @@ import 'package:arungi_rasa/view/order/make_order_page.dart';
 import 'package:arungi_rasa/view/order/page/order_page.dart';
 import 'package:arungi_rasa/view/profile/profile_page.dart';
 import 'package:arungi_rasa/view/profile/wishlist_page.dart';
+import 'package:arungi_rasa/view/rating/give_order_rating_page.dart';
 import 'package:arungi_rasa/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -97,6 +98,14 @@ class PageRouter {
           name: Routes.wishList,
           page: () => const WishListPage(),
           binding: WishListPage.binding(),
+          middlewares: [
+            new _AuthGuardMiddleWare(),
+          ],
+        ),
+        new GetPage(
+          name: Routes.giveOrderRatingRoute,
+          page: () => const GiveOrderRatingPage(),
+          binding: GiveOrderRatingPage.binding(),
           middlewares: [
             new _AuthGuardMiddleWare(),
           ],
