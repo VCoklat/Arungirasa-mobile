@@ -90,6 +90,8 @@
   "uploadPayment": "Upload Gambar Pembayaran",
   "processTransaction": "Proses Transaksi",
   "deliverTo": "Antar ke",
+  "portion": "Porsi",
+  "send": "Kirim",
 
   "unpaid": "Belum Dibayar",
   "awaitingConfirmation": "Mengunggu Konfirmasi",
@@ -105,5 +107,6 @@
   "orderOnProcess": "Hidangan Anda sedang disiapkan..",
   "orderSent": "Hidangan Anda dalam perjalanan...",
   "orderArrived": "Hidangan Anda telah sampai...",
-  "pay": "Pay"
+  "pay": "Pay",
+  "giveRating": "Kasih Rating"
 }

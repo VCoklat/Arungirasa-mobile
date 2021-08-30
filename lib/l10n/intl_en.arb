@@ -90,6 +90,8 @@
   "uploadPayment": "Upload Payment",
   "processTransaction": "Process Transaction",
   "deliverTo": "Deliver to",
+  "portion": "Portion",
+  "send": "Send",
 
   "unpaid": "Unpaid",
   "awaitingConfirmation": "Awaiting Confirmation",
@@ -105,5 +107,6 @@
   "orderOnProcess": "Your food is in process..",
   "orderSent": "Your food is sent...",
   "orderArrived": "Your food is arrived...",
-  "pay": "Pay"
+  "pay": "Pay",
+  "giveRating": "Give Rating"
 }
