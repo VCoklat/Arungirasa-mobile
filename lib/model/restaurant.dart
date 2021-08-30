@@ -5,7 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'restaurant.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Restaurant {
   @JsonKey(required: true, disallowNullValue: true)
   final int id;
@@ -22,10 +22,20 @@ class Restaurant {
   @JsonKey(required: true, disallowNullValue: true)
   final List<Interest> interestList;
 
+  @JsonKey(required: false, disallowNullValue: false, defaultValue: .0)
+  final double rating;
+
   Restaurant(
-      this.id, this.name, this.latLng, this.imageList, this.interestList);
+    this.id,
+    this.name,
+    this.latLng,
+    this.imageList,
+    this.interestList,
+    this.rating,
+  );
   factory Restaurant.fromJson(final Map<String, dynamic> json) =>
       _$RestaurantFromJson(json);
+  Map<String, dynamic> toJson() => _$RestaurantToJson(this);
 
   RestaurantRef get ref => new RestaurantRef(id)..value = this;
 }
