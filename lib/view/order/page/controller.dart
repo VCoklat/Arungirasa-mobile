@@ -6,6 +6,8 @@ class _OrderPageController extends GetxController {
   final isError = new RxBool(false);
   final paymentImage = new Rxn<Uint8List>();
 
+  late Timer timer;
+
   double get height {
     final order = this.order.value!;
     switch (order.status) {
@@ -30,18 +32,21 @@ class _OrderPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    timer = Timer.periodic(
+      const Duration(seconds: 30),
+      refreshOrder,
+    );
   }
 
   @override
   void onReady() {
     super.onReady();
-    //new Future.delayed(Duration.zero, loadOrder);
-    onLoading.value = false;
-    isError.value = true;
+    new Future.delayed(Duration.zero, loadOrder);
   }
 
   @override
   void onClose() {
+    timer.cancel();
     super.onClose();
   }
 
@@ -66,6 +71,18 @@ class _OrderPageController extends GetxController {
       isError.value = true;
     } finally {
       onLoading.value = false;
+    }
+  }
+
+  Future<void> refreshOrder([_]) async {
+    final orderId = order.value == null ? null : order.value!.id;
+    if (orderId == null || isClosed) {
+      return;
+    }
+    try {
+      order.value = await OrderRepository.instance.findOne(orderId);
+    } catch (error, st) {
+      ErrorReporter.instance.captureException(error, st);
     }
   }
 
