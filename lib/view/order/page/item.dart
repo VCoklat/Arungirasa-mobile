@@ -35,7 +35,7 @@ class _OrderItem extends StatelessWidget {
                   ),
                 ),
                 new TextSpan(
-                  text: "Porsi",
+                  text: S.current.portion,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
