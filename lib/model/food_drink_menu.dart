@@ -1,3 +1,4 @@
+import 'package:arungi_rasa/model/restaurant.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'image_with_blur_hash.dart';
@@ -21,12 +22,16 @@ class FoodDrinkMenu {
   @JsonKey(required: true, disallowNullValue: true)
   final List<ImageWithBlurHash> imageList;
 
+  @JsonKey(required: true, disallowNullValue: true)
+  final Restaurant restaurant;
+
   FoodDrinkMenu({
     required this.id,
     required this.name,
     required this.description,
     required this.price,
     required this.imageList,
+    required this.restaurant,
   });
 
   factory FoodDrinkMenu.fromJson(final Map<String, dynamic> json) =>
