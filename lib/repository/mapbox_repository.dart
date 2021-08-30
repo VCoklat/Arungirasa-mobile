@@ -5,7 +5,10 @@ import 'package:arungi_rasa/model/mapbox.dart';
 import 'package:get/get.dart';
 import 'package:get_connect_repo_mixin/get_connect_repo_mixin.dart';
 
-class MapBoxRepository extends GetConnect with RepositoryErrorHandlerMixin {
+import 'mixin_repository_config.dart';
+
+class MapBoxRepository extends GetConnect
+    with RepositoryConfigMixin, RepositoryErrorHandlerMixin {
   static MapBoxRepository get instance => Get.find<MapBoxRepository>();
 
   Future<MapBoxFeatureCollection> find(final String query) async {

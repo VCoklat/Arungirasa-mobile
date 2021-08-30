@@ -5,8 +5,11 @@ import 'package:arungi_rasa/service/session_service.dart';
 import 'package:get/get.dart';
 import 'package:get_connect_repo_mixin/get_connect_repo_mixin.dart';
 
+import 'mixin_repository_config.dart';
+
 class CartRepository extends GetConnect
     with
+        RepositoryConfigMixin,
         RepositorySslHandlerMixin,
         RepositoryAuthHandlerMixin,
         RepositoryErrorHandlerMixin {

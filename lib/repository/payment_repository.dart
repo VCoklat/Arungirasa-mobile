@@ -7,8 +7,11 @@ import 'package:get/get.dart';
 import 'package:get_connect_repo_mixin/get_connect_repo_mixin.dart';
 import 'package:uuid/uuid.dart';
 
+import 'mixin_repository_config.dart';
+
 class PaymentRepository extends GetConnect
     with
+        RepositoryConfigMixin,
         RepositorySslHandlerMixin,
         RepositoryErrorHandlerMixin,
         RepositoryAuthHandlerMixin {

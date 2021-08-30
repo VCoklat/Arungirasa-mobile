@@ -1,11 +1,13 @@
 import 'package:arungi_rasa/common/config.dart';
 import 'package:arungi_rasa/model/address.dart';
+import 'package:arungi_rasa/repository/mixin_repository_config.dart';
 import 'package:arungi_rasa/service/session_service.dart';
 import 'package:get/get.dart';
 import 'package:get_connect_repo_mixin/get_connect_repo_mixin.dart';
 
 class AddressRepository extends GetConnect
     with
+        RepositoryConfigMixin,
         RepositorySslHandlerMixin,
         RepositoryAuthHandlerMixin,
         RepositoryErrorHandlerMixin {

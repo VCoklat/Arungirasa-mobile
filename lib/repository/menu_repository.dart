@@ -4,8 +4,13 @@ import 'package:arungi_rasa/model/restaurant.dart';
 import 'package:get/get.dart';
 import 'package:get_connect_repo_mixin/get_connect_repo_mixin.dart';
 
+import 'mixin_repository_config.dart';
+
 class FoodDrinkMenuRepository extends GetConnect
-    with RepositorySslHandlerMixin, RepositoryErrorHandlerMixin {
+    with
+        RepositoryConfigMixin,
+        RepositorySslHandlerMixin,
+        RepositoryErrorHandlerMixin {
   static FoodDrinkMenuRepository get instance =>
       Get.find<FoodDrinkMenuRepository>();
 
