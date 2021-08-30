@@ -26,7 +26,7 @@ class _OrderTextStatus extends GetView<_OrderPageController> {
               color = const Color(0XFF0E3D34);
               break;
             case OrderStatus.arrived:
-              text = S.current.orderOnProcess;
+              text = S.current.orderArrived;
               color = const Color(0XFF0E3D34);
               break;
             default:
