@@ -41,11 +41,15 @@ class _RestaurantInfo extends GetView<_MainPageController> {
                   Icons.star,
                   color: Colors.orangeAccent,
                 ),
-                new _RestaurantRating(
-                  future: controller.restaurant.value == null
-                      ? null
-                      : RestaurantRepository.instance
-                          .rating(controller.restaurant.value!.ref),
+                new Obx(
+                  () => new Text(
+                    (controller.restaurant.value?.rating ?? .0)
+                        .toStringAsFixed(1),
+                    style: new TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -65,23 +69,6 @@ class _RestaurantDistance extends StatelessWidget {
           "${((snapshot.data ?? 0) / 1000).toStringAsFixed(1)}Km",
           style: new TextStyle(
             color: Get.theme.primaryColor,
-            fontSize: 16.0,
-          ),
-        ),
-      );
-}
-
-class _RestaurantRating extends StatelessWidget {
-  final Future<double>? future;
-  const _RestaurantRating({Key? key, this.future}) : super(key: key);
-  @override
-  Widget build(BuildContext context) => FutureBuilder<double>(
-        initialData: 0,
-        future: future,
-        builder: (_, snapshot) => new Text(
-          snapshot.data?.toStringAsFixed(1) ?? "0.0",
-          style: new TextStyle(
-            fontWeight: FontWeight.bold,
             fontSize: 16.0,
           ),
         ),
