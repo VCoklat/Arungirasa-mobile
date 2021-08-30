@@ -40,12 +40,13 @@ class _MainPageController extends GetxController {
   }
 
   Future<void> loadMenu() async {
-    if (restaurant.value == null) return;
+    final restaurant = this.restaurant.value;
+    if (restaurant == null) return;
     try {
       await cleanUpMenu();
 
       final list = await FoodDrinkMenuRepository.instance
-          .find(restaurantRef: restaurant.value!.ref);
+          .find(restaurantRef: restaurant.ref);
       int index = 0;
       for (final menu in list) {
         menuList.add(menu);
