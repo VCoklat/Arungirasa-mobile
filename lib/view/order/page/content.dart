@@ -35,6 +35,7 @@ class _OrderContent extends GetView<_OrderPageController> {
               child: const _PaymentSummary(),
             ),
             const _OrderAction(),
+            const SizedBox(height: 10),
           ],
         ),
       );

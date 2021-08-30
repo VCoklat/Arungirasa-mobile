@@ -63,7 +63,6 @@ class _OrderPayment extends GetView<_OrderPageController> {
                 ))),
             onPressed: controller.uploadPayment,
           ),
-          const SizedBox(height: 10),
         ],
       );
 }

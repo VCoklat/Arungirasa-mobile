@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -11,6 +12,8 @@ import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/order.dart';
 import 'package:arungi_rasa/repository/order_repository.dart';
 import 'package:arungi_rasa/repository/payment_repository.dart';
+import 'package:arungi_rasa/repository/rating_repository.dart';
+import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/util/image_util.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:document_scanner_flutter/configs/configs.dart';
@@ -30,6 +33,7 @@ part 'loading.dart';
 part 'not.found.dart';
 part 'payment.dart';
 part 'payment.summary.dart';
+part 'status.dart';
 part 'text.status.dart';
 part 'widget.dart';
 
@@ -47,37 +51,37 @@ class OrderPage extends GetView<_OrderPageController> {
   @override
   Widget build(BuildContext context) => new Scaffold(
         body: new NestedScrollView(
-          headerSliverBuilder: (_, __) {
-            if (controller.order.value == null) {
-              return <Widget>[
-                new SliverAppBar(
+          headerSliverBuilder: (_, __) => <Widget>[
+            new Obx(
+              () {
+                if (controller.order.value == null) {
+                  return new SliverAppBar(
+                    elevation: 0.0,
+                  );
+                }
+                Color color;
+                final order = controller.order.value!;
+                switch (order.status) {
+                  case OrderStatus.unpaid:
+                  case OrderStatus.awaitingConfirmation:
+                  case OrderStatus.onProcess:
+                    color = Get.theme.primaryColor;
+                    break;
+                  case OrderStatus.sent:
+                  case OrderStatus.arrived:
+                    color = const Color(0XFFF7CC0D);
+                    break;
+                  default:
+                    color = Get.theme.primaryColor;
+                    break;
+                }
+                return new SliverAppBar(
                   elevation: 0.0,
-                ),
-              ];
-            }
-            Color color;
-            final order = controller.order.value!;
-            switch (order.status) {
-              case OrderStatus.unpaid:
-              case OrderStatus.awaitingConfirmation:
-              case OrderStatus.onProcess:
-                color = Get.theme.primaryColor;
-                break;
-              case OrderStatus.sent:
-              case OrderStatus.arrived:
-                color = const Color(0XFFF7CC0D);
-                break;
-              default:
-                color = Get.theme.primaryColor;
-                break;
-            }
-            return <Widget>[
-              new SliverAppBar(
-                elevation: 0.0,
-                backgroundColor: color,
-              ),
-            ];
-          },
+                  backgroundColor: color,
+                );
+              },
+            ),
+          ],
           body: new Obx(
             () {
               if (controller.onLoading.value) {
