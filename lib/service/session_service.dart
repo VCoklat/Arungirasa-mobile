@@ -73,6 +73,8 @@ class SessionService extends GetxService {
     super.onClose();
   }
 
+  void refresh() => user.value = FirebaseAuth.instance.currentUser;
+
   void _initSession() async {
     await new Future.delayed(const Duration(seconds: 1));
     user.value = FirebaseAuth.instance.currentUser;
