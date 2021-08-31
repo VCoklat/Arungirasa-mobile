@@ -21,10 +21,13 @@
   "camera": "Camera",
   "gallery": "Gallery",
   "close": "Close",
+  "back": "Back",
 
   "signIn": "Sign In",
   "signOut": "Sign Out",
   "signUp": "Sign Up",
+  "resetPassword": "Reset Password",
+  "forgotPassword": "Forgot your Password?",
   "hello": "Hello",
   "signUpText": "Don't have an account yet?",
   "signInWith": "Sign In with",
@@ -51,6 +54,8 @@
   "errorPhoneNumberAlreadyExists": "Phone Number already exists.",
   "errorConfirmPasswordEmpty": "Confirm Password must not be empty.",
   "errorConfirmPasswordNotEqual": "Password and Confirm Password are not equal.",
+  "resetPasswordLinkHasBeenSent": "Your reset password link has been sent to your email.",
+  "resetPasswordDescription": "A link will be sent to your email address and click the link to reset your password.",
 
   "location": "Location",
   "searchCulinary": "Cari Kuliner...",

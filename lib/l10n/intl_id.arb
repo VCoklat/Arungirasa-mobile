@@ -21,10 +21,13 @@
   "camera": "Kamera",
   "gallery": "Galeri",
   "close": "Tutup",
+  "back": "Kembali",
 
   "signIn": "Masuk",
   "signOut": "Keluar",
   "signUp": "Daftar",
+  "resetPassword": "Reset Password",
+  "forgotPassword": "Lupa Password?",
   "hello": "Halo",
   "signUpText": "Belum Punya Akun?",
   "signInWith": "Masuk dengan",
@@ -51,6 +54,8 @@
   "errorPhoneNumberAlreadyExists": "No Hp telah terdaftar.",
   "errorConfirmPasswordEmpty": "Ulangi Password tidak boleh kosong.",
   "errorConfirmPasswordNotEqual": "Password dan Ulangi Password tidak sama.",
+  "resetPasswordLinkHasBeenSent": "Link untuk mereset kata sandi telah dikirim ke email anda.",
+  "resetPasswordDescription": "Link akan dikirim ke alamat email anda dan klik link untuk mereset password anda.",
 
   "location": "Lokasi",
   "searchCulinary": "Search Culinary...",
