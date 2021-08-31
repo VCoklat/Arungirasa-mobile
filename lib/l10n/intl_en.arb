@@ -18,6 +18,9 @@
   "add": "Add",
   "edit": "Edit",
   "confirm": "Confirm",
+  "camera": "Camera",
+  "gallery": "Gallery",
+  "close": "Close",
 
   "signIn": "Sign In",
   "signOut": "Sign Out",
@@ -56,6 +59,8 @@
   "addToCart": "Add To Cart",
 
   "editProfile": "Edit Profile",
+  "fullName": "Full Name",
+  "errorFullNameEmpty": "Full Name must not be empty",
 
   "address": "Address",
   "savedAddresses": "Saved Addresses",

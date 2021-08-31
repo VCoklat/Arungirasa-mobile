@@ -18,6 +18,9 @@
   "add": "Tambah",
   "edit": "Ubah",
   "confirm": "Konfirmasi",
+  "camera": "Kamera",
+  "gallery": "Galeri",
+  "close": "Tutup",
 
   "signIn": "Masuk",
   "signOut": "Keluar",
@@ -56,6 +59,8 @@
   "addToCart": "Tambah Keranjang",
 
   "editProfile": "Ubah Profil",
+  "fullName": "Nama Lengkap",
+  "errorFullNameEmpty": "Nama lengkap tidak boleh kosong",
 
   "address": "Alamat",
   "savedAddresses": "Alamat Tersimpan",
