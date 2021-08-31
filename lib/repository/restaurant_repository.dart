@@ -13,6 +13,16 @@ class RestaurantRepository extends GetConnect
         RepositoryErrorHandlerMixin {
   static RestaurantRepository get instance => Get.find<RestaurantRepository>();
 
+  Future<List<Restaurant>> find() async {
+    final response = await get("$kRestUrl/restaurant");
+    if (response.isOk)
+      return (response.body as List)
+          .map((e) => Restaurant.fromJson(e as Map<String, dynamic>))
+          .toList(growable: false);
+    else
+      throw getException(response);
+  }
+
   Future<Restaurant> findOneNearest(final LatLng latLng) async {
     final response = await get(
         "$kRestUrl/restaurant/nearest/one?lat=${latLng.lat}&lng=${latLng.lng}");
