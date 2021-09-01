@@ -10,6 +10,7 @@ import 'package:arungi_rasa/view/intro_page.dart';
 import 'package:arungi_rasa/view/main_page/main_page.dart';
 import 'package:arungi_rasa/view/order/make_order_page.dart';
 import 'package:arungi_rasa/view/order/page/order_page.dart';
+import 'package:arungi_rasa/view/profile/change_password.dart';
 import 'package:arungi_rasa/view/profile/change_profile.dart';
 import 'package:arungi_rasa/view/profile/profile_page.dart';
 import 'package:arungi_rasa/view/profile/wishlist_page.dart';
@@ -121,6 +122,14 @@ class PageRouter {
           name: Routes.profileUpdate,
           page: () => const ChangeProfilePage(),
           binding: ChangeProfilePage.binding(),
+          middlewares: [
+            new _AuthGuardMiddleWare(),
+          ],
+        ),
+        new GetPage(
+          name: Routes.changePassword,
+          page: () => const ChangePasswordPage(),
+          binding: ChangePasswordPage.binding(),
           middlewares: [
             new _AuthGuardMiddleWare(),
           ],

@@ -1,3 +1,5 @@
+import 'package:arungi_rasa/common/error_reporter.dart';
+import 'package:arungi_rasa/common/helper.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/service/session_service.dart';
@@ -23,6 +25,24 @@ class ProfilePage extends StatelessWidget {
               new _ProfileListTile(
                 text: "Wish List",
                 onPressed: () => Get.toNamed(Routes.wishList),
+              ),
+              new _ProfileListTile(
+                text: S.current.changePassword,
+                onPressed: () => Get.toNamed(Routes.changePassword),
+              ),
+              new _ProfileListTile(
+                text: S.current.signOut,
+                onPressed: () async {
+                  try {
+                    Helper.showLoading();
+                    await SessionService.instance.signOut();
+                    Helper.hideLoadingWithSuccess();
+                    Get.offAllNamed(Routes.signIn);
+                  } catch (error, st) {
+                    ErrorReporter.instance.captureException(error, st);
+                    Helper.hideLoadingWithError();
+                  }
+                },
               ),
             ],
           ),
@@ -65,6 +85,7 @@ class _ProfileWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const _PhotoProfile(),
+          const SizedBox(width: 10),
           new Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -95,6 +116,7 @@ class _ProfileWidget extends StatelessWidget {
             ),
           ],
         ),
+        onTap: () => Get.toNamed(Routes.profileUpdate),
       );
 }
 
@@ -116,14 +138,31 @@ class _PhotoProfile extends GetView<SessionService> {
   const _PhotoProfile();
   @override
   Widget build(BuildContext context) => new Obx(
-        () => controller.user.value!.photoURL == null ||
+        () => controller.user.value == null ||
+                controller.user.value?.photoURL == null ||
                 controller.user.value!.photoURL!.isEmpty
             ? const Icon(
                 Icons.account_circle_outlined,
                 size: 100,
               )
-            : new CachedNetworkImage(
-                imageUrl: controller.user.value!.photoURL!,
+            : new Container(
+                width: 100,
+                height: 100,
+                decoration: new BoxDecoration(
+                  color: Get.theme.primaryColor,
+                  shape: BoxShape.circle,
+                ),
+                child: new Center(
+                  child: new ClipRRect(
+                    borderRadius:
+                        const BorderRadius.all(const Radius.circular(90)),
+                    child: new CachedNetworkImage(
+                      imageUrl: controller.user.value!.photoURL!,
+                      width: 98,
+                      height: 98,
+                    ),
+                  ),
+                ),
               ),
       );
 }
