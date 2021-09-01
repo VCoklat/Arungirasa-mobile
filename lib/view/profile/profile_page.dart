@@ -4,6 +4,7 @@ import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/service/session_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,10 +27,7 @@ class ProfilePage extends StatelessWidget {
                 text: "Wish List",
                 onPressed: () => Get.toNamed(Routes.wishList),
               ),
-              new _ProfileListTile(
-                text: S.current.changePassword,
-                onPressed: () => Get.toNamed(Routes.changePassword),
-              ),
+              const _ChangePasswordButton(),
               new _ProfileListTile(
                 text: S.current.signOut,
                 onPressed: () async {
@@ -47,6 +45,22 @@ class ProfilePage extends StatelessWidget {
             ],
           ),
         ),
+      );
+}
+
+class _ChangePasswordButton extends GetView<SessionService> {
+  const _ChangePasswordButton();
+  @override
+  Widget build(BuildContext context) => new Obx(
+        () => controller.user.value != null &&
+                controller.user.value!.providerData.any((e) =>
+                    e.providerId ==
+                    EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)
+            ? new _ProfileListTile(
+                text: S.current.changePassword,
+                onPressed: () => Get.toNamed(Routes.changePassword),
+              )
+            : const SizedBox(),
       );
 }
 
