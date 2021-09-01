@@ -4,6 +4,7 @@ class _MainPageController extends GetxController {
   final refreshKey = new GlobalKey<RefreshIndicatorState>();
   final menuListKey = new GlobalKey<AnimatedListState>();
 
+  final restaurantList = new RxList<Restaurant>();
   final restaurant = new Rxn<Restaurant>();
   final menuList = new RxList<FoodDrinkMenu>();
 
@@ -16,6 +17,7 @@ class _MainPageController extends GetxController {
   }
 
   Future<void> loadRestaurant() async {
+    restaurantList.assignAll(await RestaurantRepository.instance.find());
     restaurant.value = await RestaurantRepository.instance
         .findOneNearest(SessionService.instance.location.value);
     loadMenu();
