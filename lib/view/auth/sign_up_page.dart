@@ -154,8 +154,8 @@ class SignUpPage extends GetView<_SignUpPageController> {
   Widget get lastName => new Obx(
         () => new TextField(
           decoration: new InputDecoration(
-            labelText: S.current.firstName,
-            errorText: controller.firstNameValidator.value,
+            labelText: S.current.lastName,
+            errorText: controller.lastNameValidator.value,
           ),
           keyboardType: TextInputType.name,
           onChanged: (final text) => controller.lastName.value = text,
