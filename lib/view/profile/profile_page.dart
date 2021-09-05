@@ -104,15 +104,17 @@ class _ProfileWidget extends StatelessWidget {
         children: [
           const _PhotoProfile(),
           const SizedBox(width: 10),
-          new Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const _UserDisplayName(),
-              const SizedBox(height: 5),
-              _editProfileButton,
-            ],
+          new Expanded(
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const _UserDisplayName(),
+                const SizedBox(height: 5),
+                _editProfileButton,
+              ],
+            ),
           ),
         ],
       );
@@ -141,12 +143,14 @@ class _ProfileWidget extends StatelessWidget {
 class _UserDisplayName extends GetView<SessionService> {
   const _UserDisplayName();
   @override
-  Widget build(BuildContext context) => new Obx(
-        () => new Text(
-          controller.user.value?.displayName ?? "Arungi Rasa",
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24.0,
+  Widget build(BuildContext context) => new FittedBox(
+        child: new Obx(
+          () => new Text(
+            controller.user.value?.displayName ?? "Arungi Rasa",
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 24.0,
+            ),
           ),
         ),
       );
