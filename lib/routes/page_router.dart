@@ -6,9 +6,11 @@ import 'package:arungi_rasa/view/auth/forget_password.dart';
 import 'package:arungi_rasa/view/auth/sign_in_page.dart';
 import 'package:arungi_rasa/view/auth/sign_up_page.dart';
 import 'package:arungi_rasa/view/cart/cart_page.dart';
+import 'package:arungi_rasa/view/chat_page.dart';
 import 'package:arungi_rasa/view/intro_page.dart';
 import 'package:arungi_rasa/view/main_page/main_page.dart';
 import 'package:arungi_rasa/view/order/make_order_page.dart';
+import 'package:arungi_rasa/view/order/order_list_page.dart';
 import 'package:arungi_rasa/view/order/page/order_page.dart';
 import 'package:arungi_rasa/view/profile/change_password.dart';
 import 'package:arungi_rasa/view/profile/change_profile.dart';
@@ -95,6 +97,14 @@ class PageRouter {
           ],
         ),
         new GetPage(
+          name: Routes.orderList,
+          page: () => const OrderListPage(),
+          binding: OrderListPage.binding(),
+          middlewares: [
+            new _AuthGuardMiddleWare(),
+          ],
+        ),
+        new GetPage(
           name: Routes.order,
           page: () => const OrderPage(),
           binding: OrderPage.binding(),
@@ -130,6 +140,13 @@ class PageRouter {
           name: Routes.changePassword,
           page: () => const ChangePasswordPage(),
           binding: ChangePasswordPage.binding(),
+          middlewares: [
+            new _AuthGuardMiddleWare(),
+          ],
+        ),
+        new GetPage(
+          name: Routes.chat,
+          page: () => const ChatPage(),
           middlewares: [
             new _AuthGuardMiddleWare(),
           ],
