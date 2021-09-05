@@ -5,7 +5,6 @@ import 'package:arungi_rasa/common/helper.dart';
 import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/food_drink_menu.dart';
-import 'package:arungi_rasa/model/order.dart';
 import 'package:arungi_rasa/model/restaurant.dart';
 import 'package:arungi_rasa/repository/menu_repository.dart';
 import 'package:arungi_rasa/repository/restaurant_repository.dart';
@@ -55,6 +54,7 @@ class MainPage extends GetView<_MainPageController> {
               actions: [
                 new IconButton(
                   icon: const Icon(Icons.chat_bubble_outline_sharp),
+                  color: Get.theme.primaryColor,
                   onPressed: () => Get.toNamed(Routes.chat),
                 ),
               ],
