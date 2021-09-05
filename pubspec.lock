@@ -480,6 +480,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  flutter_tawk:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "61cbcaa228d21d8cd54b084b9187ee9333df9565"
+      url: "https://github.com/rohankandwal/flutter_tawk.git"
+    source: git
+    version: "0.0.5+1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -1119,6 +1128,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  webview_flutter:
+    dependency: transitive
+    description:
+      name: webview_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.12"
   win32:
     dependency: transitive
     description:
