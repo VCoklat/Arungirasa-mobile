@@ -31,9 +31,7 @@ class RatingRepository extends GetConnect
     }
   }
 
-  Future<Rating?> findOne({
-    required final Order order,
-  }) async {
+  Future<Rating?> findOne(final Order order) async {
     final response = await get(
       "$kRestUrl/rating",
       query: {
