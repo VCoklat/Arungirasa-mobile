@@ -10,7 +10,9 @@ final Map<String, dynamic> _env = _$_envJsonLiteral;
 class Env {
   @JsonKey(required: true, disallowNullValue: true)
   final String mapBoxAccessToken;
-  Env(this.mapBoxAccessToken);
+  @JsonKey(required: true, disallowNullValue: true)
+  final String directChatLink;
+  Env(this.mapBoxAccessToken, this.directChatLink);
   factory Env.fromJson(final Map<String, dynamic> json) => _$EnvFromJson(json);
 }
 
