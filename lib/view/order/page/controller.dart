@@ -5,6 +5,8 @@ class _OrderPageController extends GetxController {
   final onLoading = new RxBool(true);
   final isError = new RxBool(false);
   final paymentImage = new Rxn<Uint8List>();
+  final hasGiveRatingFuture = new Rxn<Future<bool>>();
+  final rating = new Rxn<Rating>();
 
   late Timer timer;
 
@@ -65,7 +67,19 @@ class _OrderPageController extends GetxController {
     }
     try {
       onLoading.value = true;
-      order.value = await OrderRepository.instance.findOne(orderId);
+      final order = await OrderRepository.instance.findOne(orderId);
+      if (order.status == OrderStatus.arrived) {
+        hasGiveRatingFuture.value =
+            RatingRepository.instance.hasGiveRating(this.order.value!);
+        try {
+          rating.value = await RatingRepository.instance.findOne(order);
+        } on HttpNotFoundException {
+          rating.value = null;
+        } catch (error, st) {
+          ErrorReporter.instance.captureException(error, st);
+        }
+      }
+      this.order.value = order;
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);
       isError.value = true;
@@ -80,7 +94,22 @@ class _OrderPageController extends GetxController {
       return;
     }
     try {
-      order.value = await OrderRepository.instance.findOne(orderId);
+      final oldOrder = this.order.value;
+      final order = await OrderRepository.instance.findOne(orderId);
+      if (order.status == OrderStatus.arrived) {
+        hasGiveRatingFuture.value =
+            RatingRepository.instance.hasGiveRating(this.order.value!);
+        if (oldOrder?.status != order.status) {
+          try {
+            rating.value = await RatingRepository.instance.findOne(order);
+          } on HttpNotFoundException {
+            rating.value = null;
+          } catch (error, st) {
+            ErrorReporter.instance.captureException(error, st);
+          }
+        }
+      }
+      this.order.value = order;
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);
     }

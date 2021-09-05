@@ -13,10 +13,17 @@ class _OrderAction extends GetView<_OrderPageController> {
                 child: const _OrderPayment(),
               );
             case OrderStatus.arrived:
-              return new _GiveRatingButton(
-                future: RatingRepository.instance
-                    .hasGiveRating(controller.order.value!),
-                onPressed: Routes.giveOrderRating(controller.order.value!.id),
+              return new Center(
+                child: new _GiveRatingButton(
+                  future: controller.hasGiveRatingFuture.value,
+                  rating: controller.rating.value,
+                  onPressed: () async {
+                    await Routes.giveOrderRating(controller.order.value!.id);
+                    controller.hasGiveRatingFuture.value = RatingRepository
+                        .instance
+                        .hasGiveRating(controller.order.value!);
+                  },
+                ),
               );
             default:
               return const SizedBox();
@@ -26,10 +33,12 @@ class _OrderAction extends GetView<_OrderPageController> {
 }
 
 class _GiveRatingButton extends StatelessWidget {
-  final Future<bool> future;
+  final Rating? rating;
+  final Future<bool>? future;
   final VoidCallback onPressed;
   const _GiveRatingButton({
     Key? key,
+    required this.rating,
     required this.future,
     required this.onPressed,
   }) : super(key: key);
@@ -38,6 +47,9 @@ class _GiveRatingButton extends StatelessWidget {
   Widget build(BuildContext context) => new FutureBuilder<bool>(
         future: future,
         builder: (_, snapshot) {
+          print(snapshot.connectionState);
+          print(snapshot.data);
+          print(future);
           Widget? widget;
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -57,7 +69,7 @@ class _GiveRatingButton extends StatelessWidget {
                     () => ErrorReporter.instance
                         .captureException(snapshot.error));
               } else {
-                if (snapshot.hasData && snapshot.data!) {
+                if (snapshot.hasData && !snapshot.data!) {
                   widget = new ElevatedButton(
                     child: new Text(S.current.giveRating),
                     style: new ButtonStyle(
@@ -68,6 +80,17 @@ class _GiveRatingButton extends StatelessWidget {
                       )),
                     ),
                     onPressed: onPressed,
+                  );
+                } else if (snapshot.hasData && snapshot.data!) {
+                  widget = new RatingBarIndicator(
+                    rating: rating?.rating ?? .0,
+                    direction: Axis.horizontal,
+                    itemCount: 5,
+                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
                   );
                 }
               }

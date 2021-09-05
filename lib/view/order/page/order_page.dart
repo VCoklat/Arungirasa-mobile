@@ -10,6 +10,7 @@ import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/fonts.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/order.dart';
+import 'package:arungi_rasa/model/rating.dart';
 import 'package:arungi_rasa/repository/order_repository.dart';
 import 'package:arungi_rasa/repository/payment_repository.dart';
 import 'package:arungi_rasa/repository/rating_repository.dart';
@@ -19,7 +20,9 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:document_scanner_flutter/configs/configs.dart';
 import 'package:document_scanner_flutter/document_scanner_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:get_connect_repo_mixin/get_connect_repo_mixin.dart';
 import 'package:gradient_loading_button/gradient_loading_button.dart';
 
 part 'action.dart';
