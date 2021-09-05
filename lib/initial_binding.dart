@@ -8,6 +8,7 @@ import 'package:arungi_rasa/repository/order_repository.dart';
 import 'package:arungi_rasa/repository/payment_repository.dart';
 import 'package:arungi_rasa/repository/rating_repository.dart';
 import 'package:arungi_rasa/repository/restaurant_repository.dart';
+import 'package:arungi_rasa/repository/user_repository.dart';
 import 'package:arungi_rasa/repository/wishlist_repository.dart';
 import 'package:arungi_rasa/service/address_service.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
@@ -36,6 +37,7 @@ class InitialBinding implements Bindings {
     Get.put(new PaymentRepository(), permanent: true);
     Get.put(new RatingRepository(), permanent: true);
     Get.put(new RestaurantRepository(), permanent: true);
+    Get.put(new UserRepository(), permanent: true);
     Get.put(new WishListRepository(), permanent: true);
   }
 }
