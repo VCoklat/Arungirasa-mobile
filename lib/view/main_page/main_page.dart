@@ -14,6 +14,7 @@ import 'package:arungi_rasa/service/cart_service.dart';
 import 'package:arungi_rasa/service/order_service.dart';
 import 'package:arungi_rasa/service/session_service.dart';
 import 'package:arungi_rasa/widget/menu_card.dart';
+import 'package:arungi_rasa/widget/order_card.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -51,6 +52,12 @@ class MainPage extends GetView<_MainPageController> {
               elevation: 0.0,
               title: const _RestaurantSelector(),
               leading: const _UserPhotoProfile(),
+              actions: [
+                new IconButton(
+                  icon: const Icon(Icons.chat_bubble_outline_sharp),
+                  onPressed: () => Get.toNamed(Routes.chat),
+                ),
+              ],
             ),
           ],
           body: new RefreshIndicator(
