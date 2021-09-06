@@ -97,9 +97,7 @@ class _OrderPageController extends GetxController {
       final oldOrder = this.order.value;
       final order = await OrderRepository.instance.findOne(orderId);
       if (order.status == OrderStatus.arrived) {
-        hasGiveRatingFuture.value =
-            RatingRepository.instance.hasGiveRating(this.order.value!);
-        if (oldOrder?.status != order.status) {
+        if (oldOrder?.status != order.status || rating.value == null) {
           try {
             rating.value = await RatingRepository.instance.findOne(order);
           } on HttpNotFoundException {
@@ -108,6 +106,8 @@ class _OrderPageController extends GetxController {
             ErrorReporter.instance.captureException(error, st);
           }
         }
+        hasGiveRatingFuture.value =
+            RatingRepository.instance.hasGiveRating(this.order.value!);
       }
       this.order.value = order;
     } catch (error, st) {

@@ -19,6 +19,7 @@ class _OrderAction extends GetView<_OrderPageController> {
                   rating: controller.rating.value,
                   onPressed: () async {
                     await Routes.giveOrderRating(controller.order.value!.id);
+                    await controller.refreshOrder();
                     controller.hasGiveRatingFuture.value = RatingRepository
                         .instance
                         .hasGiveRating(controller.order.value!);
