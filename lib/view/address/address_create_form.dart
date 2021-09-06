@@ -81,6 +81,7 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
                   labelText: S.current.contactName,
                   prefixIcon: const Icon(Icons.person_sharp),
                 ),
+                onChanged: (final text) => controller.contactName.value = text,
               ),
               const SizedBox(height: 10),
               new Obx(
@@ -91,6 +92,8 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
                     prefixIcon: const Icon(Icons.contact_phone_sharp),
                     errorText: controller.contactPhoneNumberValidator.value,
                   ),
+                  onChanged: (final text) =>
+                      controller.contactPhoneNumber.value = text,
                 ),
               ),
               const SizedBox(height: 30),
