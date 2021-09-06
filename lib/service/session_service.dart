@@ -11,6 +11,7 @@ import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/service/order_service.dart';
 import 'package:arungi_rasa/service/wistlist_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_connect_repo_mixin/get_connect_repo_mixin.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -86,14 +87,16 @@ class SessionService extends GetxService {
       viewIntro();
     else
       navigate();
-    print("Access Token: ${await this.accessToken}");
+    if (kDebugMode) print("Access Token: ${(await this.accessToken)}");
   }
 
   void navigate() {
     _fetchLocation().then((_) => Get.offAllNamed(Routes.home)).timeout(
-          const Duration(seconds: 10),
-          onTimeout: () => Get.offAllNamed(Routes.home),
-        );
+      const Duration(seconds: 10),
+      onTimeout: () {
+        if (Get.currentRoute != Routes.home) Get.offAllNamed(Routes.home);
+      },
+    );
   }
 
   Future<void> signOut() => FirebaseAuth.instance.signOut();
