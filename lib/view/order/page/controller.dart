@@ -68,6 +68,7 @@ class _OrderPageController extends GetxController {
     try {
       onLoading.value = true;
       final order = await OrderRepository.instance.findOne(orderId);
+      this.order.value = order;
       if (order.status == OrderStatus.arrived) {
         hasGiveRatingFuture.value =
             RatingRepository.instance.hasGiveRating(this.order.value!);
@@ -79,7 +80,6 @@ class _OrderPageController extends GetxController {
           ErrorReporter.instance.captureException(error, st);
         }
       }
-      this.order.value = order;
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);
       isError.value = true;
