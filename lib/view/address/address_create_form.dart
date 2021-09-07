@@ -92,6 +92,7 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
                     prefixIcon: const Icon(Icons.contact_phone_sharp),
                     errorText: controller.contactPhoneNumberValidator.value,
                   ),
+                  keyboardType: TextInputType.phone,
                   onChanged: (final text) =>
                       controller.contactPhoneNumber.value = text,
                 ),
