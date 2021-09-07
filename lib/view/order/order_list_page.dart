@@ -2,6 +2,7 @@ import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/common/mixin_controller_worker.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/order.dart';
+import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/service/order_service.dart';
 import 'package:arungi_rasa/service/wistlist_service.dart';
 import 'package:arungi_rasa/widget/order_card.dart';
@@ -30,103 +31,125 @@ class OrderListPage extends GetView<_OrderListPageController> {
             padding: const EdgeInsets.all(10.0),
             child: new Column(
               children: [
-                new Wrap(
-                  runSpacing: 5.0,
-                  spacing: 10.0,
-                  children: [
-                    new Obx(
-                      () => new FilterChip(
-                        label: new Text(S.current.all),
-                        selected: controller.status.value == null,
-                        onSelected: controller.busy.value
-                            ? null
-                            : (_) => controller.status.value = null,
+                new SizedBox(
+                  height: 30,
+                  child: new ListView(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      new Obx(
+                        () => new FilterChip(
+                          label: new Text(S.current.all),
+                          selected: controller.status.value == null,
+                          onSelected: controller.busy.value
+                              ? null
+                              : (_) => controller.status.value = null,
+                        ),
                       ),
-                    ),
-                    new Obx(
-                      () => new FilterChip(
-                        label: new Text(S.current.unpaid),
-                        selected: controller.status.value == OrderStatus.unpaid,
-                        onSelected: controller.busy.value
-                            ? null
-                            : (_) =>
-                                controller.status.value = OrderStatus.unpaid,
+                      gap,
+                      new Obx(
+                        () => new FilterChip(
+                          label: new Text(S.current.unpaid),
+                          selected:
+                              controller.status.value == OrderStatus.unpaid,
+                          onSelected: controller.busy.value
+                              ? null
+                              : (_) =>
+                                  controller.status.value = OrderStatus.unpaid,
+                        ),
                       ),
-                    ),
-                    new Obx(
-                      () => new FilterChip(
-                        label: new Text(S.current.confirm),
-                        selected: controller.status.value ==
-                            OrderStatus.awaitingConfirmation,
-                        onSelected: controller.busy.value
-                            ? null
-                            : (_) => controller.status.value =
-                                OrderStatus.awaitingConfirmation,
+                      gap,
+                      new Obx(
+                        () => new FilterChip(
+                          label: new Text(S.current.confirm),
+                          selected: controller.status.value ==
+                              OrderStatus.awaitingConfirmation,
+                          onSelected: controller.busy.value
+                              ? null
+                              : (_) => controller.status.value =
+                                  OrderStatus.awaitingConfirmation,
+                        ),
                       ),
-                    ),
-                    new Obx(
-                      () => new FilterChip(
-                        label: new Text(S.current.onProcess),
-                        selected:
-                            controller.status.value == OrderStatus.onProcess,
-                        onSelected: controller.busy.value
-                            ? null
-                            : (_) =>
-                                controller.status.value = OrderStatus.onProcess,
+                      gap,
+                      new Obx(
+                        () => new FilterChip(
+                          label: new Text(S.current.onProcess),
+                          selected:
+                              controller.status.value == OrderStatus.onProcess,
+                          onSelected: controller.busy.value
+                              ? null
+                              : (_) => controller.status.value =
+                                  OrderStatus.onProcess,
+                        ),
                       ),
-                    ),
-                    new Obx(
-                      () => new FilterChip(
-                        label: new Text(S.current.sent),
-                        selected: controller.status.value == OrderStatus.sent,
-                        onSelected: controller.busy.value
-                            ? null
-                            : (_) => controller.status.value = OrderStatus.sent,
+                      gap,
+                      new Obx(
+                        () => new FilterChip(
+                          label: new Text(S.current.sent),
+                          selected: controller.status.value == OrderStatus.sent,
+                          onSelected: controller.busy.value
+                              ? null
+                              : (_) =>
+                                  controller.status.value = OrderStatus.sent,
+                        ),
                       ),
-                    ),
-                    new Obx(
-                      () => new FilterChip(
-                        label: new Text(S.current.arrived),
-                        selected:
-                            controller.status.value == OrderStatus.arrived,
-                        onSelected: controller.busy.value
-                            ? null
-                            : (_) =>
-                                controller.status.value = OrderStatus.arrived,
+                      gap,
+                      new Obx(
+                        () => new FilterChip(
+                          label: new Text(S.current.arrived),
+                          selected:
+                              controller.status.value == OrderStatus.arrived,
+                          onSelected: controller.busy.value
+                              ? null
+                              : (_) =>
+                                  controller.status.value = OrderStatus.arrived,
+                        ),
                       ),
-                    ),
-                    new Obx(
-                      () => new FilterChip(
-                        label: new Text(S.current.complained),
-                        selected:
-                            controller.status.value == OrderStatus.complained,
-                        onSelected: controller.busy.value
-                            ? null
-                            : (_) => controller.status.value =
-                                OrderStatus.complained,
+                      gap,
+                      new Obx(
+                        () => new FilterChip(
+                          label: new Text(S.current.complained),
+                          selected:
+                              controller.status.value == OrderStatus.complained,
+                          onSelected: controller.busy.value
+                              ? null
+                              : (_) => controller.status.value =
+                                  OrderStatus.complained,
+                        ),
                       ),
-                    ),
-                    new Obx(
-                      () => new FilterChip(
-                        label: new Text(S.current.cancelled),
-                        selected:
-                            controller.status.value == OrderStatus.cancelled,
-                        onSelected: controller.busy.value
-                            ? null
-                            : (_) =>
-                                controller.status.value = OrderStatus.cancelled,
+                      gap,
+                      new Obx(
+                        () => new FilterChip(
+                          label: new Text(S.current.cancelled),
+                          selected:
+                              controller.status.value == OrderStatus.cancelled,
+                          onSelected: controller.busy.value
+                              ? null
+                              : (_) => controller.status.value =
+                                  OrderStatus.cancelled,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                new AnimatedList(
-                  key: controller.listState,
-                  initialItemCount: controller.itemList.length,
-                  shrinkWrap: true,
-                  itemBuilder: (_, final int index, final animation) =>
-                      new AnimatedOrderCard(
-                    order: controller.itemList[index],
-                    animation: animation,
+                const SizedBox(height: 10),
+                new Expanded(
+                  child: new AnimatedList(
+                    key: controller.listState,
+                    initialItemCount: controller.itemList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (_, final int index, final animation) =>
+                        new InkWell(
+                      child: new AnimatedOrderCard(
+                        order: controller.itemList[index],
+                        animation: animation,
+                      ),
+                      onTap: () async {
+                        await Routes.openOrder(controller.itemList[index].id);
+                        await OrderService.instance.load();
+                        controller.refresh();
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -134,6 +157,8 @@ class OrderListPage extends GetView<_OrderListPageController> {
           ),
         ),
       );
+
+  Widget get gap => const SizedBox(width: 10);
 }
 
 class _OrderListPageController extends GetxController
@@ -177,6 +202,8 @@ class _OrderListPageController extends GetxController
       (_) => itemList.removeAt(index),
     );
   }
+
+  void refresh() => _onStatusChanged(status.value);
 
   void _onStatusChanged(final OrderStatus? status) async {
     busy.value = true;
