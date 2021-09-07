@@ -8,8 +8,6 @@ class _MainPageController extends GetxController {
   final restaurant = new Rxn<Restaurant>();
   final menuList = new RxList<FoodDrinkMenu>();
 
-  Future<void> onSort() async {}
-
   @override
   void onReady() {
     super.onReady();
