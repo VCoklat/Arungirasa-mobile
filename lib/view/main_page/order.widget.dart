@@ -12,7 +12,10 @@ class _OrderList extends GetView<OrderService> {
             child: new OrderCard(
               order: controller.onGoingOrder[index],
             ),
-            onTap: () => Routes.openOrder(controller.onGoingOrder[index].id),
+            onTap: () async {
+              await Routes.openOrder(controller.onGoingOrder[index].id);
+              await OrderService.instance.load();
+            },
           ),
         ),
       );
