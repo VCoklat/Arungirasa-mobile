@@ -72,16 +72,16 @@ dependencies:
 
   #firebase
   firebase_core: ^1.6.0
-  firebase_auth: ^3.1.0
-  firebase_messaging: ^10.0.6
+  firebase_auth: ^3.1.1
+  firebase_messaging: ^10.0.7
   firebase_crashlytics: ^2.2.1
   firebase_storage: ^10.0.3
 
 dependency_overrides:
-  args: ^2.2.0
+  args: ^2.3.0
   meta: ^1.7.0
   analyzer: ^2.2.0
-  image: ^3.0.2
+  image: ^3.0.4
   mapbox_gl_platform_interface:
     git:
       url: https://github.com/tobrun/flutter-mapbox-gl.git
@@ -99,7 +99,7 @@ dev_dependencies:
   json_serializable: ^5.0.0
   flutter_gen_runner: ^3.1.2
   flutter_launcher_icons: ^0.9.2
-  flutter_native_splash: ^1.2.1
+  flutter_native_splash: ^1.2.3
 
 flutter_gen:
   output: lib/generated/
