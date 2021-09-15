@@ -25,21 +25,24 @@ class _PaymentSummary extends GetView<_OrderPageController> {
           new Row(
             children: [
               new Text(S.current.transportCost),
-              new Expanded(
-                  child: new Text(
-                Helper.formatMoney(8000),
-                textAlign: TextAlign.right,
-              )),
+              Expanded(
+                child: Obx(() => Text(
+                      Helper.formatMoney(
+                          controller.order.value!.transportFee.toDouble()),
+                      textAlign: TextAlign.right,
+                    )),
+              ),
             ],
           ),
           new Row(
             children: [
               new Text(S.current.appFee),
-              new Expanded(
-                  child: new Text(
-                Helper.formatMoney(3000),
-                textAlign: TextAlign.right,
-              )),
+              Expanded(
+                  child: Obx(() => Text(
+                        Helper.formatMoney(
+                            controller.order.value!.appFee.toDouble()),
+                        textAlign: TextAlign.right,
+                      ))),
             ],
           ),
           new Row(
