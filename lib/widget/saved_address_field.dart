@@ -66,6 +66,16 @@ class SavedAddressField extends StatelessWidget {
                           showSearchBox: showSearchBox,
                           searchBoxDecoration: searchBoxDecoration,
                           items: controller.itemList,
+                          onFind: (final text) {
+                            print(text);
+                            return Future.value(text.isEmpty
+                                ? controller.itemList
+                                : controller.itemList
+                                    .where((p) => p.name
+                                        .toLowerCase()
+                                        .contains(text.toLowerCase()))
+                                    .toList(growable: false));
+                          },
                           itemBuilder: (_, item, isSelected) => new ListTile(
                             title: new Text(item!.name),
                             selected: isSelected,
