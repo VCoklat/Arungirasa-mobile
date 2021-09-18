@@ -62,7 +62,7 @@ class MainPage extends GetView<_MainPageController> {
           ],
           body: new RefreshIndicator(
             key: controller.refreshKey,
-            onRefresh: controller.loadRestaurant,
+            onRefresh: controller.onRefresh,
             child: new Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: new Stack(
@@ -93,9 +93,7 @@ class _MainPageContent extends GetView<_MainPageController> {
           const SizedBox(
             height: 10,
           ),
-          new _SearchTextField(
-            onSubmitted: controller.onSearch,
-          ),
+          const _SearchTextField(),
           const SizedBox(
             height: 20.0,
           ),
@@ -158,13 +156,13 @@ class _UserPhotoProfile extends StatelessWidget {
       );
 }
 
-class _SearchTextField extends StatelessWidget {
-  final ValueChanged<String>? onSubmitted;
-  const _SearchTextField({Key? key, this.onSubmitted}) : super(key: key);
+class _SearchTextField extends GetView<_MainPageController> {
+  const _SearchTextField({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) => new SizedBox(
         height: 40,
         child: new TextField(
+          controller: controller.searchController,
           decoration: new InputDecoration(
             labelText: S.current.searchCulinary,
             border: new OutlineInputBorder(
@@ -175,7 +173,7 @@ class _SearchTextField extends StatelessWidget {
                     const BorderRadius.all(const Radius.circular(30))),
             suffixIcon: const Icon(Icons.search),
           ),
-          onSubmitted: onSubmitted,
+          onSubmitted: controller.onSearch,
         ),
       );
 }

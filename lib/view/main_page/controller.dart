@@ -8,10 +8,32 @@ class _MainPageController extends GetxController {
   final restaurant = new Rxn<Restaurant>();
   final menuList = new RxList<FoodDrinkMenu>();
 
+  late TextEditingController searchController;
+
+  @override
+  void onInit() {
+    searchController = TextEditingController();
+    super.onInit();
+  }
+
   @override
   void onReady() {
     super.onReady();
     new Future.delayed(Duration.zero, () => refreshKey.currentState!.show());
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> onRefresh() async {
+    if (restaurant.value == null) {
+      await loadRestaurant();
+    } else {
+      await loadMenu();
+    }
   }
 
   Future<void> loadRestaurant() async {
@@ -27,7 +49,7 @@ class _MainPageController extends GetxController {
       await cleanUpMenu();
 
       final list = await FoodDrinkMenuRepository.instance
-          .find(restaurantRef: restaurant.value!.ref, query: query);
+          .find(restaurantRef: restaurant.value?.ref, query: query);
       int index = 0;
       for (final menu in list) {
         menuList.add(menu);
@@ -40,6 +62,10 @@ class _MainPageController extends GetxController {
   }
 
   Future<void> loadMenu() async {
+    if (searchController.text.isNotEmpty) {
+      await onSearch(searchController.text);
+      return;
+    }
     final restaurant = this.restaurant.value;
     if (restaurant == null) return;
     try {
