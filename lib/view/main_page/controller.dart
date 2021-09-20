@@ -1,12 +1,14 @@
 part of 'main_page.dart';
 
-class _MainPageController extends GetxController {
+class _MainPageController extends GetxController with MixinControllerWorker {
   final refreshKey = new GlobalKey<RefreshIndicatorState>();
   final menuListKey = new GlobalKey<AnimatedListState>();
 
   final restaurantList = new RxList<Restaurant>();
   final restaurant = new Rxn<Restaurant>();
   final menuList = new RxList<FoodDrinkMenu>();
+
+  final searchQuery = RxString("");
 
   late TextEditingController searchController;
 
@@ -45,6 +47,7 @@ class _MainPageController extends GetxController {
 
   Future<void> onSearch(final String query) async {
     if (restaurant.value == null) return;
+    if (query.isEmpty) return;
     try {
       await cleanUpMenu();
 
@@ -101,4 +104,8 @@ class _MainPageController extends GetxController {
   Future<void> showAddToCartDialog(final FoodDrinkMenu menu) async {
     await Get.bottomSheet(new _AddToCartDialog(menu: menu));
   }
+
+  @override
+  List<Worker> getWorkers() =>
+      <Worker>[debounce<String>(searchQuery, onSearch)];
 }

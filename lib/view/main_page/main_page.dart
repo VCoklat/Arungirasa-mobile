@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/common/helper.dart';
+import 'package:arungi_rasa/common/mixin_controller_worker.dart';
 import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/food_drink_menu.dart';
@@ -174,6 +175,7 @@ class _SearchTextField extends GetView<_MainPageController> {
             suffixIcon: const Icon(Icons.search),
           ),
           onSubmitted: controller.onSearch,
+          onChanged: ( final text ) => controller.searchQuery.value = text,
         ),
       );
 }
