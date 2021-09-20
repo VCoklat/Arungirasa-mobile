@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 
 class ImageUtil {
@@ -65,6 +66,15 @@ class ImageUtil {
       ),
     );
     if (source == null) return this;
+    if (source == ImageSource.camera) {
+      if (!await Permission.camera.request().isGranted) {
+        return this;
+      }
+    } else {
+      if (!await Permission.storage.request().isGranted) {
+        return this;
+      }
+    }
     final image = await new ImagePicker().pickImage(source: source);
     if (image == null) return this;
     this.image = await image.readAsBytes();
