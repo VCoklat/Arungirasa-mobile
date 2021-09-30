@@ -10,27 +10,32 @@ class ErrorReporter {
 
   ErrorReporter._internal();
 
-  void captureException( final dynamic exception, [ final StackTrace? stackTrace, ] ) {
+  void captureException(
+    final dynamic exception, [
+    final StackTrace? stackTrace,
+  ]) {
     if (kReleaseMode) {
       if (exception is MissingRequiredKeysException ||
           exception is DisallowedNullValueException) {
         FirebaseCrashlytics.instance.recordError(
-          new Exception( exception.message ),
+          Exception(exception.message),
           stackTrace ?? StackTrace.current,
         );
       } else {
-        FirebaseCrashlytics.instance.recordError(exception, stackTrace ?? StackTrace.current );
+        FirebaseCrashlytics.instance
+            .recordError(exception, stackTrace ?? StackTrace.current);
       }
     } else {
       if (exception is MissingRequiredKeysException ||
           exception is DisallowedNullValueException) {
-        print(exception.message);
+        debugPrint(exception.message);
       } else {
-        print(exception);
-        print(stackTrace);
+        debugPrint(exception);
+        debugPrint(stackTrace.toString());
       }
     }
   }
 
-  void setUserContext( final User user ) => FirebaseCrashlytics.instance.setUserIdentifier( user.uid );
+  void setUserContext(final User user) =>
+      FirebaseCrashlytics.instance.setUserIdentifier(user.uid);
 }

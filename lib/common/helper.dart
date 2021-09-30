@@ -7,14 +7,13 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 extension DateTimeToJson on DateTime {
-  String toJson() => new DateFormat("yyyy-MM-dd").format(this);
+  String toJson() => DateFormat("yyyy-MM-dd").format(this);
 }
 
 class Helper {
   static String formatMoney(double amount) =>
       "Rp. " +
-      new NumberFormat(
-              "#,###", Localizations.localeOf(Get.context!).languageCode)
+      NumberFormat("#,###", Localizations.localeOf(Get.context!).languageCode)
           .format(amount.round())
           .replaceAll(",", ".");
 
@@ -62,17 +61,17 @@ class Helper {
     await EasyLoading.showSuccess(text ?? "");
   }
 
-  static SnackBar get doubleBackPressedToExitAppSnackBar => new SnackBar(
-        content: new Text(S.current.doubleBackPressedToExit),
+  static SnackBar get doubleBackPressedToExitAppSnackBar => SnackBar(
+        content: Text(S.current.doubleBackPressedToExit),
         backgroundColor: Get.theme.primaryColor,
       );
 
   static String getAvatarName(final String name) {
     if (name.isEmpty) return "AR";
     final names = name.trim().split(" ");
-    if (names.length == 1 || names.last.isEmpty)
+    if (names.length == 1 || names.last.isEmpty) {
       return names.first.substring(0, 2);
-    else {
+    } else {
       return names.first.substring(0, 1) + names.last.substring(0, 1);
     }
   }

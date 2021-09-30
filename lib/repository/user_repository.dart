@@ -16,18 +16,20 @@ class UserRepository extends GetConnect
 
   Future<User> findMe() async {
     final response = await get("$kRestUrl/user/me");
-    if (response.isOk)
+    if (response.isOk) {
       return User.fromJson(response.body as Map<String, dynamic>);
-    else
+    } else {
       throw getException(response);
+    }
   }
 
   Future<User> activate() async {
     final response = await post("$kRestUrl/user/activate", {});
-    if (response.isOk)
+    if (response.isOk) {
       return User.fromJson(response.body as Map<String, dynamic>);
-    else
+    } else {
       throw getException(response);
+    }
   }
 
   @override

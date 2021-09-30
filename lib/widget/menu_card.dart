@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:octo_image/octo_image.dart';
 
-const _kPriceColor = const Color(0XFFF7931E);
+const _kPriceColor = Color(0XFFF7931E);
 
 class AnimatedMenuCard extends StatelessWidget {
   final FoodDrinkMenu menu;
@@ -22,12 +22,12 @@ class AnimatedMenuCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => new SlideTransition(
+  Widget build(BuildContext context) => SlideTransition(
         position: Tween<Offset>(
           begin: const Offset(-1, 0),
           end: const Offset(0, 0),
         ).animate(animation),
-        child: new MenuCard(
+        child: MenuCard(
           menu: menu,
           onAddPressed: onAddPressed,
         ),
@@ -45,33 +45,27 @@ class MenuCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => new Column(
+  Widget build(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          new LayoutBuilder(
-            builder: (_, constraints) => new SizedBox(
+          LayoutBuilder(
+            builder: (_, constraints) => SizedBox(
               height: constraints.maxWidth * 0.4,
-              child: new Row(
+              child: Row(
                 children: [
                   _getImage(constraints.maxWidth * 0.4),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  new Expanded(
-                    child: new Column(
+                  const SizedBox(width: 5.0),
+                  Expanded(
+                    child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _title,
-                        const SizedBox(
-                          height: 5.0,
-                        ),
+                        const SizedBox(height: 5.0),
                         _description,
-                        const SizedBox(
-                          height: 5.0,
-                        ),
-                        new Row(
+                        const SizedBox(height: 5.0),
+                        Row(
                           textDirection: TextDirection.rtl,
                           children: [
                             _addButton,
@@ -93,9 +87,9 @@ class MenuCard extends StatelessWidget {
         ],
       );
 
-  Widget get _priceText => new Expanded(
-        child: new FittedBox(
-          child: new Text(
+  Widget get _priceText => Expanded(
+        child: FittedBox(
+          child: Text(
             Helper.formatMoney(menu.price.toDouble()),
             style: const TextStyle(
               fontWeight: FontWeight.w600,
@@ -105,10 +99,10 @@ class MenuCard extends StatelessWidget {
         ),
       );
 
-  Widget get _wishlistButton => new SizedBox(
+  Widget get _wishlistButton => SizedBox(
         height: 25.0,
-        child: new IconButton(
-          icon: new ObxValue<RxList<FoodDrinkMenu>>(
+        child: IconButton(
+          icon: ObxValue<RxList<FoodDrinkMenu>>(
             (obs) => obs.any((e) => e.ref == menu.ref)
                 ? const Icon(
                     Icons.favorite_sharp,
@@ -128,18 +122,17 @@ class MenuCard extends StatelessWidget {
 
   Widget get _addButton => onAddPressed == null
       ? const SizedBox()
-      : new SizedBox(
+      : SizedBox(
           height: 25.0,
-          child: new ElevatedButton(
-            child: new Text(S.current.add),
-            style: new ButtonStyle(
+          child: ElevatedButton(
+            child: Text(S.current.add),
+            style: ButtonStyle(
                 padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(horizontal: 5.0)),
+                    const EdgeInsets.symmetric(horizontal: 5.0)),
                 backgroundColor:
                     MaterialStateProperty.all(Get.theme.primaryColor),
-                shape: MaterialStateProperty.all(new RoundedRectangleBorder(
-                    borderRadius:
-                        const BorderRadius.all(const Radius.circular(15.0)))),
+                shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15.0)))),
                 textStyle: MaterialStateProperty.all(const TextStyle(
                   color: Colors.white,
                   fontSize: 12.0,
@@ -149,8 +142,8 @@ class MenuCard extends StatelessWidget {
           ),
         );
 
-  Widget get _description => new Expanded(
-        child: new Text(
+  Widget get _description => Expanded(
+        child: Text(
           menu.description,
           maxLines: null,
           style: const TextStyle(
@@ -159,9 +152,9 @@ class MenuCard extends StatelessWidget {
         ),
       );
 
-  Widget get _title => new Text(
+  Widget get _title => Text(
         menu.name,
-        style: new TextStyle(
+        style: TextStyle(
           fontWeight: FontWeight.w600,
           color: Get.theme.primaryColor,
           fontSize: 18.0,
@@ -169,15 +162,14 @@ class MenuCard extends StatelessWidget {
         ),
       );
 
-  Widget _getImage(final double size) => new SizedBox(
+  Widget _getImage(final double size) => SizedBox(
         width: size,
         height: size,
-        child: new Material(
-          shape: new RoundedRectangleBorder(
-              borderRadius:
-                  const BorderRadius.all(const Radius.circular(15.0))),
+        child: Material(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))),
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: new OctoImage(
+          child: OctoImage(
             image: CachedNetworkImageProvider(menu.imageList.first.url),
             placeholderBuilder:
                 OctoPlaceholder.blurHash(menu.imageList.first.blurhash),

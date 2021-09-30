@@ -18,7 +18,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const _HAS_VIEW_INTRO_KEY = "has-view-intro";
+const _hasViewIntroKey = "has-view-intro";
 
 class NoSessionFoundException implements Exception {
   const NoSessionFoundException();
@@ -45,11 +45,9 @@ class InvalidRefreshTokenException implements Exception {
 
 class SessionService extends GetxService {
   static SessionService get instance => Get.find<SessionService>();
-  final user = new Rxn<User>();
-  final location = new Rx<LatLng>(new LatLng(
-    lat: DEFAULT_LATITUDE,
-    lng: DEFAULT_LONGITUDE,
-  ));
+  final user = Rxn<User>();
+  final location =
+      Rx<LatLng>(const LatLng(lat: kDefaultLatitude, lng: kDefaultLongitude));
 
   late StreamSubscription<User?> sessionSubscription;
 
@@ -67,7 +65,7 @@ class SessionService extends GetxService {
   @override
   void onReady() {
     super.onReady();
-    new Future.delayed(Duration.zero, _initSession);
+    Future.delayed(Duration.zero, _initSession);
   }
 
   @override
@@ -79,15 +77,16 @@ class SessionService extends GetxService {
   void refresh() => user.value = FirebaseAuth.instance.currentUser;
 
   void _initSession() async {
-    await new Future.delayed(const Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     user.value = FirebaseAuth.instance.currentUser;
-    if (user.value == null)
+    if (user.value == null) {
       Get.offAllNamed(Routes.signIn);
-    else if (!await hasViewIntro)
+    } else if (!await hasViewIntro) {
       viewIntro();
-    else
+    } else {
       navigate();
-    if (kDebugMode) print("Access Token: ${(await this.accessToken)}");
+    }
+    if (kDebugMode) debugPrint("Access Token: ${(await accessToken)}");
   }
 
   void navigate() {
@@ -118,14 +117,14 @@ class SessionService extends GetxService {
 
   Future<bool> get hasViewIntro async {
     final preference = await SharedPreferences.getInstance();
-    return preference.containsKey(_HAS_VIEW_INTRO_KEY)
-        ? (preference.getBool(_HAS_VIEW_INTRO_KEY) ?? true)
+    return preference.containsKey(_hasViewIntroKey)
+        ? (preference.getBool(_hasViewIntroKey) ?? true)
         : true;
   }
 
   void setHasViewIntro([final bool hasViewIntro = true]) async {
     final preference = await SharedPreferences.getInstance();
-    preference.setBool(_HAS_VIEW_INTRO_KEY, hasViewIntro);
+    preference.setBool(_hasViewIntroKey, hasViewIntro);
   }
 
   Future<void> viewIntro() async => await Get.offAllNamed(Routes.intro);
@@ -170,7 +169,7 @@ class SessionService extends GetxService {
 
   Future<void> _fetchLocation() async {
     try {
-      final locator = new Location();
+      final locator = Location();
 
       bool serviceEnabled = await locator.serviceEnabled();
       if (!serviceEnabled) {
@@ -187,9 +186,9 @@ class SessionService extends GetxService {
       }
 
       final locationData = await locator.getLocation();
-      location.value = new LatLng(
-        lat: locationData.latitude ?? DEFAULT_LATITUDE,
-        lng: locationData.longitude ?? DEFAULT_LONGITUDE,
+      location.value = LatLng(
+        lat: locationData.latitude ?? kDefaultLatitude,
+        lng: locationData.longitude ?? kDefaultLongitude,
       );
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);

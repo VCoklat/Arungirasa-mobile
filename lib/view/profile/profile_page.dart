@@ -10,29 +10,29 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage();
+  const ProfilePage({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new SafeArea(
-          child: new ListView(
+  Widget build(BuildContext context) => Scaffold(
+        body: SafeArea(
+          child: ListView(
             padding: const EdgeInsets.all(10),
             shrinkWrap: true,
             children: [
               const _ProfileWidget(),
-              new _ProfileListTile(
+              _ProfileListTile(
                 text: S.current.savedAddresses,
                 onPressed: () => Get.toNamed(Routes.address),
               ),
-              new _ProfileListTile(
+              _ProfileListTile(
                 text: S.current.order,
                 onPressed: () => Get.toNamed(Routes.orderList),
               ),
-              new _ProfileListTile(
+              _ProfileListTile(
                 text: "Wish List",
                 onPressed: () => Get.toNamed(Routes.wishList),
               ),
               const _ChangePasswordButton(),
-              new _ProfileListTile(
+              _ProfileListTile(
                 text: S.current.signOut,
                 onPressed: () async {
                   try {
@@ -55,12 +55,12 @@ class ProfilePage extends StatelessWidget {
 class _ChangePasswordButton extends GetView<SessionService> {
   const _ChangePasswordButton();
   @override
-  Widget build(BuildContext context) => new Obx(
+  Widget build(BuildContext context) => Obx(
         () => controller.user.value != null &&
                 controller.user.value!.providerData.any((e) =>
                     e.providerId ==
                     EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD)
-            ? new _ProfileListTile(
+            ? _ProfileListTile(
                 text: S.current.changePassword,
                 onPressed: () => Get.toNamed(Routes.changePassword),
               )
@@ -78,8 +78,8 @@ class _ProfileListTile extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
   @override
-  Widget build(BuildContext context) => new ListTile(
-        title: new Text(
+  Widget build(BuildContext context) => ListTile(
+        title: Text(
           text,
           style: const TextStyle(
             fontWeight: FontWeight.w500,
@@ -97,15 +97,15 @@ class _ProfileListTile extends StatelessWidget {
 class _ProfileWidget extends StatelessWidget {
   const _ProfileWidget();
   @override
-  Widget build(BuildContext context) => new Row(
+  Widget build(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           const _PhotoProfile(),
           const SizedBox(width: 10),
-          new Expanded(
-            child: new Column(
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -119,10 +119,10 @@ class _ProfileWidget extends StatelessWidget {
         ],
       );
 
-  Widget get _editProfileButton => new InkWell(
-        child: new Row(
+  Widget get _editProfileButton => InkWell(
+        child: Row(
           children: [
-            new Text(
+            Text(
               S.current.editProfile,
               style: const TextStyle(
                 color: Colors.grey,
@@ -143,9 +143,9 @@ class _ProfileWidget extends StatelessWidget {
 class _UserDisplayName extends GetView<SessionService> {
   const _UserDisplayName();
   @override
-  Widget build(BuildContext context) => new FittedBox(
-        child: new Obx(
-          () => new Text(
+  Widget build(BuildContext context) => FittedBox(
+        child: Obx(
+          () => Text(
             controller.user.value?.displayName ?? "Arungi Rasa",
             style: const TextStyle(
               fontWeight: FontWeight.bold,
@@ -159,7 +159,7 @@ class _UserDisplayName extends GetView<SessionService> {
 class _PhotoProfile extends GetView<SessionService> {
   const _PhotoProfile();
   @override
-  Widget build(BuildContext context) => new Obx(
+  Widget build(BuildContext context) => Obx(
         () => controller.user.value == null ||
                 controller.user.value?.photoURL == null ||
                 controller.user.value!.photoURL!.isEmpty
@@ -167,18 +167,17 @@ class _PhotoProfile extends GetView<SessionService> {
                 Icons.account_circle_outlined,
                 size: 100,
               )
-            : new Container(
+            : Container(
                 width: 100,
                 height: 100,
-                decoration: new BoxDecoration(
+                decoration: BoxDecoration(
                   color: Get.theme.primaryColor,
                   shape: BoxShape.circle,
                 ),
-                child: new Center(
-                  child: new ClipRRect(
-                    borderRadius:
-                        const BorderRadius.all(const Radius.circular(90)),
-                    child: new CachedNetworkImage(
+                child: Center(
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(90)),
+                    child: CachedNetworkImage(
                       imageUrl: controller.user.value!.photoURL!,
                       width: 98,
                       height: 98,

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class AddressService extends GetxService {
   static AddressService get instance => Get.find<AddressService>();
 
-  final itemList = new RxList<Address>();
+  final itemList = RxList<Address>();
 
   Future<void> load() async {
     try {

@@ -22,9 +22,9 @@ class PaymentRepository extends GetConnect
   }) async {
     final response = await post(
         "$kRestUrl/payment/photo",
-        new FormData({
+        FormData({
           "orderId": orderId,
-          "image": new MultipartFile(image, filename: new Uuid().v4()),
+          "image": MultipartFile(image, filename: const Uuid().v4()),
         }));
     if (response.isOk) {
       return Payment.fromJson(response.body as Map<String, dynamic>);

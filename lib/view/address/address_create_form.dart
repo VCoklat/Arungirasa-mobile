@@ -15,40 +15,40 @@ class _AddressCreateFormPageBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<_AddressCreateFormPageController>(
-        () => new _AddressCreateFormPageController());
+        () => _AddressCreateFormPageController());
   }
 }
 
 class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
-  const AddressCreateFormPage();
+  const AddressCreateFormPage({Key? key}) : super(key: key);
   static _AddressCreateFormPageBinding binding() =>
-      new _AddressCreateFormPageBinding();
+      _AddressCreateFormPageBinding();
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new NestedScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        body: NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
-            new SliverAppBar(
-              title: new Text(
+            SliverAppBar(
+              title: Text(
                 controller.currentAddress.value == null
                     ? S.current.addAddress
                     : S.current.editAddress,
               ),
               actions: [
-                new IconButton(
+                IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: controller.removeAddress,
                 )
               ],
             ),
           ],
-          body: new ListView(
+          body: ListView(
             padding: const EdgeInsets.all(20),
             shrinkWrap: true,
             children: [
-              new Obx(
-                () => new TextField(
+              Obx(
+                () => TextField(
                   controller: controller.nameFieldController,
-                  decoration: new InputDecoration(
+                  decoration: InputDecoration(
                     labelText:
                         "${S.current.name} ( ${S.current.requiredToFill} )",
                     errorText: controller.nameValidator.value,
@@ -57,17 +57,17 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
                 ),
               ),
               const SizedBox(height: 10),
-              new AddressField(
+              AddressField(
                 controller: controller.addressFieldController,
-                decoration: new InputDecoration(
+                decoration: InputDecoration(
                   labelText:
                       "${S.current.address} ( ${S.current.requiredToFill} )",
                 ),
               ),
               const SizedBox(height: 10),
-              new TextField(
+              TextField(
                 controller: controller.detailFieldController,
-                decoration: new InputDecoration(
+                decoration: InputDecoration(
                   labelText: S.current.detail,
                   prefixIcon: const Icon(Icons.note_sharp),
                 ),
@@ -75,19 +75,19 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
                 onChanged: (final text) => controller.detail.value = text,
               ),
               const SizedBox(height: 10),
-              new TextField(
+              TextField(
                 controller: controller.contactNameFieldController,
-                decoration: new InputDecoration(
+                decoration: InputDecoration(
                   labelText: S.current.contactName,
                   prefixIcon: const Icon(Icons.person_sharp),
                 ),
                 onChanged: (final text) => controller.contactName.value = text,
               ),
               const SizedBox(height: 10),
-              new Obx(
-                () => new TextField(
+              Obx(
+                () => TextField(
                   controller: controller.contactPhoneNumberFieldController,
-                  decoration: new InputDecoration(
+                  decoration: InputDecoration(
                     labelText: S.current.contactPhoneNumber,
                     prefixIcon: const Icon(Icons.contact_phone_sharp),
                     errorText: controller.contactPhoneNumberValidator.value,
@@ -98,11 +98,11 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
                 ),
               ),
               const SizedBox(height: 30),
-              new Center(
-                child: new SizedBox(
+              Center(
+                child: SizedBox(
                   width: 250,
-                  child: new LoadingButton(
-                    child: new Text(
+                  child: LoadingButton(
+                    child: Text(
                       controller.currentAddress.value == null
                           ? S.current.addAddress
                           : S.current.editAddress,
@@ -117,11 +117,11 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
                       size: 35,
                       color: Colors.white,
                     ),
-                    style: new ButtonStyle(
+                    style: ButtonStyle(
                         shape: MaterialStateProperty.all(
-                          new RoundedRectangleBorder(
-                              borderRadius: const BorderRadius.all(
-                                  const Radius.circular(30))),
+                          const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))),
                         ),
                         backgroundColor:
                             MaterialStateProperty.all(Get.theme.accentColor),
@@ -141,16 +141,16 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
 
 class _AddressCreateFormPageController extends GetxController
     with MixinControllerWorker {
-  final currentAddress = new Rxn<Address>();
+  final currentAddress = Rxn<Address>();
 
-  final name = new RxString("");
-  final detail = new RxString("");
-  final contactName = new RxString("");
-  final contactPhoneNumber = new RxString("");
+  final name = RxString("");
+  final detail = RxString("");
+  final contactName = RxString("");
+  final contactPhoneNumber = RxString("");
 
-  final nameValidator = new RxnString();
-  final addressValidator = new RxnString();
-  final contactPhoneNumberValidator = new RxnString();
+  final nameValidator = RxnString();
+  final addressValidator = RxnString();
+  final contactPhoneNumberValidator = RxnString();
 
   late TextEditingController nameFieldController;
   late AddressFieldController addressFieldController;
@@ -160,11 +160,11 @@ class _AddressCreateFormPageController extends GetxController
 
   @override
   void onInit() {
-    nameFieldController = new TextEditingController();
-    addressFieldController = new AddressFieldController();
-    detailFieldController = new TextEditingController();
-    contactNameFieldController = new TextEditingController();
-    contactPhoneNumberFieldController = new TextEditingController();
+    nameFieldController = TextEditingController();
+    addressFieldController = AddressFieldController();
+    detailFieldController = TextEditingController();
+    contactNameFieldController = TextEditingController();
+    contactPhoneNumberFieldController = TextEditingController();
     super.onInit();
     if (Get.arguments != null && Get.arguments is Address) {
       currentAddress.value = Get.arguments;
@@ -186,7 +186,7 @@ class _AddressCreateFormPageController extends GetxController
       Helper.showLoading();
       await AddressService.instance.remove(currentAddress.value!);
       Helper.hideLoadingWithSuccess();
-      await new Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       Get.back();
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);
@@ -197,7 +197,7 @@ class _AddressCreateFormPageController extends GetxController
   Future<void> create(final LoadingButtonController controller) async {
     try {
       controller.loading();
-      final data = new CreateUpdateAddress(
+      final data = CreateUpdateAddress(
         name: name.value,
         latitude: addressFieldController.item.value!.geometry.lat,
         longitude: addressFieldController.item.value!.geometry.lng,
@@ -213,7 +213,7 @@ class _AddressCreateFormPageController extends GetxController
         await AddressService.instance.update(currentAddress.value!, data);
       }
       controller.success();
-      await new Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       Get.back();
     } catch (error, st) {
       controller.error();

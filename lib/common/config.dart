@@ -1,26 +1,24 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-const MOCK_HTTP_REQUEST = false;
+const kIgnoreBadCertificate = true;
 
-const IGNORE_BAD_CERTIFICATE = true;
+const _kRestUrlDev = "http://103.98.104.19:2929";
+const _kRestUrl = "http://103.98.104.19:2828";
+const kRestUrl = kReleaseMode ? _kRestUrl : _kRestUrlDev;
 
-const REST_URL_DEV = "http://103.98.104.19:2929";
-const REST_URL = "http://103.98.104.19:2828";
-const kRestUrl = kReleaseMode ? REST_URL : REST_URL_DEV;
+const kCardElevation = 7.0;
 
-const CARD_ELEVATION = 7.0;
+const kTableFontSize = 16.0;
 
-const TABLE_FONT_SIZE = 16.0;
-
-const PHONE_NUMBER_MAX_LENGTH = 15;
+const kPhoneNumberMaxLength = 15;
 
 ///E.164 Standard https://en.wikipedia.org/wiki/E.164
 
-const REST_TIMEOUT = 15000;
+const kRestTimeout = 15000;
 
-const kPriceColor = const Color(0XFFF7931E);
+const kPriceColor = Color(0XFFF7931E);
 
 ///default lat lng Monas Indonesia
-const DEFAULT_LATITUDE = -6.1754137242424445;
-const DEFAULT_LONGITUDE = 106.82715279991743;
+const kDefaultLatitude = -6.1754137242424445;
+const kDefaultLongitude = 106.82715279991743;

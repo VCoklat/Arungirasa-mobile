@@ -1,6 +1,6 @@
 enum PickImageOption {
-  CLOSE,
-  OPEN,
-  CAMERA,
-  GALLERY,
+  close,
+  open,
+  camera,
+  gallery,
 }

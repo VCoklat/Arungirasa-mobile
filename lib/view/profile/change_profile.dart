@@ -17,31 +17,29 @@ class _ChangeProfilePageBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<_ChangeProfilePageController>(
-        () => new _ChangeProfilePageController());
+        () => _ChangeProfilePageController());
   }
 }
 
 class ChangeProfilePage extends GetView<_ChangeProfilePageController> {
-  const ChangeProfilePage();
-  static _ChangeProfilePageBinding binding() => new _ChangeProfilePageBinding();
+  const ChangeProfilePage({Key? key}) : super(key: key);
+  static _ChangeProfilePageBinding binding() => _ChangeProfilePageBinding();
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new NestedScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        body: NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
-            new SliverAppBar(
-              title: new Text(S.current.editProfile),
-            ),
+            SliverAppBar(title: Text(S.current.editProfile)),
           ],
-          body: new ListView(
+          body: ListView(
             shrinkWrap: true,
             padding: const EdgeInsets.all(10),
             children: [
               photoProfile,
               const SizedBox(height: 10),
-              new Obx(
-                () => new TextFormField(
+              Obx(
+                () => TextFormField(
                   initialValue: controller.user.displayName,
-                  decoration: new InputDecoration(
+                  decoration: InputDecoration(
                     labelText: S.current.fullName,
                     prefixIcon: const Icon(Icons.account_circle_sharp),
                     errorText: controller.fullNameValidator.value,
@@ -51,10 +49,10 @@ class ChangeProfilePage extends GetView<_ChangeProfilePageController> {
                 ),
               ),
               const SizedBox(height: 10),
-              new Obx(
-                () => new TextFormField(
+              Obx(
+                () => TextFormField(
                   initialValue: controller.user.email,
-                  decoration: new InputDecoration(
+                  decoration: InputDecoration(
                     labelText: S.current.email,
                     prefixIcon: const Icon(Icons.mail_sharp),
                     errorText: controller.emailValidator.value,
@@ -68,31 +66,31 @@ class ChangeProfilePage extends GetView<_ChangeProfilePageController> {
         ),
       );
 
-  Widget get photoProfile => new Center(
-        child: new Stack(
+  Widget get photoProfile => Center(
+        child: Stack(
           children: [
-            new Container(
+            Container(
               width: 155,
               height: 155,
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                 color: Get.theme.primaryColor,
                 shape: BoxShape.circle,
               ),
-              child: new Center(
-                child: new ClipRRect(
-                  borderRadius: new BorderRadius.circular(90.0),
-                  child: new Obx(
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(90.0),
+                  child: Obx(
                     () {
                       final photoProfile = controller.photoProfile.value;
                       final photoUrl = controller.user.photoURL;
                       if (photoProfile != null) {
-                        return new Image.memory(
+                        return Image.memory(
                           controller.photoProfile.value!,
                           width: 150,
                           height: 150,
                         );
                       } else if (photoUrl != null) {
-                        return new CachedNetworkImage(
+                        return CachedNetworkImage(
                           imageUrl: photoUrl,
                           width: 150,
                           height: 150,
@@ -108,10 +106,10 @@ class ChangeProfilePage extends GetView<_ChangeProfilePageController> {
                 ),
               ),
             ),
-            new Positioned(
+            Positioned(
               left: 107.5,
               top: 107.5,
-              child: new IconButton(
+              child: IconButton(
                 icon: Assets.images.takePhoto.image(width: 45, height: 45),
                 onPressed: controller.pickImage,
               ),
@@ -123,15 +121,15 @@ class ChangeProfilePage extends GetView<_ChangeProfilePageController> {
 
 class _ChangeProfilePageController extends GetxController
     with MixinControllerWorker {
-  final email = new RxString("");
-  final phoneNumber = new RxString("");
-  final fullName = new RxString("");
-  final photoProfile = new Rxn<Uint8List>();
+  final email = RxString("");
+  final phoneNumber = RxString("");
+  final fullName = RxString("");
+  final photoProfile = Rxn<Uint8List>();
   late User user;
 
-  final emailValidator = new RxnString();
-  final phoneNumberValidator = new RxnString();
-  final fullNameValidator = new RxnString();
+  final emailValidator = RxnString();
+  final phoneNumberValidator = RxnString();
+  final fullNameValidator = RxnString();
 
   @override
   void onInit() {
@@ -203,7 +201,7 @@ class _ChangeProfilePageController extends GetxController
   }
 
   Future<void> pickImage() async {
-    final imageUtil = new ImageUtil();
+    final imageUtil = ImageUtil();
     try {
       await imageUtil.pickImage();
       Helper.showLoading();
@@ -217,7 +215,7 @@ class _ChangeProfilePageController extends GetxController
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: true,
         ),
-        iosUiSettings: IOSUiSettings(minimumAspectRatio: 1.0),
+        iosUiSettings: const IOSUiSettings(minimumAspectRatio: 1.0),
       );
       final photoUrl = await imageUtil.uploadToFirebase();
       await user.updatePhotoURL(photoUrl);

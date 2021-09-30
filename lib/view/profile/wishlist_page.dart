@@ -7,28 +7,26 @@ import 'package:get/get.dart';
 class _WishListPageBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<_WishListPageController>(() => new _WishListPageController());
+    Get.lazyPut<_WishListPageController>(() => _WishListPageController());
   }
 }
 
 class WishListPage extends GetView<_WishListPageController> {
-  const WishListPage();
-  static _WishListPageBinding binding() => new _WishListPageBinding();
+  const WishListPage({Key? key}) : super(key: key);
+  static _WishListPageBinding binding() => _WishListPageBinding();
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new NestedScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        body: NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
-            const SliverAppBar(
-              title: const Text("Wish List"),
-            ),
+            const SliverAppBar(title: Text("Wish List")),
           ],
-          body: new Padding(
+          body: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: new AnimatedList(
+            child: AnimatedList(
               key: controller.listState,
               initialItemCount: controller.itemList.length,
               itemBuilder: (_, final int index, final animation) =>
-                  new AnimatedMenuCard(
+                  AnimatedMenuCard(
                 menu: controller.itemList[index],
                 animation: animation,
               ),
@@ -39,7 +37,7 @@ class WishListPage extends GetView<_WishListPageController> {
 }
 
 class _WishListPageController extends GetxController {
-  final listState = new GlobalKey<AnimatedListState>();
+  final listState = GlobalKey<AnimatedListState>();
   final itemList = <FoodDrinkMenu>[];
 
   @override
@@ -66,13 +64,13 @@ class _WishListPageController extends GetxController {
     final item = itemList[index];
     listState.currentState!.removeItem(
       index,
-      (context, animation) => new AnimatedMenuCard(
+      (context, animation) => AnimatedMenuCard(
         menu: item,
         animation: animation,
       ),
       duration: const Duration(milliseconds: 300),
     );
-    new Future.delayed(const Duration(milliseconds: 500)).then(
+    Future.delayed(const Duration(milliseconds: 500)).then(
       (_) => itemList.removeAt(index),
     );
   }

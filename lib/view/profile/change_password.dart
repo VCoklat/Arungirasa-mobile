@@ -12,30 +12,27 @@ class _ChangePasswordPageBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<_ChangePasswordPageController>(
-        () => new _ChangePasswordPageController());
+        () => _ChangePasswordPageController());
   }
 }
 
 class ChangePasswordPage extends GetView<_ChangePasswordPageController> {
-  const ChangePasswordPage();
-  static _ChangePasswordPageBinding binding() =>
-      new _ChangePasswordPageBinding();
+  const ChangePasswordPage({Key? key}) : super(key: key);
+  static _ChangePasswordPageBinding binding() => _ChangePasswordPageBinding();
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new NestedScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        body: NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
-            new SliverAppBar(
-              title: new Text(S.current.changePassword),
-            ),
+            SliverAppBar(title: Text(S.current.changePassword)),
           ],
-          body: new ListView(
+          body: ListView(
             shrinkWrap: true,
             padding: const EdgeInsets.all(10),
             children: [
               const SizedBox(height: 10),
-              new TextFormField(
+              TextFormField(
                 initialValue: controller.user.email,
-                decoration: new InputDecoration(
+                decoration: InputDecoration(
                   labelText: S.current.email,
                   prefixIcon: const Icon(Icons.mail_sharp),
                 ),
@@ -48,12 +45,10 @@ class ChangePasswordPage extends GetView<_ChangePasswordPageController> {
               const SizedBox(height: 10),
               const _ConfirmPassword(),
               const SizedBox(height: 20),
-              new Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                ),
-                child: new LoadingButton(
-                  child: new Text(S.current.changePassword),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: LoadingButton(
+                  child: Text(S.current.changePassword),
                   successChild: const Icon(
                     Icons.check_sharp,
                     size: 35,
@@ -64,11 +59,11 @@ class ChangePasswordPage extends GetView<_ChangePasswordPageController> {
                     size: 35,
                     color: Colors.white,
                   ),
-                  style: new ButtonStyle(
+                  style: ButtonStyle(
                       shape: MaterialStateProperty.all(
-                        new RoundedRectangleBorder(
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(30))),
+                        const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
                       ),
                       backgroundColor:
                           MaterialStateProperty.all(Get.theme.primaryColor),
@@ -88,18 +83,18 @@ class ChangePasswordPage extends GetView<_ChangePasswordPageController> {
 
 class _ChangePasswordPageController extends GetxController
     with MixinControllerWorker {
-  final oldPassword = new RxString("");
-  final newPassword = new RxString("");
-  final confirmPassword = new RxString("");
+  final oldPassword = RxString("");
+  final newPassword = RxString("");
+  final confirmPassword = RxString("");
   late User user;
 
-  final oldPasswordValidator = new RxnString();
-  final newPasswordValidator = new RxnString();
-  final confirmPasswordValidator = new RxnString();
+  final oldPasswordValidator = RxnString();
+  final newPasswordValidator = RxnString();
+  final confirmPasswordValidator = RxnString();
 
-  final obscureOldPassword = new RxBool(true);
-  final obscureNewPassword = new RxBool(true);
-  final obscureConfirmPassword = new RxBool(true);
+  final obscureOldPassword = RxBool(true);
+  final obscureNewPassword = RxBool(true);
+  final obscureConfirmPassword = RxBool(true);
 
   @override
   void onInit() {
@@ -130,9 +125,9 @@ class _ChangePasswordPageController extends GetxController
       controller.success();
     } on FirebaseAuthException catch (error, st) {
       controller.error();
-      if (error.code == "wrong-password")
+      if (error.code == "wrong-password") {
         oldPasswordValidator.value = S.current.errorPasswordInvalid;
-      else if (error.code == "weak-password") {
+      } else if (error.code == "weak-password") {
         newPasswordValidator.value = S.current.errorNewPasswordTooWeak;
       } else if (error.code == "too-many-requests") {
         Helper.showError(text: S.current.tooManyRequests);
@@ -187,22 +182,22 @@ class _OldPassword extends GetView<_ChangePasswordPageController> {
   const _OldPassword();
 
   @override
-  Widget build(BuildContext context) => new Obx(
-        () => new TextField(
-          decoration: new InputDecoration(
+  Widget build(BuildContext context) => Obx(
+        () => TextField(
+          decoration: InputDecoration(
             labelText: S.current.oldPassword,
-            prefixIcon: new Icon(
+            prefixIcon: Icon(
               Icons.lock_open_outlined,
               color: Get.theme.primaryColor,
             ),
             errorText: controller.oldPasswordValidator.value,
-            suffixIcon: new InkWell(
-              child: new Obx(() => controller.obscureOldPassword.value
-                  ? new Icon(
+            suffixIcon: InkWell(
+              child: Obx(() => controller.obscureOldPassword.value
+                  ? Icon(
                       Icons.visibility,
                       color: Get.theme.primaryColor,
                     )
-                  : new Icon(
+                  : Icon(
                       Icons.visibility_off,
                       color: Get.theme.primaryColor,
                     )),
@@ -219,22 +214,22 @@ class _NewPassword extends GetView<_ChangePasswordPageController> {
   const _NewPassword();
 
   @override
-  Widget build(BuildContext context) => new Obx(
-        () => new TextField(
-          decoration: new InputDecoration(
+  Widget build(BuildContext context) => Obx(
+        () => TextField(
+          decoration: InputDecoration(
             labelText: S.current.newPassword,
-            prefixIcon: new Icon(
+            prefixIcon: Icon(
               Icons.lock_open_outlined,
               color: Get.theme.primaryColor,
             ),
             errorText: controller.newPasswordValidator.value,
-            suffixIcon: new InkWell(
-              child: new Obx(() => controller.obscureNewPassword.value
-                  ? new Icon(
+            suffixIcon: InkWell(
+              child: Obx(() => controller.obscureNewPassword.value
+                  ? Icon(
                       Icons.visibility,
                       color: Get.theme.primaryColor,
                     )
-                  : new Icon(
+                  : Icon(
                       Icons.visibility_off,
                       color: Get.theme.primaryColor,
                     )),
@@ -251,22 +246,22 @@ class _ConfirmPassword extends GetView<_ChangePasswordPageController> {
   const _ConfirmPassword();
 
   @override
-  Widget build(BuildContext context) => new Obx(
-        () => new TextField(
-          decoration: new InputDecoration(
+  Widget build(BuildContext context) => Obx(
+        () => TextField(
+          decoration: InputDecoration(
             labelText: S.current.confirmPassword,
-            prefixIcon: new Icon(
+            prefixIcon: Icon(
               Icons.lock_open_outlined,
               color: Get.theme.primaryColor,
             ),
             errorText: controller.confirmPasswordValidator.value,
-            suffixIcon: new InkWell(
-              child: new Obx(() => controller.obscureConfirmPassword.value
-                  ? new Icon(
+            suffixIcon: InkWell(
+              child: Obx(() => controller.obscureConfirmPassword.value
+                  ? Icon(
                       Icons.visibility,
                       color: Get.theme.primaryColor,
                     )
-                  : new Icon(
+                  : Icon(
                       Icons.visibility_off,
                       color: Get.theme.primaryColor,
                     )),

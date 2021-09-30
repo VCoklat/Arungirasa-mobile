@@ -1,12 +1,12 @@
 part of 'order_page.dart';
 
 class _OrderPageController extends GetxController {
-  final order = new Rxn<Order>();
-  final onLoading = new RxBool(true);
-  final isError = new RxBool(false);
-  final paymentImage = new Rxn<Uint8List>();
-  final hasGiveRatingFuture = new Rxn<Future<bool>>();
-  final rating = new Rxn<Rating>();
+  final order = Rxn<Order>();
+  final onLoading = RxBool(true);
+  final isError = RxBool(false);
+  final paymentImage = Rxn<Uint8List>();
+  final hasGiveRatingFuture = Rxn<Future<bool>>();
+  final rating = Rxn<Rating>();
 
   late Timer timer;
 
@@ -31,6 +31,15 @@ class _OrderPageController extends GetxController {
           .fold<double>(.0, (prev, e) => prev + (e.menu.price * e.qty)) ??
       .0;
 
+  double get transportCost =>
+      order.value == null || order.value!.menuList.isEmpty
+          ? .0
+          : order.value!.menuList.first.menu.restaurant.transportFee.toDouble();
+
+  double get appCost => order.value == null || order.value!.menuList.isEmpty
+      ? .0
+      : order.value!.menuList.first.menu.restaurant.appFee.toDouble();
+
   @override
   void onInit() {
     super.onInit();
@@ -43,18 +52,13 @@ class _OrderPageController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    new Future.delayed(Duration.zero, loadOrder);
+    Future.delayed(Duration.zero, loadOrder);
   }
 
   @override
   void onClose() {
     timer.cancel();
     super.onClose();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   Future<void> loadOrder() async {
@@ -126,8 +130,8 @@ class _OrderPageController extends GetxController {
         image: paymentImage.value!,
       );
       await controller.success();
-      await new Future.delayed(const Duration(milliseconds: 500));
-      new Future.delayed(Duration.zero, loadOrder);
+      await Future.delayed(const Duration(milliseconds: 500));
+      Future.delayed(Duration.zero, loadOrder);
     } catch (err, st) {
       ErrorReporter.instance.captureException(err, st);
       controller.error();
@@ -137,28 +141,28 @@ class _OrderPageController extends GetxController {
   Future<void> selectImage() async {
     try {
       final option = await Get.bottomSheet<PickImageOption>(
-        new SizedBox(
+        SizedBox(
           width: Get.width,
-          child: new Material(
-            child: new Padding(
+          child: Material(
+            child: Padding(
               padding: const EdgeInsets.all(10.0),
-              child: new ListView(
+              child: ListView(
                 shrinkWrap: true,
                 children: <Widget?>[
-                  new ListTile(
-                    title: new Text("close".tr),
+                  ListTile(
+                    title: Text("close".tr),
                     leading: const Icon(Icons.close),
-                    onTap: () => Get.back(result: PickImageOption.CLOSE),
+                    onTap: () => Get.back(result: PickImageOption.close),
                   ),
-                  new ListTile(
-                    title: new Text("camera".tr),
+                  ListTile(
+                    title: Text("camera".tr),
                     leading: const Icon(Icons.camera),
-                    onTap: () => Get.back(result: PickImageOption.CAMERA),
+                    onTap: () => Get.back(result: PickImageOption.camera),
                   ),
-                  new ListTile(
-                    title: new Text("gallery".tr),
+                  ListTile(
+                    title: Text("gallery".tr),
                     leading: const Icon(Icons.camera_alt),
-                    onTap: () => Get.back(result: PickImageOption.GALLERY),
+                    onTap: () => Get.back(result: PickImageOption.gallery),
                   ),
                 ]
                     .where((e) => e != null)
@@ -171,10 +175,10 @@ class _OrderPageController extends GetxController {
       );
       ScannerFileSource? source;
       switch (option) {
-        case PickImageOption.CAMERA:
+        case PickImageOption.camera:
           source = ScannerFileSource.CAMERA;
           break;
-        case PickImageOption.GALLERY:
+        case PickImageOption.gallery:
           source = ScannerFileSource.GALLERY;
           break;
         default:
@@ -206,7 +210,7 @@ class _OrderPageController extends GetxController {
   }
 
   Future<Uint8List> _compressImage(final File file) async {
-    final imageUtil = new ImageUtil();
+    final imageUtil = ImageUtil();
     await imageUtil.loadImageFromFile(file);
     return await imageUtil.compress();
   }

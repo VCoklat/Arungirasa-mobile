@@ -31,29 +31,29 @@ part 'cart.button.dart';
 part 'add.to.cart.dialog.dart';
 part 'order.widget.dart';
 
-const _kPriceColor = const Color(0XFFF7931E);
+const _kPriceColor = Color(0XFFF7931E);
 
 class MainPageBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<_MainPageController>(() => new _MainPageController());
+    Get.lazyPut<_MainPageController>(() => _MainPageController());
   }
 }
 
 class MainPage extends GetView<_MainPageController> {
-  const MainPage();
+  const MainPage({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new NestedScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        body: NestedScrollView(
           headerSliverBuilder: (_, __) => [
-            new SliverAppBar(
+            SliverAppBar(
               centerTitle: true,
               backgroundColor: Get.theme.scaffoldBackgroundColor,
               elevation: 0.0,
               title: const _RestaurantSelector(),
               leading: const _UserPhotoProfile(),
               actions: [
-                new IconButton(
+                IconButton(
                   icon: const Icon(Icons.chat_bubble_outline_sharp),
                   color: Get.theme.primaryColor,
                   onPressed: () => Get.toNamed(Routes.chat),
@@ -61,20 +61,20 @@ class MainPage extends GetView<_MainPageController> {
               ],
             ),
           ],
-          body: new RefreshIndicator(
+          body: RefreshIndicator(
             key: controller.refreshKey,
             onRefresh: controller.onRefresh,
-            child: new Padding(
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: new Stack(
+              child: Stack(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                children: [
-                  const _MainPageContent(),
-                  new Positioned(
+                children: const [
+                  _MainPageContent(),
+                  Positioned(
                     bottom: 10,
                     left: 10,
                     right: 10,
-                    child: const _OrderList(),
+                    child: _OrderList(),
                   ),
                 ],
               ),
@@ -88,7 +88,7 @@ class MainPage extends GetView<_MainPageController> {
 class _MainPageContent extends GetView<_MainPageController> {
   const _MainPageContent();
   @override
-  Widget build(BuildContext context) => new Column(
+  Widget build(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(
@@ -106,13 +106,13 @@ class _MainPageContent extends GetView<_MainPageController> {
           const SizedBox(
             height: 10.0,
           ),
-          new Expanded(
-            child: new SingleChildScrollView(
-              child: new AnimatedList(
+          Expanded(
+            child: SingleChildScrollView(
+              child: AnimatedList(
                 key: controller.menuListKey,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (_, index, animation) => new AnimatedMenuCard(
+                itemBuilder: (_, index, animation) => AnimatedMenuCard(
                   menu: controller.menuList[index],
                   animation: animation,
                   onAddPressed: controller.showAddToCartDialog,
@@ -127,24 +127,24 @@ class _MainPageContent extends GetView<_MainPageController> {
 class _UserPhotoProfile extends StatelessWidget {
   const _UserPhotoProfile();
   @override
-  Widget build(BuildContext context) => new InkWell(
-        child: new Padding(
+  Widget build(BuildContext context) => InkWell(
+        child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Container(
+          child: SizedBox(
             width: 40.0,
             height: 60.0,
-            child: new Material(
-              shape: new ContinuousRectangleBorder(
-                borderRadius: const BorderRadius.all(const Radius.circular(15)),
+            child: Material(
+              shape: const ContinuousRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
               ),
               clipBehavior: Clip.antiAliasWithSaveLayer,
               borderOnForeground: true,
-              child: new ObxValue<Rxn<User>>(
+              child: ObxValue<Rxn<User>>(
                 (data) => data.value == null || data.value?.photoURL == null
                     ? Assets.images.placeholderProfile.image(
                         fit: BoxFit.cover,
                       )
-                    : new Image.network(
+                    : Image.network(
                         data.value!.photoURL!,
                         fit: BoxFit.cover,
                       ),
@@ -160,22 +160,20 @@ class _UserPhotoProfile extends StatelessWidget {
 class _SearchTextField extends GetView<_MainPageController> {
   const _SearchTextField({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) => new SizedBox(
+  Widget build(BuildContext context) => SizedBox(
         height: 40,
-        child: new TextField(
+        child: TextField(
           controller: controller.searchController,
-          decoration: new InputDecoration(
+          decoration: InputDecoration(
             labelText: S.current.searchCulinary,
-            border: new OutlineInputBorder(
-                borderRadius:
-                    const BorderRadius.all(const Radius.circular(30))),
-            focusedBorder: new OutlineInputBorder(
-                borderRadius:
-                    const BorderRadius.all(const Radius.circular(30))),
+            border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+            focusedBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30))),
             suffixIcon: const Icon(Icons.search),
           ),
           onSubmitted: controller.onSearch,
-          onChanged: ( final text ) => controller.searchQuery.value = text,
+          onChanged: (final text) => controller.searchQuery.value = text,
         ),
       );
 }

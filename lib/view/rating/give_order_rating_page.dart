@@ -16,33 +16,30 @@ class _GiveOrderRatingPageBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<_GiveOrderRatingPageController>(
-        () => new _GiveOrderRatingPageController());
+        () => _GiveOrderRatingPageController());
   }
 }
 
 class GiveOrderRatingPage extends GetView<_GiveOrderRatingPageController> {
-  const GiveOrderRatingPage();
-  static _GiveOrderRatingPageBinding binding() =>
-      new _GiveOrderRatingPageBinding();
+  const GiveOrderRatingPage({Key? key}) : super(key: key);
+  static _GiveOrderRatingPageBinding binding() => _GiveOrderRatingPageBinding();
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new NestedScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        body: NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
-            new SliverAppBar(
-              title: new Text(S.current.giveRating),
-            ),
+            SliverAppBar(title: Text(S.current.giveRating)),
           ],
-          body: new Obx(
+          body: Obx(
             () {
               if (controller.onLoading.value) {
                 return const _LoadingWidget();
               } else if (controller.isError.value) {
-                return new _ErrorWidget(controller.loadOrder);
+                return _ErrorWidget(controller.loadOrder);
               } else if (controller.order.value == null) {
                 return const _NotFoundWidget();
               } else {
-                return new SingleChildScrollView(
-                  child: const _RatingWidget(),
+                return const SingleChildScrollView(
+                  child: _RatingWidget(),
                 );
               }
             },
@@ -54,24 +51,24 @@ class GiveOrderRatingPage extends GetView<_GiveOrderRatingPageController> {
 class _RatingWidget extends GetView<_GiveOrderRatingPageController> {
   const _RatingWidget();
   @override
-  Widget build(BuildContext context) => new Padding(
+  Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.all(20.0),
-        child: new Column(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const _RestaurantWidget(),
             const Divider(),
-            new SizedBox(
+            SizedBox(
               height: 100,
-              child: new Obx(
+              child: Obx(
                 () => controller.order.value!.menuList.length == 1
-                    ? new _OrderItem(
+                    ? _OrderItem(
                         orderMenu: controller.order.value!.menuList.first,
                       )
-                    : new Swiper(
+                    : Swiper(
                         itemCount: controller.order.value!.menuList.length,
                         autoplay: true,
-                        itemBuilder: (_, final int index) => new _OrderItem(
+                        itemBuilder: (_, final int index) => _OrderItem(
                           orderMenu: controller.order.value!.menuList[index],
                         ),
                       ),
@@ -80,29 +77,29 @@ class _RatingWidget extends GetView<_GiveOrderRatingPageController> {
             const Divider(),
             const Text(
               "Rating",
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.grey,
                 fontSize: 12.0,
               ),
             ),
-            new RatingBar.builder(
+            RatingBar.builder(
               initialRating: controller.rating,
               minRating: 1,
               direction: Axis.horizontal,
               allowHalfRating: true,
               itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-              itemBuilder: (context, _) => Icon(
+              itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+              itemBuilder: (context, _) => const Icon(
                 Icons.star,
                 color: Colors.amber,
               ),
               onRatingUpdate: (rating) => controller.rating = rating,
             ),
             const Divider(),
-            new Padding(
+            Padding(
               padding: const EdgeInsets.all(20),
-              child: new LoadingButton(
-                child: new Text(S.current.send),
+              child: LoadingButton(
+                child: Text(S.current.send),
                 successChild: const Icon(
                   Icons.check_sharp,
                   size: 35,
@@ -113,11 +110,10 @@ class _RatingWidget extends GetView<_GiveOrderRatingPageController> {
                   size: 35,
                   color: Colors.white,
                 ),
-                style: new ButtonStyle(
+                style: ButtonStyle(
                     shape: MaterialStateProperty.all(
-                      new RoundedRectangleBorder(
-                          borderRadius: const BorderRadius.all(
-                              const Radius.circular(30))),
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
                     ),
                     backgroundColor:
                         MaterialStateProperty.all(Get.theme.accentColor),
@@ -136,17 +132,17 @@ class _RatingWidget extends GetView<_GiveOrderRatingPageController> {
 class _RestaurantWidget extends GetView<_GiveOrderRatingPageController> {
   const _RestaurantWidget();
   @override
-  Widget build(BuildContext context) => new Column(
+  Widget build(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
             "Restaurant",
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.grey,
               fontSize: 12.0,
             ),
           ),
-          new Text(
+          Text(
             controller.order.value!.menuList.first.menu.restaurant.name,
             style: const TextStyle(
               fontSize: 18.0,
@@ -161,29 +157,29 @@ class _OrderItem extends StatelessWidget {
   final OrderMenu orderMenu;
   const _OrderItem({Key? key, required this.orderMenu}) : super(key: key);
   @override
-  Widget build(BuildContext context) => new Column(
+  Widget build(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          new Text(
+          Text(
             orderMenu.menu.name,
-            style: new TextStyle(
+            style: TextStyle(
               color: Get.theme.primaryColor,
               fontFamily: FontFamily.monetaSans,
               fontSize: 24,
             ),
           ),
-          new Text(
+          Text(
             Helper.formatMoney(orderMenu.menu.price.toDouble()),
-            style: new TextStyle(
+            style: const TextStyle(
               color: kPriceColor,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 10),
-          new RichText(
-            text: new TextSpan(
+          RichText(
+            text: TextSpan(
               children: <TextSpan>[
-                new TextSpan(
+                TextSpan(
                   text: orderMenu.qty.toString() + " ",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -191,7 +187,7 @@ class _OrderItem extends StatelessWidget {
                     fontSize: 30,
                   ),
                 ),
-                new TextSpan(
+                TextSpan(
                   text: S.current.portion,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -207,30 +203,15 @@ class _OrderItem extends StatelessWidget {
 }
 
 class _GiveOrderRatingPageController extends GetxController {
-  final order = new Rxn<Order>();
-  final onLoading = new RxBool(true);
-  final isError = new RxBool(false);
+  final order = Rxn<Order>();
+  final onLoading = RxBool(true);
+  final isError = RxBool(false);
   double rating = .0;
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void onReady() {
     super.onReady();
-    new Future.delayed(Duration.zero, loadOrder);
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    Future.delayed(Duration.zero, loadOrder);
   }
 
   Future<void> loadOrder() async {
@@ -260,7 +241,7 @@ class _GiveOrderRatingPageController extends GetxController {
         rating: rating,
       );
       await controller.success();
-      await new Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       Get.back();
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);
@@ -272,28 +253,24 @@ class _GiveOrderRatingPageController extends GetxController {
 class _NotFoundWidget extends StatelessWidget {
   const _NotFoundWidget();
   @override
-  Widget build(BuildContext context) => new Center(
-        child: new Text(
-          S.current.orderWasNotFound,
-        ),
+  Widget build(BuildContext context) => Center(
+        child: Text(S.current.orderWasNotFound),
       );
 }
 
 class _LoadingWidget extends StatelessWidget {
   const _LoadingWidget();
   @override
-  Widget build(BuildContext context) => new Center(
-        child: new Column(
+  Widget build(BuildContext context) => Center(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            new Text(
-              S.current.pleaseWait,
-            ),
+            Text(S.current.pleaseWait),
             const SizedBox(height: 10),
-            new Center(
-              child: new CircularProgressIndicator(
+            Center(
+              child: CircularProgressIndicator(
                 valueColor:
-                    new AlwaysStoppedAnimation<Color>(Get.theme.primaryColor),
+                    AlwaysStoppedAnimation<Color>(Get.theme.primaryColor),
               ),
             ),
           ],
@@ -305,15 +282,13 @@ class _ErrorWidget extends StatelessWidget {
   final VoidCallback onRefresh;
   const _ErrorWidget(this.onRefresh);
   @override
-  Widget build(BuildContext context) => new Center(
-        child: new Column(
+  Widget build(BuildContext context) => Center(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            new Text(
-              S.current.errorOccurred,
-            ),
+            Text(S.current.errorOccurred),
             const SizedBox(height: 10),
-            new IconButton(
+            IconButton(
               icon: const Icon(Icons.refresh_sharp),
               color: Get.theme.primaryColor,
               iconSize: 48.0,

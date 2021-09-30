@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 class WishListService extends GetxService {
   static WishListService get instance => Get.find<WishListService>();
 
-  final itemList = new RxList<FoodDrinkMenu>();
+  final itemList = RxList<FoodDrinkMenu>();
 
   int get count => itemList.length;
 
@@ -44,12 +44,15 @@ class WishListService extends GetxService {
       if (index == -1) {
         final cart = await WishListRepository.instance.create(menu);
         itemList.add(cart);
-        for (final callback in _onAddIndexCallbackList)
+        for (final callback in _onAddIndexCallbackList) {
           callback(itemList.length - 1);
+        }
       } else {
         await WishListRepository.instance.remove(menu);
         itemList.removeAt(index);
-        for (final callback in _onRemoveIndexCallbackList) callback(index);
+        for (final callback in _onRemoveIndexCallbackList) {
+          callback(index);
+        }
       }
       Helper.hideLoadingWithSuccess();
     } catch (error, st) {

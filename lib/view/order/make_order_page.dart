@@ -10,8 +10,10 @@ import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/cart.dart';
 import 'package:arungi_rasa/repository/order_repository.dart';
 import 'package:arungi_rasa/repository/payment_repository.dart';
+import 'package:arungi_rasa/repository/restaurant_repository.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
 import 'package:arungi_rasa/service/order_service.dart';
+import 'package:arungi_rasa/service/session_service.dart';
 import 'package:arungi_rasa/util/image_util.dart';
 import 'package:arungi_rasa/widget/saved_address_field.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -25,25 +27,23 @@ import 'package:octo_image/octo_image.dart';
 class _MakeOrderPageBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<_MakeOrderPageController>(() => new _MakeOrderPageController());
+    Get.lazyPut<_MakeOrderPageController>(() => _MakeOrderPageController());
   }
 }
 
 class MakeOrderPage extends GetView<_MakeOrderPageController> {
-  const MakeOrderPage();
-  static _MakeOrderPageBinding binding() => new _MakeOrderPageBinding();
+  const MakeOrderPage({Key? key}) : super(key: key);
+  static _MakeOrderPageBinding binding() => _MakeOrderPageBinding();
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new NestedScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        body: NestedScrollView(
           headerSliverBuilder: (_, __) => [
-            new SliverAppBar(
-              title: new Text(S.current.order),
-            ),
+            SliverAppBar(title: Text(S.current.order)),
           ],
-          body: new Padding(
+          body: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: new SingleChildScrollView(
-              child: new Column(
+            child: SingleChildScrollView(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _addressField,
@@ -55,8 +55,8 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
                   _payment,
                   const Divider(),
                   const SizedBox(height: 10),
-                  new LoadingButton(
-                    child: new Text(S.current.processTransaction),
+                  LoadingButton(
+                    child: Text(S.current.processTransaction),
                     successChild: const Icon(
                       Icons.check_sharp,
                       size: 35,
@@ -67,11 +67,11 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
                       size: 35,
                       color: Colors.white,
                     ),
-                    style: new ButtonStyle(
+                    style: ButtonStyle(
                         shape: MaterialStateProperty.all(
-                          new RoundedRectangleBorder(
-                              borderRadius: const BorderRadius.all(
-                                  const Radius.circular(30))),
+                          const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))),
                         ),
                         backgroundColor:
                             MaterialStateProperty.all(Get.theme.accentColor),
@@ -88,23 +88,21 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
         ),
       );
 
-  Widget get _payment => new Column(
+  Widget get _payment => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          new Text(
+          Text(
             S.current.payment,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          new Text(
+          Text(
             S.current.uploadPayment,
-            style: const TextStyle(
-              fontSize: 14.0,
-            ),
+            style: const TextStyle(fontSize: 14.0),
           ),
           const SizedBox(height: 10),
-          new InkWell(
-            child: new Obx(
+          InkWell(
+            child: Obx(
               () => controller.paymentImage.value == null
                   ? Assets.images.proveOfPaymentUpload.image()
                   : Image.memory(controller.paymentImage.value!),
@@ -115,61 +113,67 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
         ],
       );
 
-  Widget get _paymentSummary => new Column(
+  Widget get _paymentSummary => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          new Text(
+          Text(
             S.current.paymentSummary,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          new Row(
+          Row(
             children: [
-              new Text(S.current.price),
-              new Expanded(
-                  child: new Obx(() => new Text(
+              Text(S.current.price),
+              Expanded(
+                  child: Obx(() => Text(
                         Helper.formatMoney(controller.total),
                         textAlign: TextAlign.right,
                       ))),
             ],
           ),
           const SizedBox(height: 5),
-          new Row(
+          Row(
             children: [
-              new Text(S.current.transportCost),
-              new Expanded(
-                  child: new Text(
-                Helper.formatMoney(8000),
-                textAlign: TextAlign.right,
-              )),
+              Text(S.current.transportCost),
+              Expanded(
+                child: Obx(
+                  () => Text(
+                    Helper.formatMoney(controller.transportCost),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+              ),
             ],
           ),
-          new Row(
+          Row(
             children: [
-              new Text(S.current.appFee),
-              new Expanded(
-                  child: new Text(
-                Helper.formatMoney(3000),
-                textAlign: TextAlign.right,
-              )),
+              Text(S.current.appFee),
+              Expanded(
+                child: Obx(
+                  () => Text(
+                    Helper.formatMoney(controller.appCost),
+                    textAlign: TextAlign.right,
+                  ),
+                ),
+              ),
             ],
           ),
-          new Row(
+          Row(
             children: [
-              new Text(S.current.discount),
-              new Expanded(
-                  child: new Text(
+              Text(S.current.discount),
+              Expanded(
+                  child: Text(
                 Helper.formatMoney(0),
                 textAlign: TextAlign.right,
               )),
             ],
           ),
           const Divider(),
-          new Row(
+          Row(
             children: [
-              new Text(S.current.totalPayment),
-              new Expanded(
-                  child: new Obx(() => new Text(
+              Text(S.current.totalPayment),
+              Expanded(
+                  child: Obx(() => Text(
                         Helper.formatMoney(controller.total + 8000 + 3000),
                         textAlign: TextAlign.right,
                       ))),
@@ -180,7 +184,7 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
         ],
       );
 
-  Widget get _itemList => new Obx(
+  Widget get _itemList => Obx(
         () => ListView.separated(
           itemCount: controller.itemList.length,
           separatorBuilder: (_, __) => const SizedBox(height: 10),
@@ -193,18 +197,14 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
         ),
       );
 
-  Widget get _addressDetailField => new TextField(
-        decoration: new InputDecoration(
-          hintText: S.current.sentAddressDetail,
-        ),
+  Widget get _addressDetailField => TextField(
+        decoration: InputDecoration(hintText: S.current.sentAddressDetail),
         onChanged: (final text) => controller.addressDetail.value = text,
       );
 
-  Widget get _addressField => new SavedAddressField(
+  Widget get _addressField => SavedAddressField(
         controller: controller.addressFieldController,
-        decoration: new InputDecoration(
-          labelText: S.current.sentAddress,
-        ),
+        decoration: InputDecoration(labelText: S.current.sentAddress),
       );
 }
 
@@ -219,26 +219,36 @@ class _CartItemNote {
 }
 
 class _MakeOrderPageController extends GetxController {
-  final addressDetail = new RxString("");
+  final addressDetail = RxString("");
   final itemList = RxList<_CartItemNote>();
-  final paymentImage = new Rxn<Uint8List>();
+  final paymentImage = Rxn<Uint8List>();
+
+  final distance = RxDouble(.0);
 
   late SavedAddressFieldController addressFieldController;
 
   double get total => itemList.fold(
       0, (prev, e) => prev + e.cart.value.qty * e.cart.value.price);
 
+  double get transportCost => itemList.isEmpty
+      ? .0
+      : itemList.first.cart.value.menu.restaurant.transportFee.toDouble();
+
+  double get appCost => itemList.isEmpty
+      ? .0
+      : itemList.first.cart.value.menu.restaurant.appFee.toDouble();
+
   @override
   void onInit() {
-    itemList
-        .assignAll(CartService.instance.itemList.map((e) => new _CartItemNote(
-              cart: new Rx<Cart>(e),
-              note: new Rx<String>(""),
-            )));
-    addressFieldController = new SavedAddressFieldController();
+    itemList.assignAll(CartService.instance.itemList.map((e) => _CartItemNote(
+          cart: Rx<Cart>(e),
+          note: Rx<String>(""),
+        )));
+    addressFieldController = SavedAddressFieldController();
     CartService.instance.addOnRemoveIndexCallback(_onRemove);
     CartService.instance.addOnQtyChangedIndexCallback(_onQtyChanged);
     super.onInit();
+    Future.delayed(Duration.zero, _loadDistance);
   }
 
   @override
@@ -254,6 +264,14 @@ class _MakeOrderPageController extends GetxController {
     super.dispose();
   }
 
+  void _loadDistance() {
+    if (itemList.isEmpty) return;
+    RestaurantRepository.instance.distance(
+      ref: itemList.first.cart.value.menu.restaurant.ref,
+      latLng: SessionService.instance.location.value,
+    );
+  }
+
   void _onRemove(final int index) {
     itemList.removeAt(index);
   }
@@ -265,28 +283,28 @@ class _MakeOrderPageController extends GetxController {
   Future<void> selectImage() async {
     try {
       final option = await Get.bottomSheet<PickImageOption>(
-        new SizedBox(
+        SizedBox(
           width: Get.width,
-          child: new Material(
-            child: new Padding(
+          child: Material(
+            child: Padding(
               padding: const EdgeInsets.all(10.0),
-              child: new ListView(
+              child: ListView(
                 shrinkWrap: true,
                 children: <Widget?>[
-                  new ListTile(
-                    title: new Text("close".tr),
+                  ListTile(
+                    title: Text("close".tr),
                     leading: const Icon(Icons.close),
-                    onTap: () => Get.back(result: PickImageOption.CLOSE),
+                    onTap: () => Get.back(result: PickImageOption.close),
                   ),
-                  new ListTile(
-                    title: new Text("camera".tr),
+                  ListTile(
+                    title: Text("camera".tr),
                     leading: const Icon(Icons.camera),
-                    onTap: () => Get.back(result: PickImageOption.CAMERA),
+                    onTap: () => Get.back(result: PickImageOption.camera),
                   ),
-                  new ListTile(
-                    title: new Text("gallery".tr),
+                  ListTile(
+                    title: Text("gallery".tr),
                     leading: const Icon(Icons.camera_alt),
-                    onTap: () => Get.back(result: PickImageOption.GALLERY),
+                    onTap: () => Get.back(result: PickImageOption.gallery),
                   ),
                 ]
                     .where((e) => e != null)
@@ -299,10 +317,10 @@ class _MakeOrderPageController extends GetxController {
       );
       ScannerFileSource? source;
       switch (option) {
-        case PickImageOption.CAMERA:
+        case PickImageOption.camera:
           source = ScannerFileSource.CAMERA;
           break;
-        case PickImageOption.GALLERY:
+        case PickImageOption.gallery:
           source = ScannerFileSource.GALLERY;
           break;
         default:
@@ -340,8 +358,8 @@ class _MakeOrderPageController extends GetxController {
       final order = await OrderRepository.instance.create(
         addressId: addressFieldController.item.value!.id,
         addressDetail: addressDetail.value,
-        note: itemList.asMap().map((key, value) => new MapEntry(
-            value.cart.value.menu.id.toString(), value.note.value)),
+        note: itemList.asMap().map((key, value) =>
+            MapEntry(value.cart.value.menu.id.toString(), value.note.value)),
       );
       createOrderSuccess = true;
       await PaymentRepository.instance.create(
@@ -351,7 +369,7 @@ class _MakeOrderPageController extends GetxController {
       CartService.instance.clear();
       await OrderService.instance.load();
       await controller.success();
-      await new Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       Get.back();
     } catch (err, st) {
       ErrorReporter.instance.captureException(err, st);
@@ -363,7 +381,7 @@ class _MakeOrderPageController extends GetxController {
   }
 
   Future<Uint8List> _compressImage(final File file) async {
-    final imageUtil = new ImageUtil();
+    final imageUtil = ImageUtil();
     await imageUtil.loadImageFromFile(file);
     return await imageUtil.compress();
   }
@@ -378,21 +396,19 @@ class _CartCard extends StatelessWidget {
     required this.note,
   }) : super(key: key);
   @override
-  Widget build(BuildContext context) => new Column(
+  Widget build(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          new LayoutBuilder(
-            builder: (_, constraints) => new SizedBox(
+          LayoutBuilder(
+            builder: (_, constraints) => SizedBox(
               height: constraints.maxWidth * 0.4,
-              child: new Row(
+              child: Row(
                 children: [
                   _getImage(constraints.maxWidth * 0.4),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  new Expanded(
-                    child: new Column(
+                  const SizedBox(width: 5.0),
+                  Expanded(
+                    child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -415,21 +431,19 @@ class _CartCard extends StatelessWidget {
         ],
       );
 
-  Widget get _noteWidget => new Expanded(
-        child: new TextFormField(
-          decoration: new InputDecoration(
-            labelText: S.current.note,
-          ),
+  Widget get _noteWidget => Expanded(
+        child: TextFormField(
+          decoration: InputDecoration(labelText: S.current.note),
           maxLines: 1,
           onChanged: (final text) => note.value = text,
         ),
       );
 
-  Widget get _stockModifier => new Flexible(
-        child: new Row(
+  Widget get _stockModifier => Flexible(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            new IconButton(
+            IconButton(
               icon: const Icon(Icons.remove_sharp),
               padding: EdgeInsets.zero,
               iconSize: 28,
@@ -437,8 +451,8 @@ class _CartCard extends StatelessWidget {
                   CartService.instance.subtractCart(cart.value.menu),
             ),
             const SizedBox(width: 5),
-            new ObxValue<Rx<Cart>>(
-              (obs) => new Text(
+            ObxValue<Rx<Cart>>(
+              (obs) => Text(
                 obs.value.qty.toString(),
                 style: const TextStyle(
                   decoration: TextDecoration.underline,
@@ -447,7 +461,7 @@ class _CartCard extends StatelessWidget {
               cart,
             ),
             const SizedBox(width: 5),
-            new IconButton(
+            IconButton(
               icon: const Icon(Icons.add_sharp),
               padding: EdgeInsets.zero,
               iconSize: 28,
@@ -457,8 +471,8 @@ class _CartCard extends StatelessWidget {
         ),
       );
 
-  Widget get _totalText => new ObxValue<Rx<Cart>>(
-        (obs) => new Text(
+  Widget get _totalText => ObxValue<Rx<Cart>>(
+        (obs) => Text(
           Helper.formatMoney((obs.value.qty * obs.value.price).toDouble()),
           style: const TextStyle(
             fontWeight: FontWeight.w600,
@@ -469,9 +483,9 @@ class _CartCard extends StatelessWidget {
         cart,
       );
 
-  Widget get _title => new Text(
+  Widget get _title => Text(
         cart.value.menu.name,
-        style: new TextStyle(
+        style: TextStyle(
           fontWeight: FontWeight.w600,
           color: Get.theme.primaryColor,
           fontSize: 18.0,
@@ -479,15 +493,14 @@ class _CartCard extends StatelessWidget {
         ),
       );
 
-  Widget _getImage(final double size) => new SizedBox(
+  Widget _getImage(final double size) => SizedBox(
         width: size,
         height: size,
-        child: new Material(
-          shape: new RoundedRectangleBorder(
-              borderRadius:
-                  const BorderRadius.all(const Radius.circular(15.0))),
+        child: Material(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))),
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: new OctoImage(
+          child: OctoImage(
             image:
                 CachedNetworkImageProvider(cart.value.menu.imageList.first.url),
             placeholderBuilder: OctoPlaceholder.blurHash(

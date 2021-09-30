@@ -18,9 +18,10 @@ class FoodDrinkMenuRepository extends GetConnect
     final RestaurantRef? restaurantRef,
     String? query,
   }) async {
-    final queryMap = Map<String, String>();
-    if (restaurantRef != null)
+    final queryMap = <String, String>{};
+    if (restaurantRef != null) {
       queryMap["restaurant"] = restaurantRef.id.toString();
+    }
     if (query != null) {
       queryMap["query"] = query;
     }
@@ -28,20 +29,22 @@ class FoodDrinkMenuRepository extends GetConnect
       "$kRestUrl/menu",
       query: queryMap,
     );
-    if (response.isOk)
+    if (response.isOk) {
       return (response.body as List)
           .map((e) => FoodDrinkMenu.fromJson(e as Map<String, dynamic>))
           .toList(growable: false);
-    else
+    } else {
       throw getException(response);
+    }
   }
 
   Future<FoodDrinkMenu> findOne(final FoodDrinkMenuRef ref) async {
     final response = await get("$kRestUrl/menu/${ref.id}");
-    if (response.isOk)
+    if (response.isOk) {
       return FoodDrinkMenu.fromJson(response.body as Map<String, dynamic>);
-    else
+    } else {
       throw getException(response);
+    }
   }
 
   @override

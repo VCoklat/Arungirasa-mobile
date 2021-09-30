@@ -26,16 +26,15 @@ class SavedAddressField extends StatelessWidget {
     this.searchBoxDecoration,
     this.showSearchBox = true,
     this.showSelectedItem = true,
-  })  : controller = controller ?? new SavedAddressFieldController(),
+  })  : controller = controller ?? SavedAddressFieldController(),
         _autoRemove = controller == null,
         super(key: key);
 
   @override
-  Widget build(BuildContext context) =>
-      new GetBuilder<SavedAddressFieldController>(
+  Widget build(BuildContext context) => GetBuilder<SavedAddressFieldController>(
         autoRemove: _autoRemove,
         init: controller,
-        builder: (final controller) => new TextField(
+        builder: (final controller) => TextField(
           controller: controller._textEditingController,
           decoration: decoration.copyWith(
             labelStyle: const TextStyle(
@@ -43,19 +42,16 @@ class SavedAddressField extends StatelessWidget {
               fontSize: 14.0,
               fontWeight: FontWeight.normal,
             ),
-            suffix: new SizedBox(
+            suffix: SizedBox(
               height: 25.0,
               width: 50.0,
-              child: new MaterialButton(
+              child: MaterialButton(
                 padding: const EdgeInsets.all(7.0),
-                shape: new RoundedRectangleBorder(
-                  borderRadius:
-                      const BorderRadius.all(const Radius.circular(15.0)),
-                  side: new BorderSide(color: Get.theme.primaryColor),
+                shape: RoundedRectangleBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+                  side: BorderSide(color: Get.theme.primaryColor),
                 ),
-                child: new FittedBox(
-                  child: new Text("Ganti"),
-                ),
+                child: const FittedBox(child: Text("Ganti")),
                 textColor: Get.theme.primaryColor,
                 onPressed: controller.onLoading.value
                     ? null
@@ -66,18 +62,15 @@ class SavedAddressField extends StatelessWidget {
                           showSearchBox: showSearchBox,
                           searchBoxDecoration: searchBoxDecoration,
                           items: controller.itemList,
-                          onFind: (final text) {
-                            print(text);
-                            return Future.value(text.isEmpty
-                                ? controller.itemList
-                                : controller.itemList
-                                    .where((p) => p.name
-                                        .toLowerCase()
-                                        .contains(text.toLowerCase()))
-                                    .toList(growable: false));
-                          },
-                          itemBuilder: (_, item, isSelected) => new ListTile(
-                            title: new Text(item!.name),
+                          onFind: (final text) => Future.value(text.isEmpty
+                              ? controller.itemList
+                              : controller.itemList
+                                  .where((p) => p.name
+                                      .toLowerCase()
+                                      .contains(text.toLowerCase()))
+                                  .toList(growable: false)),
+                          itemBuilder: (_, item, isSelected) => ListTile(
+                            title: Text(item!.name),
                             selected: isSelected,
                           ),
                           onChange: (final item) {
@@ -95,36 +88,15 @@ class SavedAddressField extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: 18.0,
           ),
-          /*
-          onTap: controller.onLoading.value
-              ? null
-              : () async => await SelectDialog.showModal<Address?>(
-                    context,
-                    label: label,
-                    selectedValue: controller.item.value,
-                    showSearchBox: showSearchBox,
-                    searchBoxDecoration: searchBoxDecoration,
-                    items: controller.itemList,
-                    itemBuilder: (_, item, isSelected) => new ListTile(
-                      title: new Text(item!.name),
-                      selected: isSelected,
-                    ),
-                    onChange: (final item) {
-                      controller.item.value = item;
-                      controller.update();
-                      if (onChange != null) onChange!(item);
-                    },
-                  ),
-                  */
         ),
       );
 }
 
 class SavedAddressFieldController extends GetxController
     with MixinControllerWorker {
-  final itemList = new RxList<Address>();
-  final item = new Rxn<Address>();
-  final onLoading = new RxBool(false);
+  final itemList = RxList<Address>();
+  final item = Rxn<Address>();
+  final onLoading = RxBool(false);
   late TextEditingController _textEditingController;
   bool get isLoaded => itemList.isNotEmpty;
   Future<void>? get onLoadingFuture => _onLoading;
@@ -135,17 +107,17 @@ class SavedAddressFieldController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    _textEditingController = new TextEditingController();
+    _textEditingController = TextEditingController();
   }
 
   @override
   void onReady() {
     super.onReady();
-    new Future.delayed(Duration.zero, loadPoldaList);
+    Future.delayed(Duration.zero, loadPoldaList);
   }
 
   Future<void> loadPoldaList() async {
-    final completer = new Completer<void>();
+    final completer = Completer<void>();
     _onLoading = completer.future;
     try {
       onLoading.value = true;

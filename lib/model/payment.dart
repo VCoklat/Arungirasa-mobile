@@ -46,7 +46,7 @@ String _paymentTypeToJson(final PaymentType type) =>
 
 enum PaymentStatus {
   authorize,
-  partial_refund,
+  partialRefund,
   refund,
   expire,
   cancel,
@@ -58,7 +58,7 @@ enum PaymentStatus {
 
 final _paymentStatusValues = EnumValues<String, PaymentStatus>({
   "authorize": PaymentStatus.authorize,
-  "partial_refund": PaymentStatus.partial_refund,
+  "partial_refund": PaymentStatus.partialRefund,
   "refund": PaymentStatus.refund,
   "expire": PaymentStatus.expire,
   "cancel": PaymentStatus.cancel,

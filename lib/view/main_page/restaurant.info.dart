@@ -3,29 +3,29 @@ part of 'main_page.dart';
 class _RestaurantInfo extends GetView<_MainPageController> {
   const _RestaurantInfo();
   @override
-  Widget build(BuildContext context) => new Padding(
+  Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(left: 80),
-        child: new Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            new Obx(
-              () => new Text(
+            Obx(
+              () => Text(
                 controller.restaurant.value?.name ?? S.current.appName,
-                style: new TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Get.theme.primaryColor,
                 ),
               ),
             ),
-            new Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                new Icon(
+                Icon(
                   Icons.location_on_outlined,
                   color: Get.theme.primaryColor,
                 ),
-                new Obx(
-                  () => new _RestaurantDistance(
+                Obx(
+                  () => _RestaurantDistance(
                     future: controller.restaurant.value == null
                         ? null
                         : RestaurantRepository.instance.distance(
@@ -34,18 +34,13 @@ class _RestaurantInfo extends GetView<_MainPageController> {
                           ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10.0,
-                ),
-                const Icon(
-                  Icons.star,
-                  color: Colors.orangeAccent,
-                ),
-                new Obx(
-                  () => new Text(
+                const SizedBox(width: 10.0),
+                const Icon(Icons.star, color: Colors.orangeAccent),
+                Obx(
+                  () => Text(
                     (controller.restaurant.value?.rating ?? .0)
                         .toStringAsFixed(1),
-                    style: new TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16.0,
                     ),
@@ -65,12 +60,9 @@ class _RestaurantDistance extends StatelessWidget {
   Widget build(BuildContext context) => FutureBuilder<double>(
         initialData: 0,
         future: future,
-        builder: (_, snapshot) => new Text(
+        builder: (_, snapshot) => Text(
           "${((snapshot.data ?? 0) / 1000).toStringAsFixed(1)}Km",
-          style: new TextStyle(
-            color: Get.theme.primaryColor,
-            fontSize: 16.0,
-          ),
+          style: TextStyle(color: Get.theme.primaryColor, fontSize: 16.0),
         ),
       );
 }

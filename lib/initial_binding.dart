@@ -20,24 +20,24 @@ import 'package:get/get.dart';
 class InitialBinding implements Bindings {
   @override
   void dependencies() {
-    Get.put(new SessionService(), permanent: true);
-    Get.put(new CartService(), permanent: true);
-    Get.put(new AddressService(), permanent: true);
-    Get.put(new OrderService(), permanent: true);
-    Get.put(new WishListService(), permanent: true);
+    Get.put(SessionService(), permanent: true);
+    Get.put(CartService(), permanent: true);
+    Get.put(AddressService(), permanent: true);
+    Get.put(OrderService(), permanent: true);
+    Get.put(WishListService(), permanent: true);
 
     ///Repository
-    Get.put(new AddressRepository(), permanent: true);
-    Get.put(new AuthRepository(), permanent: true);
-    Get.put(new CartRepository(), permanent: true);
-    Get.put(new FoodDrinkMenuRepository(), permanent: true);
-    Get.put(new InterestRepository(), permanent: true);
-    Get.put(new MapBoxRepository(), permanent: true);
-    Get.put(new OrderRepository(), permanent: true);
-    Get.put(new PaymentRepository(), permanent: true);
-    Get.put(new RatingRepository(), permanent: true);
-    Get.put(new RestaurantRepository(), permanent: true);
-    Get.put(new UserRepository(), permanent: true);
-    Get.put(new WishListRepository(), permanent: true);
+    Get.put(AddressRepository(), permanent: true);
+    Get.put(AuthRepository(), permanent: true);
+    Get.put(CartRepository(), permanent: true);
+    Get.put(FoodDrinkMenuRepository(), permanent: true);
+    Get.put(InterestRepository(), permanent: true);
+    Get.put(MapBoxRepository(), permanent: true);
+    Get.put(OrderRepository(), permanent: true);
+    Get.put(PaymentRepository(), permanent: true);
+    Get.put(RatingRepository(), permanent: true);
+    Get.put(RestaurantRepository(), permanent: true);
+    Get.put(UserRepository(), permanent: true);
+    Get.put(WishListRepository(), permanent: true);
   }
 }

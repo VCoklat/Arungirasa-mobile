@@ -7,23 +7,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddressListPage extends GetView<AddressService> {
-  const AddressListPage();
+  const AddressListPage({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        floatingActionButton: new FloatingActionButton(
-          child: new Icon(Icons.add),
+  Widget build(BuildContext context) => Scaffold(
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
           onPressed: () => Get.toNamed(Routes.addAddress),
         ),
-        body: new NestedScrollView(
+        body: NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
-            new SliverAppBar(title: new Text(S.current.savedAddresses)),
+            SliverAppBar(title: Text(S.current.savedAddresses)),
           ],
-          body: new Obx(
-            () => new ListView.separated(
+          body: Obx(
+            () => ListView.separated(
               itemCount: controller.itemList.length,
               separatorBuilder: (_, __) => const SizedBox(height: 10),
               itemBuilder: (_, final int index) =>
-                  new _AddressTile(address: controller.itemList[index]),
+                  _AddressTile(address: controller.itemList[index]),
             ),
           ),
         ),
@@ -35,11 +35,11 @@ class _AddressTile extends StatelessWidget {
 
   const _AddressTile({Key? key, required this.address}) : super(key: key);
   @override
-  Widget build(BuildContext context) => new ListTile(
+  Widget build(BuildContext context) => ListTile(
         leading: const Icon(Icons.location_pin),
-        title: new Text(address.name),
+        title: Text(address.name),
         subtitle:
-            new _AddressSubtitle(future: Helper.latLngToString(address.latLng)),
+            _AddressSubtitle(future: Helper.latLngToString(address.latLng)),
         onTap: () => Get.toNamed(Routes.addAddress, arguments: address),
       );
 }
@@ -49,15 +49,15 @@ class _AddressSubtitle extends StatelessWidget {
 
   const _AddressSubtitle({Key? key, required this.future}) : super(key: key);
   @override
-  Widget build(BuildContext context) => new FutureBuilder<String>(
+  Widget build(BuildContext context) => FutureBuilder<String>(
         future: future,
         builder: (_, snapshot) {
           if (snapshot.hasData) {
-            return new Text(snapshot.data ?? S.current.noData);
+            return Text(snapshot.data ?? S.current.noData);
           } else if (snapshot.hasError) {
-            return new Text(S.current.errorOccurred);
+            return Text(S.current.errorOccurred);
           } else {
-            return new Text(S.current.pleaseWait);
+            return Text(S.current.pleaseWait);
           }
         },
       );

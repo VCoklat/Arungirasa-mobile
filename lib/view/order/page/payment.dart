@@ -3,24 +3,24 @@ part of 'order_page.dart';
 class _OrderPayment extends GetView<_OrderPageController> {
   const _OrderPayment();
   @override
-  Widget build(BuildContext context) => new Column(
+  Widget build(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          new Text(
+          Text(
             S.current.payment,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          new Text(
+          Text(
             S.current.uploadPayment,
             style: const TextStyle(
               fontSize: 14.0,
             ),
           ),
           const SizedBox(height: 10),
-          new InkWell(
-            child: new Obx(
+          InkWell(
+            child: Obx(
               () => controller.paymentImage.value == null
                   ? Assets.images.proveOfPaymentUpload.image(
                       height: 135,
@@ -37,8 +37,8 @@ class _OrderPayment extends GetView<_OrderPageController> {
             onTap: controller.selectImage,
           ),
           const SizedBox(height: 10),
-          new LoadingButton(
-            child: new Text(S.current.processTransaction),
+          LoadingButton(
+            child: Text(S.current.processTransaction),
             successChild: const Icon(
               Icons.check_sharp,
               size: 35,
@@ -49,11 +49,10 @@ class _OrderPayment extends GetView<_OrderPageController> {
               size: 35,
               color: Colors.white,
             ),
-            style: new ButtonStyle(
+            style: ButtonStyle(
                 shape: MaterialStateProperty.all(
-                  new RoundedRectangleBorder(
-                      borderRadius:
-                          const BorderRadius.all(const Radius.circular(30))),
+                  const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                 ),
                 backgroundColor:
                     MaterialStateProperty.all(Get.theme.accentColor),

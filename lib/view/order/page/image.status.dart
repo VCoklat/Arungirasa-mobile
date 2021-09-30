@@ -3,7 +3,7 @@ part of 'order_page.dart';
 class _OrderImageStatus extends GetView<_OrderPageController> {
   const _OrderImageStatus();
   @override
-  Widget build(BuildContext context) => new Obx(
+  Widget build(BuildContext context) => Obx(
         () {
           final order = controller.order.value!;
           switch (order.status) {

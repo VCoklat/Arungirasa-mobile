@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 class CartService extends GetxService {
   static CartService get instance => Get.find<CartService>();
 
-  final itemList = new RxList<Cart>();
+  final itemList = RxList<Cart>();
 
   int get count => itemList.length;
 
@@ -61,13 +61,16 @@ class CartService extends GetxService {
       if (index == -1) {
         final cart = await CartRepository.instance.create(menu.ref, 1);
         itemList.add(cart);
-        for (final callback in _onAddIndexCallbackList)
+        for (final callback in _onAddIndexCallbackList) {
           callback(itemList.length - 1);
+        }
       } else {
         final newCart = itemList[index].updateQty(itemList[index].qty + 1);
         final cart = await CartRepository.instance.updateQty(newCart);
         itemList[index] = cart;
-        for (final callback in _onQtyChangedIndexCallbackList) callback(index);
+        for (final callback in _onQtyChangedIndexCallbackList) {
+          callback(index);
+        }
       }
       Helper.hideLoadingWithSuccess();
     } catch (error, st) {
@@ -84,12 +87,15 @@ class CartService extends GetxService {
       final newCart = itemList[index].updateQty(itemList[index].qty - 1);
       if (newCart.qty < 1) {
         await CartRepository.instance.remove(itemList[index]);
-        for (final callback in _onRemoveIndexCallbackList)
+        for (final callback in _onRemoveIndexCallbackList) {
           callback(itemList.length - 1);
+        }
       } else {
         final cart = await CartRepository.instance.updateQty(newCart);
         itemList[index] = cart;
-        for (final callback in _onQtyChangedIndexCallbackList) callback(index);
+        for (final callback in _onQtyChangedIndexCallbackList) {
+          callback(index);
+        }
       }
       Helper.hideLoadingWithSuccess();
     } catch (error, st) {
@@ -105,13 +111,16 @@ class CartService extends GetxService {
       if (index == -1) {
         final cart = await CartRepository.instance.create(menu.ref, qty);
         itemList.add(cart);
-        for (final callback in _onAddIndexCallbackList)
+        for (final callback in _onAddIndexCallbackList) {
           callback(itemList.length - 1);
+        }
       } else {
         final newCart = itemList[index].updateQty(qty);
         final cart = await CartRepository.instance.updateQty(newCart);
         itemList[index] = cart;
-        for (final callback in _onQtyChangedIndexCallbackList) callback(index);
+        for (final callback in _onQtyChangedIndexCallbackList) {
+          callback(index);
+        }
       }
       Helper.hideLoadingWithSuccess();
     } catch (error, st) {
@@ -130,12 +139,16 @@ class CartService extends GetxService {
         await CartRepository.instance.remove(itemList[index]);
         itemList.removeAt(index);
         Helper.hideLoadingWithSuccess();
-        for (final callback in _onRemoveIndexCallbackList) callback(index);
+        for (final callback in _onRemoveIndexCallbackList) {
+          callback(index);
+        }
       } else {
         final newCart = itemList[index].updateQty(qty);
         final cart = await CartRepository.instance.updateQty(newCart);
         itemList[index] = cart;
-        for (final callback in _onQtyChangedIndexCallbackList) callback(index);
+        for (final callback in _onQtyChangedIndexCallbackList) {
+          callback(index);
+        }
       }
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);

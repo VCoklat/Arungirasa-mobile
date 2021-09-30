@@ -13,10 +13,11 @@ class AuthRepository extends GetConnect
   static AuthRepository get instance => Get.find<AuthRepository>();
   Future<User> signUp(final SignUp body) async {
     final response = await post("$kRestUrl/user/signup", body.toJson());
-    if (response.isOk)
+    if (response.isOk) {
       return User.fromJson(response.body as Map<String, dynamic>);
-    else
+    } else {
       throw getException(response);
+    }
   }
 
   @override

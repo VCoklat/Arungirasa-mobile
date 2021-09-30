@@ -23,16 +23,16 @@ import 'package:uuid/uuid.dart';
 class SignUpPageBindings implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<_SignUpPageController>(() => new _SignUpPageController());
+    Get.lazyPut<_SignUpPageController>(() => _SignUpPageController());
   }
 }
 
 class SignUpPage extends GetView<_SignUpPageController> {
-  const SignUpPage();
+  const SignUpPage({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new SafeArea(
-          child: new ListView(
+  Widget build(BuildContext context) => Scaffold(
+        body: SafeArea(
+          child: ListView(
             shrinkWrap: true,
             padding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -49,21 +49,17 @@ class SignUpPage extends GetView<_SignUpPageController> {
               password,
               gap,
               confirmPassword,
-              const SizedBox(
-                height: 25.0,
-              ),
+              const SizedBox(height: 25.0),
               interestText,
               gap,
               interestList,
-              const SizedBox(
-                height: 25.0,
-              ),
-              new Padding(
+              const SizedBox(height: 25.0),
+              Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20.0,
                 ),
-                child: new LoadingButton(
-                  child: new Text(S.current.signUp),
+                child: LoadingButton(
+                  child: Text(S.current.signUp),
                   successChild: const Icon(
                     Icons.check_sharp,
                     size: 35,
@@ -74,14 +70,14 @@ class SignUpPage extends GetView<_SignUpPageController> {
                     size: 35,
                     color: Colors.white,
                   ),
-                  style: new ButtonStyle(
+                  style: ButtonStyle(
                       shape: MaterialStateProperty.all(
-                        new RoundedRectangleBorder(
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(30))),
+                        const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
                       ),
                       backgroundColor: MaterialStateProperty.all(
-                          Color.fromRGBO(240, 90, 40, 10)),
+                          const Color.fromRGBO(240, 90, 40, 10)),
                       textStyle: MaterialStateProperty.all(const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24.0,
@@ -97,26 +93,26 @@ class SignUpPage extends GetView<_SignUpPageController> {
         ),
       );
 
-  Widget get photoProfile => new Center(
-        child: new Stack(
+  Widget get photoProfile => Center(
+        child: Stack(
           children: [
-            new Container(
+            Container(
               width: 155,
               height: 155,
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                 color: Get.theme.primaryColor,
                 shape: BoxShape.circle,
               ),
-              child: new Center(
-                child: new ClipRRect(
-                  borderRadius: new BorderRadius.circular(90.0),
-                  child: new Obx(
+              child: Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(90.0),
+                  child: Obx(
                     () => controller.photoProfile.value == null
                         ? Assets.images.placeholderProfile.image(
                             width: 150,
                             height: 150,
                           )
-                        : new Image.memory(
+                        : Image.memory(
                             controller.photoProfile.value!,
                             width: 150,
                             height: 150,
@@ -125,10 +121,10 @@ class SignUpPage extends GetView<_SignUpPageController> {
                 ),
               ),
             ),
-            new Positioned(
+            Positioned(
               left: 107.5,
               top: 107.5,
-              child: new IconButton(
+              child: IconButton(
                 icon: Assets.images.takePhoto.image(width: 45, height: 45),
                 onPressed: controller.pickImage,
               ),
@@ -140,9 +136,9 @@ class SignUpPage extends GetView<_SignUpPageController> {
         height: 10.0,
       );
 
-  Widget get firstName => new Obx(
-        () => new TextField(
-          decoration: new InputDecoration(
+  Widget get firstName => Obx(
+        () => TextField(
+          decoration: InputDecoration(
             labelText: S.current.firstName,
             errorText: controller.firstNameValidator.value,
           ),
@@ -151,9 +147,9 @@ class SignUpPage extends GetView<_SignUpPageController> {
         ),
       );
 
-  Widget get lastName => new Obx(
-        () => new TextField(
-          decoration: new InputDecoration(
+  Widget get lastName => Obx(
+        () => TextField(
+          decoration: InputDecoration(
             labelText: S.current.lastName,
             errorText: controller.lastNameValidator.value,
           ),
@@ -162,9 +158,9 @@ class SignUpPage extends GetView<_SignUpPageController> {
         ),
       );
 
-  Widget get phoneNumber => new Obx(
-        () => new TextField(
-          decoration: new InputDecoration(
+  Widget get phoneNumber => Obx(
+        () => TextField(
+          decoration: InputDecoration(
             labelText: S.current.phoneNumber,
             errorText: controller.phoneNumberValidator.value,
           ),
@@ -173,11 +169,11 @@ class SignUpPage extends GetView<_SignUpPageController> {
         ),
       );
 
-  Widget get email => new Obx(
-        () => new TextField(
-          decoration: new InputDecoration(
+  Widget get email => Obx(
+        () => TextField(
+          decoration: InputDecoration(
             labelText: S.current.email,
-            prefixIcon: new Icon(
+            prefixIcon: Icon(
               Icons.email_outlined,
               color: Get.theme.primaryColor,
             ),
@@ -188,22 +184,22 @@ class SignUpPage extends GetView<_SignUpPageController> {
         ),
       );
 
-  Widget get password => new Obx(
-        () => new TextField(
-          decoration: new InputDecoration(
+  Widget get password => Obx(
+        () => TextField(
+          decoration: InputDecoration(
             labelText: S.current.password,
-            prefixIcon: new Icon(
+            prefixIcon: Icon(
               Icons.lock_open_outlined,
               color: Get.theme.primaryColor,
             ),
             errorText: controller.passwordValidator.value,
-            suffixIcon: new InkWell(
-              child: new Obx(() => controller.obscurePassword.value
-                  ? new Icon(
+            suffixIcon: InkWell(
+              child: Obx(() => controller.obscurePassword.value
+                  ? Icon(
                       Icons.visibility,
                       color: Get.theme.primaryColor,
                     )
-                  : new Icon(
+                  : Icon(
                       Icons.visibility_off,
                       color: Get.theme.primaryColor,
                     )),
@@ -215,22 +211,22 @@ class SignUpPage extends GetView<_SignUpPageController> {
         ),
       );
 
-  Widget get confirmPassword => new Obx(
-        () => new TextField(
-          decoration: new InputDecoration(
+  Widget get confirmPassword => Obx(
+        () => TextField(
+          decoration: InputDecoration(
             labelText: S.current.confirmPassword,
-            prefixIcon: new Icon(
+            prefixIcon: Icon(
               Icons.lock_open_outlined,
               color: Get.theme.primaryColor,
             ),
             errorText: controller.confirmPasswordValidator.value,
-            suffixIcon: new InkWell(
-              child: new Obx(() => controller.obscureConfirmPassword.value
-                  ? new Icon(
+            suffixIcon: InkWell(
+              child: Obx(() => controller.obscureConfirmPassword.value
+                  ? Icon(
                       Icons.visibility,
                       color: Get.theme.primaryColor,
                     )
-                  : new Icon(
+                  : Icon(
                       Icons.visibility_off,
                       color: Get.theme.primaryColor,
                     )),
@@ -242,14 +238,12 @@ class SignUpPage extends GetView<_SignUpPageController> {
         ),
       );
 
-  Widget get interestText => new Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 30.0,
-        ),
-        child: new Text(
+  Widget get interestText => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+        child: Text(
           S.current.signUpInterest,
           textAlign: TextAlign.center,
-          style: new TextStyle(
+          style: TextStyle(
             color: Get.theme.primaryColor,
             fontWeight: FontWeight.bold,
             fontSize: 21.0,
@@ -257,31 +251,30 @@ class SignUpPage extends GetView<_SignUpPageController> {
         ),
       );
 
-  Widget get interestList => new Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10.0,
-        ),
-        child: new Obx(
+  Widget get interestList => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Obx(
           () => controller.onLoadInterest.value
-              ? new Center(
-                  child: new CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(
-                        Get.theme.primaryColor),
+              ? Center(
+                  child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Get.theme.primaryColor),
                   ),
                 )
-              : new Wrap(
+              : Wrap(
                   runSpacing: 10.0,
                   spacing: 10.0,
                   children: controller.interestList
-                      .map((e) => new _InterestWidget(
+                      .map((e) => _InterestWidget(
                             interest: e,
                             selected:
                                 controller.selectedInterestList.contains(e),
                             onPressed: () {
-                              if (controller.selectedInterestList.contains(e))
+                              if (controller.selectedInterestList.contains(e)) {
                                 controller.selectedInterestList.remove(e);
-                              else
+                              } else {
                                 controller.selectedInterestList.add(e);
+                              }
                             },
                           ))
                       .toList(growable: false),
@@ -303,21 +296,21 @@ class _InterestWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => new MaterialButton(
+  Widget build(BuildContext context) => MaterialButton(
         color: selected ? Get.theme.primaryColor : Colors.white,
-        shape: new RoundedRectangleBorder(
-            borderRadius: const BorderRadius.all(const Radius.circular(30.0)),
+        shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(30.0)),
             side: selected
                 ? BorderSide.none
-                : new BorderSide(
+                : BorderSide(
                     color: Get.theme.primaryColor,
                     width: 1.5,
                   )),
-        child: new Padding(
+        child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: new Text(
+          child: Text(
             interest.name,
-            style: new TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w500,
               color: selected ? Colors.white : Get.theme.primaryColor,
             ),
@@ -328,32 +321,32 @@ class _InterestWidget extends StatelessWidget {
 }
 
 class _SignUpPageController extends GetxController with MixinControllerWorker {
-  final firstName = new RxString("");
-  final lastName = new RxString("");
-  final phoneNumber = new RxString("");
-  final email = new RxString("");
-  final password = new RxString("");
-  final confirmPassword = new RxString("");
-  final photoProfile = new Rxn<Uint8List>();
+  final firstName = RxString("");
+  final lastName = RxString("");
+  final phoneNumber = RxString("");
+  final email = RxString("");
+  final password = RxString("");
+  final confirmPassword = RxString("");
+  final photoProfile = Rxn<Uint8List>();
 
-  final obscurePassword = new RxBool(true);
-  final obscureConfirmPassword = new RxBool(true);
+  final obscurePassword = RxBool(true);
+  final obscureConfirmPassword = RxBool(true);
 
-  final firstNameValidator = new RxnString();
-  final lastNameValidator = new RxnString();
-  final phoneNumberValidator = new RxnString();
-  final emailValidator = new RxnString();
-  final passwordValidator = new RxnString();
-  final confirmPasswordValidator = new RxnString();
+  final firstNameValidator = RxnString();
+  final lastNameValidator = RxnString();
+  final phoneNumberValidator = RxnString();
+  final emailValidator = RxnString();
+  final passwordValidator = RxnString();
+  final confirmPasswordValidator = RxnString();
 
-  final onLoadInterest = new RxBool(false);
-  final interestList = new RxList<Interest>();
-  final selectedInterestList = new RxList<Interest>();
+  final onLoadInterest = RxBool(false);
+  final interestList = RxList<Interest>();
+  final selectedInterestList = RxList<Interest>();
 
   @override
   void onReady() {
     super.onReady();
-    new Future.delayed(Duration.zero, loadInterestList);
+    Future.delayed(Duration.zero, loadInterestList);
   }
 
   Future<void> signUp(final LoadingButtonController controller) async {
@@ -373,12 +366,12 @@ class _SignUpPageController extends GetxController with MixinControllerWorker {
       String? photoUrl;
       if (photoProfile.value != null) {
         final instance = FirebaseStorage.instance;
-        final fileName = "${new Uuid().v4()}.png";
+        final fileName = "${const Uuid().v4()}.png";
         final ref =
             instance.ref().child("user").child("profile").child(fileName);
         final task = ref.putData(
           photoProfile.value!,
-          new SettableMetadata(
+          SettableMetadata(
             contentDisposition: "attachment; filename=\"$firstName\"",
             cacheControl: "public, max-age=604800, immutable",
             contentType: "image/png",
@@ -390,7 +383,7 @@ class _SignUpPageController extends GetxController with MixinControllerWorker {
 
       final phoneNumber = _transformPhoneNumber(this.phoneNumber.value);
       await AuthRepository.instance.signUp(
-        new SignUp(
+        SignUp(
           email: email.value,
           displayName: "${firstName.value} ${lastName.value}",
           phoneNumber: phoneNumber,
@@ -403,7 +396,7 @@ class _SignUpPageController extends GetxController with MixinControllerWorker {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.value, password: password.value);
       await controller.success();
-      await new Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       SessionService.instance.navigate();
     } on HttpConflictException {
       controller.error();
@@ -416,11 +409,11 @@ class _SignUpPageController extends GetxController with MixinControllerWorker {
       );
     } on FirebaseAuthException catch (e, st) {
       controller.error();
-      if (e.code == "user-not-found")
+      if (e.code == "user-not-found") {
         emailValidator.value = S.current.errorEmailNotFound;
-      else if (e.code == "wrong-password")
+      } else if (e.code == "wrong-password") {
         passwordValidator.value = S.current.errorPasswordInvalid;
-      else {
+      } else {
         ErrorReporter.instance.captureException(e, st);
         Helper.showError(text: S.current.errorOccurred);
       }
@@ -445,26 +438,26 @@ class _SignUpPageController extends GetxController with MixinControllerWorker {
 
   Future<void> pickImage() async {
     final source = await Get.bottomSheet<ImageSource>(
-      new SizedBox(
+      SizedBox(
         width: Get.width,
-        child: new Material(
-          child: new Padding(
+        child: Material(
+          child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: new ListView(
+            child: ListView(
               shrinkWrap: true,
               children: <Widget?>[
-                new ListTile(
-                  title: new Text("close".tr),
+                ListTile(
+                  title: Text("close".tr),
                   leading: const Icon(Icons.close),
                   onTap: () => Get.back(result: null),
                 ),
-                new ListTile(
-                  title: new Text("camera".tr),
+                ListTile(
+                  title: Text("camera".tr),
                   leading: const Icon(Icons.camera),
                   onTap: () => Get.back(result: ImageSource.camera),
                 ),
-                new ListTile(
-                  title: new Text("gallery".tr),
+                ListTile(
+                  title: Text("gallery".tr),
                   leading: const Icon(Icons.camera_alt),
                   onTap: () => Get.back(result: ImageSource.gallery),
                 ),
@@ -475,7 +468,7 @@ class _SignUpPageController extends GetxController with MixinControllerWorker {
       ),
     );
     if (source == null) return;
-    final image = await new ImagePicker().pickImage(source: source);
+    final image = await ImagePicker().pickImage(source: source);
     if (image == null) return;
     final croppedFile = await ImageCropper.cropImage(
       sourcePath: image.path,
@@ -488,7 +481,7 @@ class _SignUpPageController extends GetxController with MixinControllerWorker {
         initAspectRatio: CropAspectRatioPreset.original,
         lockAspectRatio: true,
       ),
-      iosUiSettings: IOSUiSettings(minimumAspectRatio: 1.0),
+      iosUiSettings: const IOSUiSettings(minimumAspectRatio: 1.0),
     );
     if (croppedFile == null) return;
     photoProfile.value = await croppedFile.readAsBytes();
@@ -514,12 +507,13 @@ class _SignUpPageController extends GetxController with MixinControllerWorker {
       lastNameValidator.value != null;
 
   void _validateEmail(final String email) {
-    if (email.isEmpty)
+    if (email.isEmpty) {
       emailValidator.value = S.current.errorEmailEmpty;
-    else if (!email.isEmail)
+    } else if (!email.isEmail) {
       emailValidator.value = S.current.errorEmailInvalid;
-    else
+    } else {
       emailValidator.value = null;
+    }
   }
 
   void _validateFirstName(final String firstName) => firstNameValidator.value =
@@ -527,33 +521,36 @@ class _SignUpPageController extends GetxController with MixinControllerWorker {
   void _validateLastName(final String lastName) => lastNameValidator.value =
       lastName.isEmpty ? S.current.errorLastNameEmpty : null;
   void _validatePhoneNumber(final String phoneNumber) {
-    if (phoneNumber.isEmpty)
+    if (phoneNumber.isEmpty) {
       phoneNumberValidator.value = S.current.errorPhoneNumberEmpty;
-    else if (!phoneNumber.isPhoneNumber)
+    } else if (!phoneNumber.isPhoneNumber) {
       phoneNumberValidator.value = S.current.errorPhoneNumberInvalid;
-    else if (_transformPhoneNumber(phoneNumber).length > 15)
+    } else if (_transformPhoneNumber(phoneNumber).length > 15) {
       phoneNumberValidator.value = S.current.errorPhoneNumberTooLong;
-    else
+    } else {
       phoneNumberValidator.value = null;
+    }
   }
 
   void _validatePassword(final String password) {
-    if (password.isEmpty)
+    if (password.isEmpty) {
       passwordValidator.value = S.current.errorPasswordEmpty;
-    else if (password != confirmPassword.value) {
+    } else if (password != confirmPassword.value) {
       passwordValidator.value = null;
       confirmPasswordValidator.value = S.current.errorConfirmPasswordNotEqual;
-    } else
+    } else {
       passwordValidator.value = null;
+    }
   }
 
   void _validateConfirmPassword(final String confirmPassword) {
-    if (confirmPassword.isEmpty)
+    if (confirmPassword.isEmpty) {
       confirmPasswordValidator.value = S.current.errorConfirmPasswordEmpty;
-    else if (confirmPassword != password.value)
+    } else if (confirmPassword != password.value) {
       confirmPasswordValidator.value = S.current.errorConfirmPasswordNotEqual;
-    else
+    } else {
       confirmPasswordValidator.value = null;
+    }
   }
 
   String _transformPhoneNumber(final String phoneNumber) =>

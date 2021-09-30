@@ -41,37 +41,39 @@ class FoodDrinkMenu {
 
   @override
   bool operator ==(final other) {
-    if (other is int)
+    if (other is int) {
       return id == other;
-    else if (other is FoodDrinkMenu)
+    } else if (other is FoodDrinkMenu) {
       return id == other.id;
-    else
+    } else {
       return false;
+    }
   }
 
   @override
   int get hashCode => id.hashCode;
-  FoodDrinkMenuRef get ref => new FoodDrinkMenuRef(id)..value = this;
+  FoodDrinkMenuRef get ref => FoodDrinkMenuRef(id)..value = this;
 }
 
 class FoodDrinkMenuRef {
   final int id;
   FoodDrinkMenu? value;
   FoodDrinkMenuRef(this.id);
-  factory FoodDrinkMenuRef.fromId(final int id) => new FoodDrinkMenuRef(id);
+  factory FoodDrinkMenuRef.fromId(final int id) => FoodDrinkMenuRef(id);
   static FoodDrinkMenuRef fromJson(final int id) => FoodDrinkMenuRef.fromId(id);
   static int toJson(final FoodDrinkMenuRef ref) => ref.id;
   @override
   int get hashCode => id.hashCode;
   @override
   bool operator ==(other) {
-    if (other is int)
+    if (other is int) {
       return id == other;
-    else if (other is FoodDrinkMenuRef)
+    } else if (other is FoodDrinkMenuRef) {
       return id == other.id;
-    else if (other is FoodDrinkMenu)
+    } else if (other is FoodDrinkMenu) {
       return id == other.id;
-    else
+    } else {
       return false;
+    }
   }
 }

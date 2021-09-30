@@ -5,25 +5,22 @@ import 'package:flutter_tawk/flutter_tawk.dart';
 import 'package:get/get.dart';
 
 class ChatPage extends StatelessWidget {
-  const ChatPage();
+  const ChatPage({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new NestedScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        body: NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
-            const SliverAppBar(
-              title: const Text("Chat"),
-            ),
+            const SliverAppBar(title: Text("Chat")),
           ],
-          body: new Tawk(
+          body: Tawk(
             directChatLink: env.directChatLink,
-            visitor: new TawkVisitor(
+            visitor: TawkVisitor(
               name: SessionService.instance.user.value!.displayName,
               email: SessionService.instance.user.value!.email,
             ),
-            placeholder: new Center(
-                child: new CircularProgressIndicator(
-              valueColor:
-                  new AlwaysStoppedAnimation<Color>(Get.theme.primaryColor),
+            placeholder: Center(
+                child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Get.theme.primaryColor),
             )),
           ),
         ),

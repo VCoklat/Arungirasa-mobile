@@ -23,22 +23,22 @@ class AddressField extends StatelessWidget {
     final AddressFieldController? controller,
     this.onChange,
     this.decoration = const InputDecoration(),
-  })  : controller = controller ?? new AddressFieldController(),
+  })  : controller = controller ?? AddressFieldController(),
         _autoRemove = controller == null,
         super(key: key);
 
   @override
-  Widget build(BuildContext context) => new GetBuilder<AddressFieldController>(
+  Widget build(BuildContext context) => GetBuilder<AddressFieldController>(
         autoRemove: _autoRemove,
         init: controller,
-        builder: (final controller) => new TextField(
+        builder: (final controller) => TextField(
           controller: controller._textEditingController,
           decoration: decoration,
           readOnly: true,
           onTap: () async {
             final result = await Get.to(
-              () => new _SearchAddressPage(),
-              binding: new _SearchAddressPageBinding(),
+              () => const _SearchAddressPage(),
+              binding: _SearchAddressPageBinding(),
             );
             if (result == null) return;
             controller.item.value = result;
@@ -48,12 +48,12 @@ class AddressField extends StatelessWidget {
 }
 
 class AddressFieldController extends GetxController with MixinControllerWorker {
-  final item = new Rxn<MapBoxFeature>();
+  final item = Rxn<MapBoxFeature>();
   late TextEditingController _textEditingController;
   @override
   void onInit() {
     super.onInit();
-    _textEditingController = new TextEditingController();
+    _textEditingController = TextEditingController();
     _updateText(item.value);
   }
 
@@ -76,63 +76,58 @@ class _SearchAddressPageBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<_SearchAddressPageController>(
-        () => new _SearchAddressPageController());
+        () => _SearchAddressPageController());
   }
 }
 
 class _SearchAddressPage extends GetView<_SearchAddressPageController> {
   const _SearchAddressPage();
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(
-          title: new Text(S.current.searchAddress),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: Text(S.current.searchAddress),
           actions: [
-            new IconButton(
+            IconButton(
               icon: const Icon(Icons.map_outlined),
               onPressed: () async {
                 final result = await Get.to(
                   () => _MapPinPointPage(),
-                  binding: new _MapPinPointPageBinding(),
+                  binding: _MapPinPointPageBinding(),
                 );
-                if (result == null)
+                if (result == null) {
                   return;
-                else
+                } else {
                   Get.back(result: result);
+                }
               },
             ),
           ],
         ),
-        body: new Padding(
+        body: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: new Column(
+          child: Column(
             children: [
-              new TextField(
-                decoration: new InputDecoration(
-                  labelText: S.current.searchAddress,
-                ),
+              TextField(
+                decoration: InputDecoration(labelText: S.current.searchAddress),
                 onChanged: (text) => controller.query.value = text,
               ),
               const SizedBox(height: 10),
-              new Expanded(
-                child: new Obx(
+              Expanded(
+                child: Obx(
                   () {
                     if (controller.onLoading.value) {
-                      return new Center(
-                        child: new CircularProgressIndicator(),
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
                     } else {
                       if (controller.data.value.features.isEmpty) {
-                        return new Center(
-                          child: new Text(
-                            S.current.noData,
-                          ),
-                        );
+                        return Center(child: Text(S.current.noData));
                       } else {
-                        return new ListView.separated(
+                        return ListView.separated(
                           shrinkWrap: true,
                           itemCount: controller.data.value.features.length,
-                          separatorBuilder: (_, __) => new Divider(),
-                          itemBuilder: (_, final int index) => new _AddressTile(
+                          separatorBuilder: (_, __) => const Divider(),
+                          itemBuilder: (_, final int index) => _AddressTile(
                             feature: controller.data.value.features[index],
                             onChanged: (feature) => Get.back(result: feature),
                           ),
@@ -150,9 +145,9 @@ class _SearchAddressPage extends GetView<_SearchAddressPageController> {
 
 class _SearchAddressPageController extends GetxController
     with MixinControllerWorker {
-  final onLoading = new RxBool(false);
-  final query = new RxString("");
-  final data = new Rx<MapBoxFeatureCollection>(MapBoxFeatureCollection.empty());
+  final onLoading = RxBool(false);
+  final query = RxString("");
+  final data = Rx<MapBoxFeatureCollection>(MapBoxFeatureCollection.empty());
 
   @override
   List<Worker> getWorkers() => <Worker>[debounce(query, _loadAddress)];
@@ -183,13 +178,9 @@ class _AddressTile extends StatelessWidget {
     this.onChanged,
   }) : super(key: key);
   @override
-  Widget build(BuildContext context) => new ListTile(
-        title: new Text(
-          feature.text,
-        ),
-        subtitle: new Text(
-          feature.placeName,
-        ),
+  Widget build(BuildContext context) => ListTile(
+        title: Text(feature.text),
+        subtitle: Text(feature.placeName),
         onTap: onChanged == null ? null : () => onChanged!(feature),
       );
 }
@@ -197,39 +188,32 @@ class _AddressTile extends StatelessWidget {
 class _MapPinPointPageBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<_MapPinPointPageController>(
-        () => new _MapPinPointPageController());
+    Get.lazyPut<_MapPinPointPageController>(() => _MapPinPointPageController());
   }
 }
 
 class _MapPinPointPage extends GetView<_MapPinPointPageController> {
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        appBar: new AppBar(
-          title: new Text(S.current.pinPointLocation),
-        ),
-        body: new Obx(
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(title: Text(S.current.pinPointLocation)),
+        body: Obx(
           () => controller.onLoading.value
-              ? new Center(
-                  child: new CircularProgressIndicator(),
-                )
-              : new Stack(
+              ? const Center(child: CircularProgressIndicator())
+              : Stack(
                   children: [
-                    new Column(
+                    Column(
                       children: [
                         const SizedBox(height: 10),
-                        new Center(
-                          child: new Obx(
-                            () => new Text(
-                              controller.addressText.value,
-                            ),
+                        Center(
+                          child: Obx(
+                            () => Text(controller.addressText.value),
                           ),
                         ),
                         const SizedBox(height: 10),
-                        new Expanded(
-                          child: new Stack(
+                        Expanded(
+                          child: Stack(
                             children: [
-                              new MapboxMap(
+                              MapboxMap(
                                 accessToken: env.mapBoxAccessToken,
                                 onMapCreated: controller.onMapCreated,
                                 styleString: MapboxStyles.MAPBOX_STREETS,
@@ -237,13 +221,13 @@ class _MapPinPointPage extends GetView<_MapPinPointPageController> {
                                 compassEnabled: true,
                                 myLocationRenderMode: MyLocationRenderMode.GPS,
                                 onStyleLoadedCallback: controller.onStyleLoaded,
-                                initialCameraPosition: new CameraPosition(
+                                initialCameraPosition: CameraPosition(
                                   target: controller.center.value,
                                   zoom: 14.0,
                                 ),
                               ),
-                              new Center(
-                                child: const Icon(
+                              const Center(
+                                child: Icon(
                                   Icons.location_pin,
                                   color: Colors.red,
                                   size: 48.0,
@@ -254,18 +238,17 @@ class _MapPinPointPage extends GetView<_MapPinPointPageController> {
                         ),
                       ],
                     ),
-                    new Positioned(
+                    Positioned(
                       bottom: 10.0,
                       right: 10.0,
                       left: 10.0,
-                      child: new ElevatedButton(
-                        child: new Text("Confirm"),
-                        style: new ButtonStyle(
+                      child: ElevatedButton(
+                        child: const Text("Confirm"),
+                        style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                                 Get.theme.primaryColor),
-                            textStyle: MaterialStateProperty.all(new TextStyle(
-                              fontSize: 18.0,
-                            ))),
+                            textStyle: MaterialStateProperty.all(
+                                const TextStyle(fontSize: 18.0))),
                         onPressed: controller.confirm,
                       ),
                     ),
@@ -276,9 +259,8 @@ class _MapPinPointPage extends GetView<_MapPinPointPageController> {
 }
 
 class _MapPinPointPageController extends GetxController {
-  final onLoading = new RxBool(true);
-  final center =
-      new Rx<LatLng>(new LatLng(DEFAULT_LATITUDE, DEFAULT_LONGITUDE));
+  final onLoading = RxBool(true);
+  final center = Rx<LatLng>(const LatLng(kDefaultLatitude, kDefaultLongitude));
 
   final addressText = "".obs;
 
@@ -294,8 +276,8 @@ class _MapPinPointPageController extends GetxController {
 
   Future<void> onCameraPositionChanged() async {
     final placemarks = await geocoding.placemarkFromCoordinates(
-      mapController?.cameraPosition?.target.latitude ?? DEFAULT_LATITUDE,
-      mapController?.cameraPosition?.target.longitude ?? DEFAULT_LONGITUDE,
+      mapController?.cameraPosition?.target.latitude ?? kDefaultLatitude,
+      mapController?.cameraPosition?.target.longitude ?? kDefaultLongitude,
     );
     if (placemarks.isEmpty) return;
     addressText.value =
@@ -305,7 +287,7 @@ class _MapPinPointPageController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    new Future.delayed(Duration.zero, _getLocation);
+    Future.delayed(Duration.zero, _getLocation);
   }
 
   @override
@@ -316,7 +298,7 @@ class _MapPinPointPageController extends GetxController {
   }
 
   Future<void> _getLocation() async {
-    final locator = new Location();
+    final locator = Location();
 
     bool serviceEnabled = await locator.serviceEnabled();
     if (!serviceEnabled) {
@@ -333,9 +315,9 @@ class _MapPinPointPageController extends GetxController {
     }
 
     final locationData = await locator.getLocation();
-    center.value = new LatLng(
-      locationData.latitude ?? DEFAULT_LATITUDE,
-      locationData.longitude ?? DEFAULT_LONGITUDE,
+    center.value = LatLng(
+      locationData.latitude ?? kDefaultLatitude,
+      locationData.longitude ?? kDefaultLongitude,
     );
     onLoading.value = false;
   }
@@ -344,11 +326,11 @@ class _MapPinPointPageController extends GetxController {
     try {
       Helper.showLoading();
       final result = await MapBoxRepository.instance.findByLatLng(
-        mapController?.cameraPosition?.target.latitude ?? DEFAULT_LATITUDE,
-        mapController?.cameraPosition?.target.longitude ?? DEFAULT_LONGITUDE,
+        mapController?.cameraPosition?.target.latitude ?? kDefaultLatitude,
+        mapController?.cameraPosition?.target.longitude ?? kDefaultLongitude,
       );
       Helper.hideLoadingWithSuccess();
-      await new Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       Get.back(result: result.features.isEmpty ? null : result.features.first);
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);

@@ -43,24 +43,22 @@ part 'widget.dart';
 class _OrderPageBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<_OrderPageController>(() => new _OrderPageController());
+    Get.lazyPut<_OrderPageController>(() => _OrderPageController());
   }
 }
 
 class OrderPage extends GetView<_OrderPageController> {
-  static _OrderPageBinding binding() => new _OrderPageBinding();
+  const OrderPage({Key? key}) : super(key: key);
+  static _OrderPageBinding binding() => _OrderPageBinding();
   static open(final String id) => Get.toNamed("/order/$id");
-  const OrderPage();
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new NestedScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        body: NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
-            new Obx(
+            Obx(
               () {
                 if (controller.order.value == null) {
-                  return new SliverAppBar(
-                    elevation: 0.0,
-                  );
+                  return const SliverAppBar(elevation: 0.0);
                 }
                 Color color;
                 final order = controller.order.value!;
@@ -78,25 +76,23 @@ class OrderPage extends GetView<_OrderPageController> {
                     color = Get.theme.primaryColor;
                     break;
                 }
-                return new SliverAppBar(
+                return SliverAppBar(
                   elevation: 0.0,
                   backgroundColor: color,
                 );
               },
             ),
           ],
-          body: new Obx(
+          body: Obx(
             () {
               if (controller.onLoading.value) {
                 return const _LoadingWidget();
               } else if (controller.isError.value) {
-                return new _ErrorWidget(controller.loadOrder);
+                return _ErrorWidget(controller.loadOrder);
               } else if (controller.order.value == null) {
                 return const _NotFoundWidget();
               } else {
-                return new SingleChildScrollView(
-                  child: const _OrderWidget(),
-                );
+                return const SingleChildScrollView(child: _OrderWidget());
               }
             },
           ),

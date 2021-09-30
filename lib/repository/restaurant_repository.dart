@@ -15,21 +15,23 @@ class RestaurantRepository extends GetConnect
 
   Future<List<Restaurant>> find() async {
     final response = await get("$kRestUrl/restaurant");
-    if (response.isOk)
+    if (response.isOk) {
       return (response.body as List)
           .map((e) => Restaurant.fromJson(e as Map<String, dynamic>))
           .toList(growable: false);
-    else
+    } else {
       throw getException(response);
+    }
   }
 
   Future<Restaurant> findOneNearest(final LatLng latLng) async {
     final response = await get(
         "$kRestUrl/restaurant/nearest/one?lat=${latLng.lat}&lng=${latLng.lng}");
-    if (response.isOk)
+    if (response.isOk) {
       return Restaurant.fromJson(response.body as Map<String, dynamic>);
-    else
+    } else {
       throw getException(response);
+    }
   }
 
   Future<double> distance({

@@ -4,7 +4,7 @@ part 'env.g.dart';
 
 // ignore: invalid_annotation_target
 @JsonLiteral("env.json", asConst: true)
-final Map<String, dynamic> _env = _$_envJsonLiteral;
+const Map<String, dynamic> _env = _$_envJsonLiteral;
 
 @JsonSerializable(createToJson: false)
 class Env {

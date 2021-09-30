@@ -22,134 +22,108 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PageRouter {
-  static final PageRouter instance = new PageRouter._internal();
+  static final PageRouter instance = PageRouter._internal();
   PageRouter._internal();
 
   List<GetPage> get pages => <GetPage>[
-        new GetPage(
+        GetPage(
           name: Routes.initial,
           page: () => const SplashScreenPage(),
         ),
-        new GetPage(
+        GetPage(
           name: Routes.signIn,
           page: () => const SignInPage(),
-          binding: new SignInPageBindings(),
+          binding: SignInPageBindings(),
         ),
-        new GetPage(
+        GetPage(
           name: Routes.signUp,
           page: () => const SignUpPage(),
-          binding: new SignUpPageBindings(),
+          binding: SignUpPageBindings(),
         ),
-        new GetPage(
+        GetPage(
           name: Routes.resetPassword,
           page: () => const ForgetPassword(),
           binding: ForgetPassword.binding(),
         ),
-        new GetPage(
+        GetPage(
           name: Routes.intro,
           page: () => const IntroPage(),
-          binding: new IntroPageBinding(),
+          binding: IntroPageBinding(),
         ),
-        new GetPage(
+        GetPage(
           name: Routes.home,
           page: () => const MainPage(),
-          binding: new MainPageBinding(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          binding: MainPageBinding(),
+          middlewares: [_AuthGuardMiddleWare()],
         ),
-        new GetPage(
+        GetPage(
           name: Routes.cart,
           page: () => const CartPage(),
           binding: CartPage.binding(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          middlewares: [_AuthGuardMiddleWare()],
         ),
-        new GetPage(
+        GetPage(
           name: Routes.profile,
           page: () => const ProfilePage(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          middlewares: [_AuthGuardMiddleWare()],
         ),
-        new GetPage(
+        GetPage(
           name: Routes.address,
           page: () => const AddressListPage(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          middlewares: [_AuthGuardMiddleWare()],
         ),
-        new GetPage(
+        GetPage(
           name: Routes.addAddress,
           page: () => const AddressCreateFormPage(),
           binding: AddressCreateFormPage.binding(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          middlewares: [_AuthGuardMiddleWare()],
         ),
-        new GetPage(
+        GetPage(
           name: Routes.makeOrder,
           page: () => const MakeOrderPage(),
           binding: MakeOrderPage.binding(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          middlewares: [_AuthGuardMiddleWare()],
         ),
-        new GetPage(
+        GetPage(
           name: Routes.orderList,
           page: () => const OrderListPage(),
           binding: OrderListPage.binding(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          middlewares: [_AuthGuardMiddleWare()],
         ),
-        new GetPage(
+        GetPage(
           name: Routes.order,
           page: () => const OrderPage(),
           binding: OrderPage.binding(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          middlewares: [_AuthGuardMiddleWare()],
         ),
-        new GetPage(
+        GetPage(
           name: Routes.wishList,
           page: () => const WishListPage(),
           binding: WishListPage.binding(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          middlewares: [_AuthGuardMiddleWare()],
         ),
-        new GetPage(
+        GetPage(
           name: Routes.giveOrderRatingRoute,
           page: () => const GiveOrderRatingPage(),
           binding: GiveOrderRatingPage.binding(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          middlewares: [_AuthGuardMiddleWare()],
         ),
-        new GetPage(
+        GetPage(
           name: Routes.profileUpdate,
           page: () => const ChangeProfilePage(),
           binding: ChangeProfilePage.binding(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          middlewares: [_AuthGuardMiddleWare()],
         ),
-        new GetPage(
+        GetPage(
           name: Routes.changePassword,
           page: () => const ChangePasswordPage(),
           binding: ChangePasswordPage.binding(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          middlewares: [_AuthGuardMiddleWare()],
         ),
-        new GetPage(
+        GetPage(
           name: Routes.chat,
           page: () => const ChatPage(),
-          middlewares: [
-            new _AuthGuardMiddleWare(),
-          ],
+          middlewares: [_AuthGuardMiddleWare()],
         ),
       ];
 }
@@ -159,9 +133,10 @@ class _AuthGuardMiddleWare extends GetMiddleware {
   RouteSettings? redirect(final String? route) {
     if (SessionService.instance.hasSession) {
       return null;
-    } else
-      return new RouteSettings(
+    } else {
+      return const RouteSettings(
         name: Routes.signIn,
       );
+    }
   }
 }

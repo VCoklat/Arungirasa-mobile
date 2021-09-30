@@ -12,44 +12,42 @@ import 'package:octo_image/octo_image.dart';
 class _CartPageBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<_CartPageController>(() => new _CartPageController());
+    Get.lazyPut<_CartPageController>(() => _CartPageController());
   }
 }
 
 class CartPage extends GetView<_CartPageController> {
-  const CartPage();
-  static _CartPageBinding binding() => new _CartPageBinding();
+  const CartPage({Key? key}) : super(key: key);
+  static _CartPageBinding binding() => _CartPageBinding();
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new NestedScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        body: NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
-            new SliverAppBar(
-              title: new Text(S.current.cart),
-            ),
+            SliverAppBar(title: Text(S.current.cart)),
           ],
-          body: new Padding(
+          body: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: new Column(
+            child: Column(
               children: [
-                new Expanded(
-                  child: new AnimatedList(
+                Expanded(
+                  child: AnimatedList(
                     key: controller.listState,
                     initialItemCount: controller.itemList.length,
                     itemBuilder: (_, final int index, final animation) =>
-                        new _AnimatedCartCard(
+                        _AnimatedCartCard(
                       cart: controller.itemList[index],
                       animation: animation,
                     ),
                   ),
                 ),
                 const SizedBox(height: 10),
-                new ElevatedButton(
-                  child: new Text(S.current.ordeButtonr),
-                  style: new ButtonStyle(
+                ElevatedButton(
+                  child: Text(S.current.ordeButtonr),
+                  style: ButtonStyle(
                       shape: MaterialStateProperty.all(
-                        new RoundedRectangleBorder(
-                            borderRadius: const BorderRadius.all(
-                                const Radius.circular(30))),
+                        const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
                       ),
                       padding:
                           MaterialStateProperty.all(const EdgeInsets.all(15.0)),
@@ -75,21 +73,19 @@ class _CartCard extends StatelessWidget {
     required this.cart,
   }) : super(key: key);
   @override
-  Widget build(BuildContext context) => new Column(
+  Widget build(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          new LayoutBuilder(
-            builder: (_, constraints) => new SizedBox(
+          LayoutBuilder(
+            builder: (_, constraints) => SizedBox(
               height: constraints.maxWidth * 0.4,
-              child: new Row(
+              child: Row(
                 children: [
                   _getImage(constraints.maxWidth * 0.4),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  new Expanded(
-                    child: new Column(
+                  const SizedBox(width: 5.0),
+                  Expanded(
+                    child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -99,24 +95,24 @@ class _CartCard extends StatelessWidget {
                         const SizedBox(height: 5.0),
                         _totalText,
                         const SizedBox(height: 5.0),
-                        new Row(
+                        Row(
                           children: [
-                            new IconButton(
+                            IconButton(
                               icon: const Icon(Icons.delete_sharp),
                               iconSize: 28,
                               onPressed: () => CartService.instance
                                   .removeCart(cart.value.menu, 0),
                             ),
                             const SizedBox(width: 10.0),
-                            new IconButton(
+                            IconButton(
                               icon: const Icon(Icons.remove_sharp),
                               iconSize: 28,
                               onPressed: () => CartService.instance
                                   .subtractCart(cart.value.menu),
                             ),
                             const SizedBox(width: 2.5),
-                            new ObxValue<Rx<Cart>>(
-                              (obs) => new Text(
+                            ObxValue<Rx<Cart>>(
+                              (obs) => Text(
                                 obs.value.qty.toString(),
                                 style: const TextStyle(
                                   decoration: TextDecoration.underline,
@@ -125,7 +121,7 @@ class _CartCard extends StatelessWidget {
                               cart,
                             ),
                             const SizedBox(width: 2.5),
-                            new IconButton(
+                            IconButton(
                               icon: const Icon(Icons.add_sharp),
                               iconSize: 28,
                               onPressed: () =>
@@ -140,16 +136,14 @@ class _CartCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(
-            height: 5.0,
-          ),
+          const SizedBox(height: 5.0),
           const Divider(),
         ],
       );
 
-  Widget get _totalText => new Expanded(
-        child: new ObxValue<Rx<Cart>>(
-          (obs) => new Text(
+  Widget get _totalText => Expanded(
+        child: ObxValue<Rx<Cart>>(
+          (obs) => Text(
             Helper.formatMoney((obs.value.qty * obs.value.price).toDouble()),
             style: const TextStyle(
               fontWeight: FontWeight.w600,
@@ -161,8 +155,8 @@ class _CartCard extends StatelessWidget {
         ),
       );
 
-  Widget get _description => new Expanded(
-        child: new Text(
+  Widget get _description => Expanded(
+        child: Text(
           cart.value.menu.description,
           maxLines: null,
           style: const TextStyle(
@@ -171,9 +165,9 @@ class _CartCard extends StatelessWidget {
         ),
       );
 
-  Widget get _title => new Text(
+  Widget get _title => Text(
         cart.value.menu.name,
-        style: new TextStyle(
+        style: TextStyle(
           fontWeight: FontWeight.w600,
           color: Get.theme.primaryColor,
           fontSize: 18.0,
@@ -181,15 +175,14 @@ class _CartCard extends StatelessWidget {
         ),
       );
 
-  Widget _getImage(final double size) => new SizedBox(
+  Widget _getImage(final double size) => SizedBox(
         width: size,
         height: size,
-        child: new Material(
-          shape: new RoundedRectangleBorder(
-              borderRadius:
-                  const BorderRadius.all(const Radius.circular(15.0))),
+        child: Material(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))),
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: new OctoImage(
+          child: OctoImage(
             image:
                 CachedNetworkImageProvider(cart.value.menu.imageList.first.url),
             placeholderBuilder: OctoPlaceholder.blurHash(
@@ -211,23 +204,22 @@ class _AnimatedCartCard extends StatelessWidget {
     required this.animation,
   }) : super(key: key);
   @override
-  Widget build(BuildContext context) => new SlideTransition(
+  Widget build(BuildContext context) => SlideTransition(
         position: Tween<Offset>(
           begin: const Offset(-1, 0),
           end: const Offset(0, 0),
         ).animate(animation),
-        child: new _CartCard(cart: cart),
+        child: _CartCard(cart: cart),
       );
 }
 
 class _CartPageController extends GetxController {
-  final listState = new GlobalKey<AnimatedListState>();
+  final listState = GlobalKey<AnimatedListState>();
   final itemList = <Rx<Cart>>[];
 
   @override
   void onInit() {
-    itemList
-        .assignAll(CartService.instance.itemList.map((e) => new Rx<Cart>(e)));
+    itemList.assignAll(CartService.instance.itemList.map((e) => Rx<Cart>(e)));
     CartService.instance.addOnAddIndexCallback(_onAdd);
     CartService.instance.addOnRemoveIndexCallback(_onRemove);
     CartService.instance.addOnQtyChangedIndexCallback(_onQtyChanged);
@@ -243,7 +235,7 @@ class _CartPageController extends GetxController {
   }
 
   void _onAdd(final int index) {
-    itemList.add(new Rx<Cart>(CartService.instance.itemList[index]));
+    itemList.add(Rx<Cart>(CartService.instance.itemList[index]));
     listState.currentState!.insertItem(index);
   }
 
@@ -252,7 +244,7 @@ class _CartPageController extends GetxController {
     itemList.removeAt(index);
     listState.currentState!.removeItem(
       index,
-      (context, animation) => new _AnimatedCartCard(
+      (context, animation) => _AnimatedCartCard(
         cart: item,
         animation: animation,
       ),

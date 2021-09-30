@@ -6,17 +6,16 @@ class _AddToCartDialog extends StatelessWidget {
   const _AddToCartDialog({Key? key, required this.menu}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => new Padding(
+  Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5.0),
-        child: new Card(
-          shape: new RoundedRectangleBorder(
-              borderRadius:
-                  const BorderRadius.all(const Radius.circular(20.0))),
-          child: new Padding(
+        child: Card(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+          child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: new ClipRRect(
-              borderRadius: const BorderRadius.all(const Radius.circular(20.0)),
-              child: new ListView(
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+              child: ListView(
                 shrinkWrap: true,
                 children: [
                   const SizedBox(height: 2.0),
@@ -37,20 +36,19 @@ class _AddToCartDialog extends StatelessWidget {
         ),
       );
 
-  Widget get _button => new Padding(
+  Widget get _button => Padding(
         padding: const EdgeInsets.only(left: 10.0),
-        child: new ElevatedButton(
-          style: new ButtonStyle(
-              shape: MaterialStateProperty.all(new RoundedRectangleBorder(
-                  borderRadius:
-                      const BorderRadius.all(const Radius.circular(20.0)))),
+        child: ElevatedButton(
+          style: ButtonStyle(
+              shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)))),
               backgroundColor:
                   MaterialStateProperty.all(Get.theme.primaryColor),
               textStyle: MaterialStateProperty.all(const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18.0,
               ))),
-          child: new Text(S.current.addToCart),
+          child: Text(S.current.addToCart),
           onPressed: () async {
             await CartService.instance
                 .insertCart(menu, CartService.instance.getQty(menu.ref) + 1);
@@ -59,20 +57,20 @@ class _AddToCartDialog extends StatelessWidget {
         ),
       );
 
-  Widget get _description => new Padding(
+  Widget get _description => Padding(
         padding: const EdgeInsets.only(left: 10.0),
-        child: new Text(
+        child: Text(
           menu.description,
           maxLines: 3,
           style: const TextStyle(fontSize: 14),
         ),
       );
 
-  Widget get _price => new Padding(
+  Widget get _price => Padding(
         padding: const EdgeInsets.only(left: 10.0),
-        child: new Text(
+        child: Text(
           Helper.formatMoney(menu.price.toDouble()),
-          style: new TextStyle(
+          style: const TextStyle(
             color: _kPriceColor,
             fontWeight: FontWeight.w600,
             fontSize: 24.0,
@@ -80,11 +78,11 @@ class _AddToCartDialog extends StatelessWidget {
         ),
       );
 
-  Widget get _name => new Padding(
+  Widget get _name => Padding(
         padding: const EdgeInsets.only(left: 10.0),
-        child: new Text(
+        child: Text(
           menu.name,
-          style: new TextStyle(
+          style: TextStyle(
             color: Get.theme.primaryColor,
             fontWeight: FontWeight.w600,
             fontSize: 26.0,
@@ -92,12 +90,12 @@ class _AddToCartDialog extends StatelessWidget {
         ),
       );
 
-  Widget get _image => new AspectRatio(
+  Widget get _image => AspectRatio(
         aspectRatio: 16 / 8.5,
-        child: new ClipRRect(
-          borderRadius: const BorderRadius.all(const Radius.circular(20.0)),
-          child: new OctoImage(
-            image: new CachedNetworkImageProvider(menu.imageList.first.url),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+          child: OctoImage(
+            image: CachedNetworkImageProvider(menu.imageList.first.url),
             placeholderBuilder:
                 OctoPlaceholder.blurHash(menu.imageList.first.blurhash),
             errorBuilder: OctoError.blurHash(menu.imageList.first.blurhash),

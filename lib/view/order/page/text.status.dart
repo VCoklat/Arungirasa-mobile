@@ -3,7 +3,7 @@ part of 'order_page.dart';
 class _OrderTextStatus extends GetView<_OrderPageController> {
   const _OrderTextStatus();
   @override
-  Widget build(BuildContext context) => new Obx(
+  Widget build(BuildContext context) => Obx(
         () {
           String text;
           Color color;
@@ -34,9 +34,9 @@ class _OrderTextStatus extends GetView<_OrderPageController> {
               color = Colors.white;
               break;
           }
-          return new Text(
+          return Text(
             text,
-            style: new TextStyle(
+            style: TextStyle(
               color: color,
               fontWeight: FontWeight.bold,
               fontSize: 24,

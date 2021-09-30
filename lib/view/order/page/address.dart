@@ -3,11 +3,11 @@ part of 'order_page.dart';
 class _OrderAddress extends GetView<_OrderPageController> {
   const _OrderAddress();
   @override
-  Widget build(BuildContext context) => new Column(
+  Widget build(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          new Text(
+          Text(
             S.current.sentAddress,
             style: const TextStyle(
               color: Colors.grey,
@@ -15,7 +15,7 @@ class _OrderAddress extends GetView<_OrderPageController> {
             ),
           ),
           const SizedBox(height: 5),
-          new Text(
+          Text(
             controller.order.value!.address.name,
             style: const TextStyle(
               fontWeight: FontWeight.bold,

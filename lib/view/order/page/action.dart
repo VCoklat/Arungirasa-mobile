@@ -3,18 +3,18 @@ part of 'order_page.dart';
 class _OrderAction extends GetView<_OrderPageController> {
   const _OrderAction();
   @override
-  Widget build(BuildContext context) => new Obx(
+  Widget build(BuildContext context) => Obx(
         () {
           final order = controller.order.value!;
           switch (order.status) {
             case OrderStatus.unpaid:
-              return new Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: const _OrderPayment(),
+              return const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: _OrderPayment(),
               );
             case OrderStatus.arrived:
-              return new Center(
-                child: new _GiveRatingButton(
+              return Center(
+                child: _GiveRatingButton(
                   future: controller.hasGiveRatingFuture.value,
                   rating: controller.rating.value,
                   onPressed: () async {
@@ -45,35 +45,32 @@ class _GiveRatingButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => new FutureBuilder<bool>(
+  Widget build(BuildContext context) => FutureBuilder<bool>(
         future: future,
         builder: (_, snapshot) {
-          print(snapshot.connectionState);
-          print(snapshot.data);
-          print(future);
           Widget? widget;
           switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
             case ConnectionState.active:
-              widget = new Center(
-                child: new CircularProgressIndicator(
+              widget = Center(
+                child: CircularProgressIndicator(
                   valueColor:
-                      new AlwaysStoppedAnimation<Color>(Get.theme.primaryColor),
+                      AlwaysStoppedAnimation<Color>(Get.theme.primaryColor),
                 ),
               );
               break;
             case ConnectionState.done:
               if (snapshot.hasError) {
-                new Future.delayed(
+                Future.delayed(
                     Duration.zero,
                     () => ErrorReporter.instance
                         .captureException(snapshot.error));
               } else {
                 if (snapshot.hasData && !snapshot.data!) {
-                  widget = new ElevatedButton(
-                    child: new Text(S.current.giveRating),
-                    style: new ButtonStyle(
+                  widget = ElevatedButton(
+                    child: Text(S.current.giveRating),
+                    style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all(Get.theme.primaryColor),
                       textStyle: MaterialStateProperty.all(const TextStyle(
@@ -83,12 +80,12 @@ class _GiveRatingButton extends StatelessWidget {
                     onPressed: onPressed,
                   );
                 } else if (snapshot.hasData && snapshot.data!) {
-                  widget = new RatingBarIndicator(
+                  widget = RatingBarIndicator(
                     rating: rating?.rating ?? .0,
                     direction: Axis.horizontal,
                     itemCount: 5,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    itemBuilder: (context, _) => Icon(
+                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    itemBuilder: (context, _) => const Icon(
                       Icons.star,
                       color: Colors.amber,
                     ),
@@ -100,7 +97,7 @@ class _GiveRatingButton extends StatelessWidget {
           if (widget == null) {
             return const SizedBox();
           } else {
-            return new Padding(
+            return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: widget,
             );

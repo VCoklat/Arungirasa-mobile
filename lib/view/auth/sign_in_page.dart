@@ -15,16 +15,16 @@ import 'package:gradient_loading_button/gradient_loading_button.dart';
 class SignInPageBindings implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<_SignInPageController>(() => new _SignInPageController());
+    Get.lazyPut<_SignInPageController>(() => _SignInPageController());
   }
 }
 
 class SignInPage extends GetView<_SignInPageController> {
-  const SignInPage();
+  const SignInPage({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new SafeArea(
-          child: new ListView(
+  Widget build(BuildContext context) => Scaffold(
+        body: SafeArea(
+          child: ListView(
             shrinkWrap: true,
             padding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -34,11 +34,11 @@ class SignInPage extends GetView<_SignInPageController> {
               helloText,
               appAboutText,
               const SizedBox(height: 10.0),
-              new Obx(
-                () => new TextField(
-                  decoration: new InputDecoration(
+              Obx(
+                () => TextField(
+                  decoration: InputDecoration(
                     labelText: S.current.email,
-                    prefixIcon: new Icon(
+                    prefixIcon: Icon(
                       Icons.email_outlined,
                       color: Get.theme.primaryColor,
                     ),
@@ -49,22 +49,22 @@ class SignInPage extends GetView<_SignInPageController> {
                 ),
               ),
               const SizedBox(height: 10.0),
-              new Obx(
-                () => new TextField(
-                  decoration: new InputDecoration(
+              Obx(
+                () => TextField(
+                  decoration: InputDecoration(
                     labelText: S.current.password,
-                    prefixIcon: new Icon(
+                    prefixIcon: Icon(
                       Icons.lock_open_outlined,
                       color: Get.theme.primaryColor,
                     ),
                     errorText: controller.passwordValidator.value,
-                    suffixIcon: new InkWell(
-                      child: new Obx(() => controller.obscurePassword.value
-                          ? new Icon(
+                    suffixIcon: InkWell(
+                      child: Obx(() => controller.obscurePassword.value
+                          ? Icon(
                               Icons.visibility,
                               color: Get.theme.primaryColor,
                             )
-                          : new Icon(
+                          : Icon(
                               Icons.visibility_off,
                               color: Get.theme.primaryColor,
                             )),
@@ -76,24 +76,22 @@ class SignInPage extends GetView<_SignInPageController> {
                 ),
               ),
               const SizedBox(height: 2.5),
-              new Container(
-                child: new Align(
-                  alignment: Alignment.centerRight,
-                  child: new InkWell(
-                    child: new Text(
-                      S.current.forgotPassword,
-                      style: new TextStyle(
-                        color: Get.theme.primaryColor,
-                        fontWeight: FontWeight.w500,
-                      ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  child: Text(
+                    S.current.forgotPassword,
+                    style: TextStyle(
+                      color: Get.theme.primaryColor,
+                      fontWeight: FontWeight.w500,
                     ),
-                    onTap: () => Get.toNamed(Routes.resetPassword),
                   ),
+                  onTap: () => Get.toNamed(Routes.resetPassword),
                 ),
               ),
               const SizedBox(height: 25.0),
-              new LoadingButton(
-                child: new Text(S.current.signIn),
+              LoadingButton(
+                child: Text(S.current.signIn),
                 successChild: const Icon(
                   Icons.check_sharp,
                   size: 35,
@@ -104,11 +102,10 @@ class SignInPage extends GetView<_SignInPageController> {
                   size: 35,
                   color: Colors.white,
                 ),
-                style: new ButtonStyle(
+                style: ButtonStyle(
                     shape: MaterialStateProperty.all(
-                      new RoundedRectangleBorder(
-                          borderRadius: const BorderRadius.all(
-                              const Radius.circular(30))),
+                      const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
                     ),
                     backgroundColor:
                         MaterialStateProperty.all(Get.theme.accentColor),
@@ -132,10 +129,10 @@ class SignInPage extends GetView<_SignInPageController> {
         ),
       );
 
-  Widget get image => new KeyboardVisibilityBuilder(
+  Widget get image => KeyboardVisibilityBuilder(
         builder: (_, isVisible) => isVisible
             ? const SizedBox()
-            : new Center(
+            : Center(
                 child: Assets.images.logoWithText.image(
                   height: Get.height * 0.25 - 10,
                   fit: BoxFit.fitHeight,
@@ -143,7 +140,7 @@ class SignInPage extends GetView<_SignInPageController> {
               ),
       );
 
-  Widget get space => new KeyboardVisibilityBuilder(
+  Widget get space => KeyboardVisibilityBuilder(
         builder: (_, isVisible) => isVisible
             ? const SizedBox()
             : const SizedBox(
@@ -151,10 +148,10 @@ class SignInPage extends GetView<_SignInPageController> {
               ),
       );
 
-  Widget get helloText => new KeyboardVisibilityBuilder(
+  Widget get helloText => KeyboardVisibilityBuilder(
         builder: (_, isVisible) => isVisible
             ? const SizedBox()
-            : new Text(
+            : Text(
                 S.current.hello,
                 style: const TextStyle(
                   fontSize: 20.0,
@@ -163,25 +160,22 @@ class SignInPage extends GetView<_SignInPageController> {
               ),
       );
 
-  Widget get appAboutText => new KeyboardVisibilityBuilder(
-        builder: (_, isVisible) => isVisible
-            ? const SizedBox()
-            : new Text(
-                S.current.aboutShortText,
-              ),
+  Widget get appAboutText => KeyboardVisibilityBuilder(
+        builder: (_, isVisible) =>
+            isVisible ? const SizedBox() : Text(S.current.aboutShortText),
       );
 
-  Widget get signUpLink => new KeyboardVisibilityBuilder(
+  Widget get signUpLink => KeyboardVisibilityBuilder(
         builder: (_, isVisible) => isVisible
             ? const SizedBox()
-            : new Center(
-                child: new Row(
+            : Center(
+                child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    new Text(S.current.signUpText),
-                    new TextButton(
-                      child: new Text(S.current.signUp),
-                      style: new ButtonStyle(
+                    Text(S.current.signUpText),
+                    TextButton(
+                      child: Text(S.current.signUp),
+                      style: ButtonStyle(
                         textStyle: MaterialStateProperty.all(
                           const TextStyle(
                             fontSize: 18.0,
@@ -198,44 +192,40 @@ class SignInPage extends GetView<_SignInPageController> {
               ),
       );
 
-  Widget get orText => new KeyboardVisibilityBuilder(
+  Widget get orText => KeyboardVisibilityBuilder(
         builder: (_, isVisible) => isVisible
             ? const SizedBox()
-            : new Center(
-                child: new Text(
+            : Center(
+                child: Text(
                   S.current.or,
                   style: const TextStyle(color: Colors.grey),
                 ),
               ),
       );
 
-  Widget get signInWithText => new KeyboardVisibilityBuilder(
+  Widget get signInWithText => KeyboardVisibilityBuilder(
         builder: (_, isVisible) => isVisible
             ? const SizedBox()
-            : new Center(
-                child: new Text(
-                  S.current.signInWith,
-                ),
+            : Center(
+                child: Text(S.current.signInWith),
               ),
       );
 
-  Widget get googleSignInButton => new KeyboardVisibilityBuilder(
+  Widget get googleSignInButton => KeyboardVisibilityBuilder(
         builder: (_, isVisible) => isVisible
             ? const SizedBox()
-            : new Center(
-                child: new MaterialButton(
+            : Center(
+                child: MaterialButton(
                   color: const Color(0xFFBE1E2D),
-                  child: new Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(
                         AntIcons.google,
                         color: Colors.white,
                       ),
-                      const SizedBox(
-                        width: 10.0,
-                      ),
-                      new Text(
+                      const SizedBox(width: 10.0),
+                      Text(
                         S.current.signInWithGoogle,
                         style: const TextStyle(
                           color: Colors.white,
@@ -244,31 +234,28 @@ class SignInPage extends GetView<_SignInPageController> {
                       ),
                     ],
                   ),
-                  shape: new RoundedRectangleBorder(
-                      borderRadius:
-                          const BorderRadius.all(const Radius.circular(30))),
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                   onPressed: controller.signInGoogle,
                 ),
               ),
       );
 
-  Widget get facebookSignInButton => new KeyboardVisibilityBuilder(
+  Widget get facebookSignInButton => KeyboardVisibilityBuilder(
         builder: (_, isVisible) => isVisible
             ? const SizedBox()
-            : new Center(
-                child: new MaterialButton(
+            : Center(
+                child: MaterialButton(
                   color: const Color(0xFF3D599D),
-                  child: new Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       const Icon(
                         AntIcons.facebook,
                         color: Colors.white,
                       ),
-                      const SizedBox(
-                        width: 10.0,
-                      ),
-                      new Text(
+                      const SizedBox(width: 10.0),
+                      Text(
                         S.current.signInWithFacebook,
                         style: const TextStyle(
                           color: Colors.white,
@@ -277,9 +264,8 @@ class SignInPage extends GetView<_SignInPageController> {
                       ),
                     ],
                   ),
-                  shape: new RoundedRectangleBorder(
-                      borderRadius:
-                          const BorderRadius.all(const Radius.circular(30))),
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
                   onPressed: controller.signInFacebook,
                 ),
               ),
@@ -287,12 +273,12 @@ class SignInPage extends GetView<_SignInPageController> {
 }
 
 class _SignInPageController extends GetxController with MixinControllerWorker {
-  final email = new RxString("");
-  final password = new RxString("");
-  final obscurePassword = new RxBool(true);
+  final email = RxString("");
+  final password = RxString("");
+  final obscurePassword = RxBool(true);
 
-  final emailValidator = new RxnString();
-  final passwordValidator = new RxnString();
+  final emailValidator = RxnString();
+  final passwordValidator = RxnString();
 
   Future<void> signIn(final LoadingButtonController controller) async {
     final currentFocus = FocusScope.of(Get.focusScope!.context!);
@@ -310,15 +296,15 @@ class _SignInPageController extends GetxController with MixinControllerWorker {
       );
 
       await controller.success();
-      await new Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       SessionService.instance.navigate();
     } on FirebaseAuthException catch (e, st) {
       controller.error();
-      if (e.code == "user-not-found")
+      if (e.code == "user-not-found") {
         emailValidator.value = S.current.errorEmailNotFound;
-      else if (e.code == "wrong-password")
+      } else if (e.code == "wrong-password") {
         passwordValidator.value = S.current.errorPasswordInvalid;
-      else {
+      } else {
         ErrorReporter.instance.captureException(e, st);
         Helper.showError(text: S.current.errorOccurred);
       }
@@ -351,12 +337,13 @@ class _SignInPageController extends GetxController with MixinControllerWorker {
       emailValidator.value != null || passwordValidator.value != null;
 
   void _validateEmail(final String email) {
-    if (email.isEmpty)
+    if (email.isEmpty) {
       emailValidator.value = S.current.errorEmailEmpty;
-    else if (!email.isEmail)
+    } else if (!email.isEmail) {
       emailValidator.value = S.current.errorEmailInvalid;
-    else
+    } else {
       emailValidator.value = null;
+    }
   }
 
   void _validatePassword(final String password) => passwordValidator.value =

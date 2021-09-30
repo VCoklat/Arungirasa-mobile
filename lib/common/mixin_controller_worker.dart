@@ -7,7 +7,7 @@ mixin MixinControllerWorker on GetxController {
   List<Worker> getWorkers();
 
   @mustCallSuper
-  void onInitWorker() => _workers.addAll( getWorkers() );
+  void onInitWorker() => _workers.addAll(getWorkers());
 
   @mustCallSuper
   @override
@@ -19,7 +19,9 @@ mixin MixinControllerWorker on GetxController {
   @mustCallSuper
   @override
   void onClose() {
-    for ( final worker in _workers ) worker.dispose();
+    for (final worker in _workers) {
+      worker.dispose();
+    }
     super.onClose();
   }
 }

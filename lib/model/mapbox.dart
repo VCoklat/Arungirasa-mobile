@@ -29,10 +29,8 @@ final _mapBoxFeaturePlaceTypeValues =
   "poi": MapBoxFeaturePlaceType.poi,
 });
 
-List<String>? _separateStringNullable(final String? value) =>
-    value == null ? null : value.split(",");
-String? _joinStringNullable(final List<String>? value) =>
-    value == null ? null : value.join(",");
+List<String>? _separateStringNullable(final String? value) => value?.split(",");
+String? _joinStringNullable(final List<String>? value) => value?.join(",");
 
 @JsonSerializable(createToJson: false)
 class MapBoxFeatureCollection {

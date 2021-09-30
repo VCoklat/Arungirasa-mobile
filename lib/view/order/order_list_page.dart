@@ -12,34 +12,32 @@ import 'package:get/get.dart';
 class _OrderListPageBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<_OrderListPageController>(() => new _OrderListPageController());
+    Get.lazyPut<_OrderListPageController>(() => _OrderListPageController());
   }
 }
 
 class OrderListPage extends GetView<_OrderListPageController> {
-  const OrderListPage();
-  static _OrderListPageBinding binding() => new _OrderListPageBinding();
+  const OrderListPage({Key? key}) : super(key: key);
+  static _OrderListPageBinding binding() => _OrderListPageBinding();
   @override
-  Widget build(BuildContext context) => new Scaffold(
-        body: new NestedScrollView(
+  Widget build(BuildContext context) => Scaffold(
+        body: NestedScrollView(
           headerSliverBuilder: (_, __) => <Widget>[
-            new SliverAppBar(
-              title: new Text(S.current.order),
-            ),
+            SliverAppBar(title: Text(S.current.order)),
           ],
-          body: new Padding(
+          body: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: new Column(
+            child: Column(
               children: [
-                new SizedBox(
+                SizedBox(
                   height: 30,
-                  child: new ListView(
+                  child: ListView(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     children: [
-                      new Obx(
-                        () => new FilterChip(
-                          label: new Text(S.current.all),
+                      Obx(
+                        () => FilterChip(
+                          label: Text(S.current.all),
                           selected: controller.status.value == null,
                           onSelected: controller.busy.value
                               ? null
@@ -47,9 +45,9 @@ class OrderListPage extends GetView<_OrderListPageController> {
                         ),
                       ),
                       gap,
-                      new Obx(
-                        () => new FilterChip(
-                          label: new Text(S.current.unpaid),
+                      Obx(
+                        () => FilterChip(
+                          label: Text(S.current.unpaid),
                           selected:
                               controller.status.value == OrderStatus.unpaid,
                           onSelected: controller.busy.value
@@ -59,9 +57,9 @@ class OrderListPage extends GetView<_OrderListPageController> {
                         ),
                       ),
                       gap,
-                      new Obx(
-                        () => new FilterChip(
-                          label: new Text(S.current.confirm),
+                      Obx(
+                        () => FilterChip(
+                          label: Text(S.current.confirm),
                           selected: controller.status.value ==
                               OrderStatus.awaitingConfirmation,
                           onSelected: controller.busy.value
@@ -71,9 +69,9 @@ class OrderListPage extends GetView<_OrderListPageController> {
                         ),
                       ),
                       gap,
-                      new Obx(
-                        () => new FilterChip(
-                          label: new Text(S.current.onProcess),
+                      Obx(
+                        () => FilterChip(
+                          label: Text(S.current.onProcess),
                           selected:
                               controller.status.value == OrderStatus.onProcess,
                           onSelected: controller.busy.value
@@ -83,9 +81,9 @@ class OrderListPage extends GetView<_OrderListPageController> {
                         ),
                       ),
                       gap,
-                      new Obx(
-                        () => new FilterChip(
-                          label: new Text(S.current.sent),
+                      Obx(
+                        () => FilterChip(
+                          label: Text(S.current.sent),
                           selected: controller.status.value == OrderStatus.sent,
                           onSelected: controller.busy.value
                               ? null
@@ -94,9 +92,9 @@ class OrderListPage extends GetView<_OrderListPageController> {
                         ),
                       ),
                       gap,
-                      new Obx(
-                        () => new FilterChip(
-                          label: new Text(S.current.arrived),
+                      Obx(
+                        () => FilterChip(
+                          label: Text(S.current.arrived),
                           selected:
                               controller.status.value == OrderStatus.arrived,
                           onSelected: controller.busy.value
@@ -106,9 +104,9 @@ class OrderListPage extends GetView<_OrderListPageController> {
                         ),
                       ),
                       gap,
-                      new Obx(
-                        () => new FilterChip(
-                          label: new Text(S.current.complained),
+                      Obx(
+                        () => FilterChip(
+                          label: Text(S.current.complained),
                           selected:
                               controller.status.value == OrderStatus.complained,
                           onSelected: controller.busy.value
@@ -118,9 +116,9 @@ class OrderListPage extends GetView<_OrderListPageController> {
                         ),
                       ),
                       gap,
-                      new Obx(
-                        () => new FilterChip(
-                          label: new Text(S.current.cancelled),
+                      Obx(
+                        () => FilterChip(
+                          label: Text(S.current.cancelled),
                           selected:
                               controller.status.value == OrderStatus.cancelled,
                           onSelected: controller.busy.value
@@ -133,14 +131,14 @@ class OrderListPage extends GetView<_OrderListPageController> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                new Expanded(
-                  child: new AnimatedList(
+                Expanded(
+                  child: AnimatedList(
                     key: controller.listState,
                     initialItemCount: controller.itemList.length,
                     shrinkWrap: true,
                     itemBuilder: (_, final int index, final animation) =>
-                        new InkWell(
-                      child: new AnimatedOrderCard(
+                        InkWell(
+                      child: AnimatedOrderCard(
                         order: controller.itemList[index],
                         animation: animation,
                       ),
@@ -163,10 +161,10 @@ class OrderListPage extends GetView<_OrderListPageController> {
 
 class _OrderListPageController extends GetxController
     with MixinControllerWorker {
-  final listState = new GlobalKey<AnimatedListState>();
+  final listState = GlobalKey<AnimatedListState>();
   final itemList = <Order>[];
-  final status = new Rxn<OrderStatus>();
-  final busy = new RxBool(false);
+  final status = Rxn<OrderStatus>();
+  final busy = RxBool(false);
 
   @override
   void onInit() {
@@ -192,18 +190,22 @@ class _OrderListPageController extends GetxController
     final item = itemList[index];
     listState.currentState!.removeItem(
       index,
-      (context, animation) => new AnimatedOrderCard(
+      (context, animation) => AnimatedOrderCard(
         order: item,
         animation: animation,
       ),
       duration: const Duration(milliseconds: 300),
     );
-    new Future.delayed(const Duration(milliseconds: 500)).then(
+    Future.delayed(const Duration(milliseconds: 500)).then(
       (_) => itemList.removeAt(index),
     );
   }
 
-  void refresh() => _onStatusChanged(status.value);
+  @override
+  void refresh() {
+    super.refresh();
+    _onStatusChanged(status.value);
+  }
 
   void _onStatusChanged(final OrderStatus? status) async {
     busy.value = true;
@@ -211,13 +213,13 @@ class _OrderListPageController extends GetxController
       for (int i = itemList.length - 1; i > -1; --i) {
         listState.currentState!.removeItem(
           i,
-          (context, animation) => new AnimatedOrderCard(
+          (context, animation) => AnimatedOrderCard(
             order: itemList[i],
             animation: animation,
           ),
           duration: const Duration(milliseconds: 300),
         );
-        await new Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(const Duration(milliseconds: 500));
         itemList.removeAt(i);
       }
 
@@ -233,7 +235,7 @@ class _OrderListPageController extends GetxController
           i,
           duration: const Duration(milliseconds: 300),
         );
-        await new Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(const Duration(milliseconds: 500));
       }
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);

@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 class OrderService extends GetxService {
   static OrderService get instance => Get.find<OrderService>();
 
-  final itemList = new RxList<Order>();
+  final itemList = RxList<Order>();
 
   List<Order> get onGoingOrder => itemList
       .where((e) =>

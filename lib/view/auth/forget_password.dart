@@ -12,61 +12,57 @@ class _ForgetPasswordBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut<_ForgetPasswordPageController>(
-        () => new _ForgetPasswordPageController());
+        () => _ForgetPasswordPageController());
   }
 }
 
 class ForgetPassword extends GetView<_ForgetPasswordPageController> {
-  const ForgetPassword();
-  static _ForgetPasswordBinding binding() => new _ForgetPasswordBinding();
+  const ForgetPassword({Key? key}) : super(key: key);
+  static _ForgetPasswordBinding binding() => _ForgetPasswordBinding();
   @override
-  Widget build(final BuildContext context) => new Padding(
+  Widget build(final BuildContext context) => Padding(
         padding: const EdgeInsets.all(10.0),
-        child: new Center(
-          child: new Column(
+        child: Center(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              new Padding(
+              Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: new Center(
-                  child: new Column(
+                child: Center(
+                  child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      new Text(
+                      Text(
                         S.of(context).resetPassword,
-                        style: new TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Get.theme.primaryColor,
                         ),
                       ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      new Padding(
+                      const SizedBox(height: 10.0),
+                      Padding(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 20.0,
                         ),
-                        child: new Text(
+                        child: Text(
                           S.of(context).resetPasswordDescription,
                           textAlign: TextAlign.center,
-                          style: new TextStyle(
+                          style: TextStyle(
                             color: Get.theme.primaryColor,
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      new Obx(
-                        () => new TextField(
-                          decoration: new InputDecoration(
+                      const SizedBox(height: 10.0),
+                      Obx(
+                        () => TextField(
+                          decoration: InputDecoration(
                             labelText: S.of(context).email,
-                            prefixIcon: new Icon(
+                            prefixIcon: Icon(
                               Icons.email,
                               color: Get.theme.primaryColor,
                             ),
@@ -77,11 +73,9 @@ class ForgetPassword extends GetView<_ForgetPasswordPageController> {
                               controller.email.value = text,
                         ),
                       ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      new LoadingButton(
-                        child: new Text(S.current.resetPassword),
+                      const SizedBox(height: 20.0),
+                      LoadingButton(
+                        child: Text(S.current.resetPassword),
                         successChild: const Icon(
                           Icons.check_sharp,
                           size: 35,
@@ -92,11 +86,11 @@ class ForgetPassword extends GetView<_ForgetPasswordPageController> {
                           size: 35,
                           color: Colors.white,
                         ),
-                        style: new ButtonStyle(
+                        style: ButtonStyle(
                             shape: MaterialStateProperty.all(
-                              new RoundedRectangleBorder(
-                                  borderRadius: const BorderRadius.all(
-                                      const Radius.circular(30))),
+                              const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30))),
                             ),
                             backgroundColor: MaterialStateProperty.all(
                                 Get.theme.accentColor),
@@ -111,27 +105,19 @@ class ForgetPassword extends GetView<_ForgetPasswordPageController> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 30.0,
-              ),
-              new Center(
-                child: new TextButton.icon(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                  ),
-                  style: new ButtonStyle(
+              const SizedBox(height: 30.0),
+              Center(
+                child: TextButton.icon(
+                  icon: const Icon(Icons.arrow_back),
+                  style: ButtonStyle(
                     foregroundColor:
                         MaterialStateProperty.all(Get.theme.primaryColor),
                   ),
-                  label: new Text(
-                    S.current.back,
-                  ),
+                  label: Text(S.current.back),
                   onPressed: Get.back,
                 ),
               ),
-              const SizedBox(
-                height: 10.0,
-              ),
+              const SizedBox(height: 10.0),
             ],
           ),
         ),
@@ -140,16 +126,17 @@ class ForgetPassword extends GetView<_ForgetPasswordPageController> {
 
 class _ForgetPasswordPageController extends GetxController
     with MixinControllerWorker {
-  final email = new RxString("");
-  final emailValidator = new RxnString();
+  final email = RxString("");
+  final emailValidator = RxnString();
 
   void _verifyEmail(final String email) {
-    if (email.isEmpty)
+    if (email.isEmpty) {
       emailValidator.value = S.current.errorEmailEmpty;
-    else if (!GetUtils.isEmail(email))
+    } else if (!GetUtils.isEmail(email)) {
       emailValidator.value = S.current.errorEmailInvalid;
-    else
+    } else {
       emailValidator.value = null;
+    }
   }
 
   Future<void> resetPassword(final LoadingButtonController controller) async {
@@ -164,20 +151,20 @@ class _ForgetPasswordPageController extends GetxController
       );
     } on FirebaseAuthException catch (error, st) {
       controller.error();
-      if (error.code == "invalid-email")
+      if (error.code == "invalid-email") {
         emailValidator.value = S.current.errorEmailInvalid;
-      else if (error.code == "user-not-found")
+      } else if (error.code == "user-not-found") {
         emailValidator.value = S.current.errorEmailNotFound;
-      else {
+      } else {
         ErrorReporter.instance.captureException(error, st);
       }
     } on PlatformException catch (error, st) {
       controller.error();
-      if (error.code == "ERROR_INVALID_EMAIL")
+      if (error.code == "ERROR_INVALID_EMAIL") {
         emailValidator.value = S.current.errorEmailInvalid;
-      else if (error.code == "ERROR_USER_NOT_FOUND")
+      } else if (error.code == "ERROR_USER_NOT_FOUND") {
         emailValidator.value = S.current.errorEmailNotFound;
-      else {
+      } else {
         ErrorReporter.instance.captureException(error, st);
       }
     } catch (error, st) {

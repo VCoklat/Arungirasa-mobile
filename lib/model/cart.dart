@@ -26,6 +26,5 @@ class Cart {
   factory Cart.fromJson(final Map<String, dynamic> json) =>
       _$CartFromJson(json);
 
-  Cart updateQty(final int qty) =>
-      new Cart(this.uuid, this.menu, qty, this.price);
+  Cart updateQty(final int qty) => Cart(uuid, menu, qty, price);
 }

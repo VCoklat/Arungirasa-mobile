@@ -24,38 +24,38 @@ class ImageUtil {
 
   Future<ImageUtil> loadImageFromPath(final String path) async {
     _path = path;
-    final file = new File(path);
-    if (!(await file.exists())) throw new Exception("file was not found");
+    final file = File(path);
+    if (!(await file.exists())) throw Exception("file was not found");
     return loadImageFromFile(file);
   }
 
   Future<Uint8List> compress() async {
-    if (image == null) throw new Exception("Image is empty");
+    if (image == null) throw Exception("Image is empty");
     return await FlutterImageCompress.compressWithList(image!);
   }
 
   Future<ImageUtil> pickImage() async {
     final source = await Get.bottomSheet<ImageSource>(
-      new SizedBox(
+      SizedBox(
         width: Get.width,
-        child: new Material(
-          child: new Padding(
+        child: Material(
+          child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: new ListView(
+            child: ListView(
               shrinkWrap: true,
               children: <Widget?>[
-                new ListTile(
-                  title: new Text(S.current.close),
+                ListTile(
+                  title: Text(S.current.close),
                   leading: const Icon(Icons.close),
                   onTap: () => Get.back(result: null),
                 ),
-                new ListTile(
-                  title: new Text(S.current.camera),
+                ListTile(
+                  title: Text(S.current.camera),
                   leading: const Icon(Icons.camera),
                   onTap: () => Get.back(result: ImageSource.camera),
                 ),
-                new ListTile(
-                  title: new Text(S.current.gallery),
+                ListTile(
+                  title: Text(S.current.gallery),
                   leading: const Icon(Icons.camera_alt),
                   onTap: () => Get.back(result: ImageSource.gallery),
                 ),
@@ -75,7 +75,7 @@ class ImageUtil {
         return this;
       }
     }
-    final image = await new ImagePicker().pickImage(source: source);
+    final image = await ImagePicker().pickImage(source: source);
     if (image == null) return this;
     this.image = await image.readAsBytes();
     return this;
@@ -98,12 +98,12 @@ class ImageUtil {
     AndroidUiSettings? androidUiSettings,
     IOSUiSettings? iosUiSettings,
   }) async {
-    if (image == null) throw new Exception("Image is empty");
+    if (image == null) throw Exception("Image is empty");
     String path;
     if (_path == null) {
       final tempDirPath = (await getTemporaryDirectory()).path;
-      path = "$tempDirPath/${new Uuid().v4()}";
-      final tempFile = new File(path);
+      path = "$tempDirPath/${const Uuid().v4()}";
+      final tempFile = File(path);
       await tempFile.writeAsBytes(image!.toList());
     } else {
       path = _path!;
@@ -120,19 +120,19 @@ class ImageUtil {
       androidUiSettings: androidUiSettings,
       iosUiSettings: iosUiSettings,
     );
-    if (croppedFile == null) throw new Exception("unable to crop image");
-    this.image = await croppedFile.readAsBytes();
+    if (croppedFile == null) throw Exception("unable to crop image");
+    image = await croppedFile.readAsBytes();
     return this;
   }
 
   Future<String> uploadToFirebase() async {
-    if (image == null) throw new Exception("Image is empty");
+    if (image == null) throw Exception("Image is empty");
     final instance = FirebaseStorage.instance;
-    final fileName = "${new Uuid().v4()}.png";
+    final fileName = "${const Uuid().v4()}.png";
     final ref = instance.ref().child("user").child("profile").child(fileName);
     final task = ref.putData(
       image!,
-      new SettableMetadata(
+      SettableMetadata(
         contentDisposition: "attachment; filename=\"$fileName\"",
         cacheControl: "public, max-age=604800, immutable",
         contentType: "image/png",

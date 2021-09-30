@@ -4,29 +4,29 @@ class _OrderItem extends StatelessWidget {
   final OrderMenu orderMenu;
   const _OrderItem({Key? key, required this.orderMenu}) : super(key: key);
   @override
-  Widget build(BuildContext context) => new Column(
+  Widget build(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          new Text(
+          Text(
             orderMenu.menu.name,
-            style: new TextStyle(
+            style: TextStyle(
               color: Get.theme.primaryColor,
               fontFamily: FontFamily.monetaSans,
               fontSize: 24,
             ),
           ),
-          new Text(
+          Text(
             Helper.formatMoney(orderMenu.menu.price.toDouble()),
-            style: new TextStyle(
+            style: const TextStyle(
               color: kPriceColor,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 10),
-          new RichText(
-            text: new TextSpan(
+          RichText(
+            text: TextSpan(
               children: <TextSpan>[
-                new TextSpan(
+                TextSpan(
                   text: orderMenu.qty.toString() + " ",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -34,7 +34,7 @@ class _OrderItem extends StatelessWidget {
                     fontSize: 30,
                   ),
                 ),
-                new TextSpan(
+                TextSpan(
                   text: S.current.portion,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,

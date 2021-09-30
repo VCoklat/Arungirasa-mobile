@@ -18,12 +18,12 @@ class AnimatedOrderCard extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => new SlideTransition(
+  Widget build(BuildContext context) => SlideTransition(
         position: Tween<Offset>(
           begin: const Offset(-1, 0),
           end: const Offset(0, 0),
         ).animate(animation),
-        child: new OrderCard(
+        child: OrderCard(
           order: order,
           onPressed: onPressed,
         ),
@@ -39,14 +39,14 @@ class OrderCard extends StatelessWidget {
     this.onPressed,
   }) : super(key: key);
   @override
-  Widget build(BuildContext context) => new Card(
+  Widget build(BuildContext context) => Card(
         elevation: 6.0,
-        child: new Padding(
+        child: Padding(
           padding: const EdgeInsets.all(10),
-          child: new Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              new Text(
+              Text(
                 "${S.current.order} ${order.reference}",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
@@ -54,21 +54,21 @@ class OrderCard extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              new Row(
+              Row(
                 children: [
                   const Icon(Icons.delivery_dining_sharp),
                   const SizedBox(width: 5),
-                  new Text(
+                  Text(
                     "${S.current.deliverTo} ${order.address.name}",
                     style: const TextStyle(
                       fontSize: 14.0,
                     ),
                   ),
                   const SizedBox(width: 5),
-                  new Expanded(
-                    child: new Align(
+                  Expanded(
+                    child: Align(
                       alignment: Alignment.centerRight,
-                      child: new Text(
+                      child: Text(
                         Helper.formatMoney(order.total),
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
@@ -80,26 +80,22 @@ class OrderCard extends StatelessWidget {
                 ],
               ),
               const Divider(),
-              new SizedBox(
+              SizedBox(
                 height: 50,
                 width: Get.width - 60,
-                child: new ListView.separated(
+                child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemCount: order.menuList.length,
                   separatorBuilder: (_, __) => const SizedBox(width: 5),
-                  itemBuilder: (_, final int index) => new Chip(
-                    label: new Text(
+                  itemBuilder: (_, final int index) => Chip(
+                    label: Text(
                         "${order.menuList[index].menu.name} x ${order.menuList[index].qty}"),
                   ),
                 ),
               ),
               const Divider(),
-              new Center(
-                child: new Text(
-                  order.status.toReadable(),
-                ),
-              ),
+              Center(child: Text(order.status.toReadable())),
             ],
           ),
         ),

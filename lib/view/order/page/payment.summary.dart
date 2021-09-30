@@ -3,28 +3,28 @@ part of 'order_page.dart';
 class _PaymentSummary extends GetView<_OrderPageController> {
   const _PaymentSummary();
   @override
-  Widget build(BuildContext context) => new Column(
+  Widget build(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          new Text(
+          Text(
             S.current.paymentSummary,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          new Row(
+          Row(
             children: [
-              new Text(S.current.price),
-              new Expanded(
-                  child: new Obx(() => new Text(
+              Text(S.current.price),
+              Expanded(
+                  child: Obx(() => Text(
                         Helper.formatMoney(controller.total),
                         textAlign: TextAlign.right,
                       ))),
             ],
           ),
           const SizedBox(height: 5),
-          new Row(
+          Row(
             children: [
-              new Text(S.current.transportCost),
+              Text(S.current.transportCost),
               Expanded(
                 child: Obx(() => Text(
                       Helper.formatMoney(
@@ -34,9 +34,9 @@ class _PaymentSummary extends GetView<_OrderPageController> {
               ),
             ],
           ),
-          new Row(
+          Row(
             children: [
-              new Text(S.current.appFee),
+              Text(S.current.appFee),
               Expanded(
                   child: Obx(() => Text(
                         Helper.formatMoney(
@@ -45,23 +45,25 @@ class _PaymentSummary extends GetView<_OrderPageController> {
                       ))),
             ],
           ),
-          new Row(
+          Row(
             children: [
-              new Text(S.current.discount),
-              new Expanded(
-                  child: new Text(
+              Text(S.current.discount),
+              Expanded(
+                  child: Text(
                 Helper.formatMoney(0),
                 textAlign: TextAlign.right,
               )),
             ],
           ),
           const Divider(),
-          new Row(
+          Row(
             children: [
-              new Text(S.current.totalPayment),
-              new Expanded(
-                  child: new Obx(() => new Text(
-                        Helper.formatMoney(controller.total + 8000 + 3000),
+              Text(S.current.totalPayment),
+              Expanded(
+                  child: Obx(() => Text(
+                        Helper.formatMoney(controller.total +
+                            controller.transportCost +
+                            controller.appCost),
                         textAlign: TextAlign.right,
                       ))),
             ],

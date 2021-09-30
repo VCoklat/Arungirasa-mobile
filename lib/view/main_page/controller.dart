@@ -1,12 +1,12 @@
 part of 'main_page.dart';
 
 class _MainPageController extends GetxController with MixinControllerWorker {
-  final refreshKey = new GlobalKey<RefreshIndicatorState>();
-  final menuListKey = new GlobalKey<AnimatedListState>();
+  final refreshKey = GlobalKey<RefreshIndicatorState>();
+  final menuListKey = GlobalKey<AnimatedListState>();
 
-  final restaurantList = new RxList<Restaurant>();
-  final restaurant = new Rxn<Restaurant>();
-  final menuList = new RxList<FoodDrinkMenu>();
+  final restaurantList = RxList<Restaurant>();
+  final restaurant = Rxn<Restaurant>();
+  final menuList = RxList<FoodDrinkMenu>();
 
   final searchQuery = RxString("");
 
@@ -21,7 +21,7 @@ class _MainPageController extends GetxController with MixinControllerWorker {
   @override
   void onReady() {
     super.onReady();
-    new Future.delayed(Duration.zero, () => refreshKey.currentState!.show());
+    Future.delayed(Duration.zero, () => refreshKey.currentState!.show());
   }
 
   @override
@@ -57,7 +57,7 @@ class _MainPageController extends GetxController with MixinControllerWorker {
       for (final menu in list) {
         menuList.add(menu);
         menuListKey.currentState!.insertItem(index++);
-        await new Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(const Duration(milliseconds: 500));
       }
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);
@@ -80,7 +80,7 @@ class _MainPageController extends GetxController with MixinControllerWorker {
       for (final menu in list) {
         menuList.add(menu);
         menuListKey.currentState!.insertItem(index++);
-        await new Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(const Duration(milliseconds: 500));
       }
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);
@@ -91,18 +91,18 @@ class _MainPageController extends GetxController with MixinControllerWorker {
     for (int i = menuList.length - 1; i > -1; --i) {
       menuListKey.currentState!.removeItem(
           i,
-          (_, animation) => new AnimatedMenuCard(
+          (_, animation) => AnimatedMenuCard(
                 menu: menuList[i],
                 animation: animation,
               ),
           duration: const Duration(milliseconds: 300));
-      await new Future.delayed(const Duration(milliseconds: 300));
+      await Future.delayed(const Duration(milliseconds: 300));
     }
     menuList.clear();
   }
 
   Future<void> showAddToCartDialog(final FoodDrinkMenu menu) async {
-    await Get.bottomSheet(new _AddToCartDialog(menu: menu));
+    await Get.bottomSheet(_AddToCartDialog(menu: menu));
   }
 
   @override

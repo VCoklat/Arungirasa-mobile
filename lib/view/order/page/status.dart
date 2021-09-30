@@ -3,7 +3,7 @@ part of 'order_page.dart';
 class _OrderStatus extends GetView<_OrderPageController> {
   const _OrderStatus();
   @override
-  Widget build(BuildContext context) => new Obx(
+  Widget build(BuildContext context) => Obx(
         () {
           Color bgColor;
           final order = controller.order.value!;
@@ -21,19 +21,15 @@ class _OrderStatus extends GetView<_OrderPageController> {
               bgColor = Get.theme.primaryColor;
               break;
           }
-          return new SizedBox(
+          return SizedBox(
             width: Get.width,
             height: Get.height / 2 - Get.statusBarHeight,
-            child: new Container(
+            child: Container(
               color: bgColor,
-              child: new Column(
-                children: [
-                  new Center(
-                    child: const _OrderTextStatus(),
-                  ),
-                  new Expanded(
-                    child: const _OrderImageStatus(),
-                  ),
+              child: Column(
+                children: const [
+                  Center(child: _OrderTextStatus()),
+                  Expanded(child: _OrderImageStatus()),
                 ],
               ),
             ),

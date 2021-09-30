@@ -23,7 +23,7 @@ class OrderRepository extends GetConnect
     final response = await post("$kRestUrl/order", {
       "address": addressId,
       "addressDetail": addressDetail,
-      "note": "${json.encode(note)}",
+      "note": json.encode(note),
     });
     if (response.isOk) {
       return Order.fromJson(response.body as Map<String, dynamic>);
@@ -33,7 +33,7 @@ class OrderRepository extends GetConnect
   }
 
   Future<List<Order>> find({final OrderStatus? status}) async {
-    final query = new Map<String, dynamic>();
+    final query = <String, dynamic>{};
     if (status != null) query["status"] = orderStatusValues.reverse[status];
     final response = await get("$kRestUrl/order", query: query);
     if (response.isOk) {

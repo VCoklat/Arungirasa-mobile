@@ -3,14 +3,14 @@ part of 'main_page.dart';
 class _CartButton extends GetView<CartService> {
   const _CartButton();
   @override
-  Widget build(BuildContext context) => new Obx(
+  Widget build(BuildContext context) => Obx(
         () => controller.count < 1
             ? const SizedBox()
-            : new FloatingActionButton(
+            : FloatingActionButton(
                 backgroundColor: Colors.white,
-                child: new Badge(
-                  badgeContent: new Text(controller.count.toString()),
-                  child: new Icon(
+                child: Badge(
+                  badgeContent: Text(controller.count.toString()),
+                  child: Icon(
                     Icons.shopping_cart_sharp,
                     color: Get.theme.primaryColor,
                     size: 32.0,
