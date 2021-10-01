@@ -1,4 +1,5 @@
 import 'package:arungi_rasa/common/helper.dart';
+import 'package:arungi_rasa/generated/fonts.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/food_drink_menu.dart';
 import 'package:arungi_rasa/service/wistlist_service.dart';
@@ -54,8 +55,17 @@ class MenuCard extends StatelessWidget {
               height: constraints.maxWidth * 0.4,
               child: Row(
                 children: [
-                  _getImage(constraints.maxWidth * 0.4),
-                  const SizedBox(width: 5.0),
+                  Stack(
+                    children: [
+                      _getImage(constraints.maxWidth * 0.4),
+                      Positioned(
+                        top: 5.0,
+                        right: .0,
+                        child: _wishlistButton,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 10.0),
                   Expanded(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -69,7 +79,7 @@ class MenuCard extends StatelessWidget {
                           textDirection: TextDirection.rtl,
                           children: [
                             _addButton,
-                            _wishlistButton,
+                            const SizedBox(width: 5.0),
                             _priceText,
                           ],
                         ),
@@ -80,9 +90,7 @@ class MenuCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(
-            height: 5.0,
-          ),
+          const SizedBox(height: 5.0),
           const Divider(),
         ],
       );
@@ -159,6 +167,7 @@ class MenuCard extends StatelessWidget {
           color: Get.theme.primaryColor,
           fontSize: 18.0,
           wordSpacing: 2.5,
+          fontFamily: FontFamily.monetaSans,
         ),
       );
 
