@@ -102,6 +102,7 @@ class MenuCard extends StatelessWidget {
             style: const TextStyle(
               fontWeight: FontWeight.w600,
               color: _kPriceColor,
+              fontSize: 16.0,
             ),
           ),
         ),
@@ -129,9 +130,10 @@ class MenuCard extends StatelessWidget {
       );
 
   Widget get _addButton => onAddPressed == null
-      ? const SizedBox()
+      ? const SizedBox(width: 75)
       : SizedBox(
           height: 25.0,
+          width: 75,
           child: ElevatedButton(
             child: Text(S.current.add),
             style: ButtonStyle(
@@ -165,7 +167,7 @@ class MenuCard extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.w600,
           color: Get.theme.primaryColor,
-          fontSize: 18.0,
+          fontSize: 21.0,
           wordSpacing: 2.5,
           fontFamily: FontFamily.monetaSans,
         ),
