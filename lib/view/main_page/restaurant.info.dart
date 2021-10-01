@@ -28,9 +28,9 @@ class _RestaurantInfo extends GetView<_MainPageController> {
                   () => _RestaurantDistance(
                     future: controller.restaurant.value == null
                         ? null
-                        : RestaurantRepository.instance.distance(
-                            ref: controller.restaurant.value!.ref,
-                            latLng: SessionService.instance.location.value,
+                        : MapBoxRepository.instance.getDistance(
+                            controller.restaurant.value!.latLng,
+                            SessionService.instance.location.value,
                           ),
                   ),
                 ),
