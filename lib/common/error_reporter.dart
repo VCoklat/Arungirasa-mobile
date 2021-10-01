@@ -30,7 +30,7 @@ class ErrorReporter {
           exception is DisallowedNullValueException) {
         debugPrint(exception.message);
       } else {
-        debugPrint(exception);
+        debugPrint(exception.toString());
         debugPrint(stackTrace.toString());
       }
     }
