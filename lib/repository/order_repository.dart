@@ -19,11 +19,15 @@ class OrderRepository extends GetConnect
     required final String addressId,
     required final String addressDetail,
     required final Map<String, String> note,
+    required final int transportFee,
+    required final int appFee,
   }) async {
     final response = await post("$kRestUrl/order", {
       "address": addressId,
       "addressDetail": addressDetail,
       "note": json.encode(note),
+      "transportFee": transportFee,
+      "appFee": appFee,
     });
     if (response.isOk) {
       return Order.fromJson(response.body as Map<String, dynamic>);
