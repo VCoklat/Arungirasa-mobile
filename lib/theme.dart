@@ -18,6 +18,9 @@ final _themeData = ThemeData(
     headline6: TextStyle(fontSize: 24),
     bodyText2: TextStyle(fontSize: 18.0),
   ),
+  appBarTheme: const AppBarTheme(
+    backgroundColor: Color(0XFF12676D),
+  ),
   accentColor: const Color(0XFF12676D),
   accentIconTheme: const IconThemeData(color: Colors.white),
   bottomAppBarColor: const Color(0XFF45A39A),
