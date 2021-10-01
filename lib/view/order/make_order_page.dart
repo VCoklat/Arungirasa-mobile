@@ -50,10 +50,11 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
                 children: [
                   _addressField,
                   _addressDetailField,
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   _itemList,
+                  const SizedBox(height: 20),
                   _paymentSummary,
-                  const Divider(),
+                  const SizedBox(height: 20),
                   _payment,
                   const Divider(),
                   const SizedBox(height: 10),
@@ -133,7 +134,7 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
                       ))),
             ],
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 10),
           Row(
             children: [
               Text(S.current.transportCost),
@@ -147,6 +148,7 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
               ),
             ],
           ),
+          const SizedBox(height: 10),
           Row(
             children: [
               Text(S.current.appFee),
@@ -160,6 +162,7 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
               ),
             ],
           ),
+          const SizedBox(height: 10),
           Row(
             children: [
               Text(S.current.discount),
@@ -170,6 +173,7 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
               )),
             ],
           ),
+          const SizedBox(height: 5),
           const Divider(),
           Row(
             children: [
@@ -183,8 +187,6 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
                       ))),
             ],
           ),
-          const Divider(),
-          const SizedBox(height: 10),
         ],
       );
 
@@ -451,10 +453,7 @@ class _CartCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(
-            height: 5.0,
-          ),
-          const Divider(),
+          const SizedBox(height: 5.0),
         ],
       );
 
