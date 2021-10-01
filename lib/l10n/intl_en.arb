@@ -72,6 +72,7 @@
 
   "cart": "Cart",
   "addToCart": "Add To Cart",
+  "errorEmptyCart": "Your cart is empty.",
 
   "editProfile": "Edit Profile",
   "fullName": "Full Name",
