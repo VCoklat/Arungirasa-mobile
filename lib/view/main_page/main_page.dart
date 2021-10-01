@@ -72,7 +72,7 @@ class MainPage extends GetView<_MainPageController> {
                 children: const [
                   _MainPageContent(),
                   Positioned(
-                    bottom: 10,
+                    bottom: 50,
                     left: 10,
                     right: 10,
                     child: _OrderList(),
@@ -92,32 +92,29 @@ class _MainPageContent extends GetView<_MainPageController> {
   Widget build(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           const _SearchTextField(),
-          const SizedBox(
-            height: 20.0,
-          ),
+          const SizedBox(height: 20.0),
           const _RestaurantBanner(),
-          const SizedBox(
-            height: 7.0,
-          ),
+          const SizedBox(height: 7.0),
           const _RestaurantInfo(),
-          const SizedBox(
-            height: 10.0,
-          ),
+          const SizedBox(height: 30.0),
           Expanded(
             child: SingleChildScrollView(
-              child: AnimatedList(
-                key: controller.menuListKey,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (_, index, animation) => AnimatedMenuCard(
-                  menu: controller.menuList[index],
-                  animation: animation,
-                  onAddPressed: controller.showAddToCartDialog,
-                ),
+              child: Column(
+                children: [
+                  AnimatedList(
+                    key: controller.menuListKey,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (_, index, animation) => AnimatedMenuCard(
+                      menu: controller.menuList[index],
+                      animation: animation,
+                      onAddPressed: controller.showAddToCartDialog,
+                    ),
+                  ),
+                  const SizedBox(height: 60.0),
+                ],
               ),
             ),
           ),
