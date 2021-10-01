@@ -7,6 +7,7 @@ import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/food_drink_menu.dart';
 import 'package:arungi_rasa/model/restaurant.dart';
+import 'package:arungi_rasa/repository/mapbox_repository.dart';
 import 'package:arungi_rasa/repository/menu_repository.dart';
 import 'package:arungi_rasa/repository/restaurant_repository.dart';
 import 'package:arungi_rasa/routes/routes.dart';
