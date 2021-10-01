@@ -395,6 +395,7 @@ class _SignUpPageController extends GetxController with MixinControllerWorker {
       );
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.value, password: password.value);
+      await FirebaseAuth.instance.currentUser!.sendEmailVerification();
       await controller.success();
       await Future.delayed(const Duration(milliseconds: 500));
       SessionService.instance.navigate();
