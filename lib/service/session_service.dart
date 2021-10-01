@@ -118,8 +118,8 @@ class SessionService extends GetxService {
   Future<bool> get hasViewIntro async {
     final preference = await SharedPreferences.getInstance();
     return preference.containsKey(_hasViewIntroKey)
-        ? (preference.getBool(_hasViewIntroKey) ?? true)
-        : true;
+        ? (preference.getBool(_hasViewIntroKey) ?? false)
+        : false;
   }
 
   void setHasViewIntro([final bool hasViewIntro = true]) async {
