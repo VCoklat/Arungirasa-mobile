@@ -4,16 +4,18 @@ import 'dart:typed_data';
 import 'package:arungi_rasa/common/config.dart';
 import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/common/helper.dart';
+import 'package:arungi_rasa/common/mixin_controller_worker.dart';
 import 'package:arungi_rasa/common/pick_image_option.dart';
 import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
+import 'package:arungi_rasa/model/address.dart';
 import 'package:arungi_rasa/model/cart.dart';
+import 'package:arungi_rasa/repository/mapbox_repository.dart';
 import 'package:arungi_rasa/repository/order_repository.dart';
 import 'package:arungi_rasa/repository/payment_repository.dart';
 import 'package:arungi_rasa/repository/restaurant_repository.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
 import 'package:arungi_rasa/service/order_service.dart';
-import 'package:arungi_rasa/service/session_service.dart';
 import 'package:arungi_rasa/util/image_util.dart';
 import 'package:arungi_rasa/widget/saved_address_field.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -138,7 +140,7 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
               Expanded(
                 child: Obx(
                   () => Text(
-                    Helper.formatMoney(controller.transportCost),
+                    Helper.formatMoney(controller.transportFee.value),
                     textAlign: TextAlign.right,
                   ),
                 ),
@@ -151,7 +153,7 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
               Expanded(
                 child: Obx(
                   () => Text(
-                    Helper.formatMoney(controller.appCost),
+                    Helper.formatMoney(controller.appFee.value),
                     textAlign: TextAlign.right,
                   ),
                 ),
@@ -174,7 +176,9 @@ class MakeOrderPage extends GetView<_MakeOrderPageController> {
               Text(S.current.totalPayment),
               Expanded(
                   child: Obx(() => Text(
-                        Helper.formatMoney(controller.total + 8000 + 3000),
+                        Helper.formatMoney(controller.total +
+                            controller.transportFee.value +
+                            controller.appFee.value),
                         textAlign: TextAlign.right,
                       ))),
             ],
@@ -218,25 +222,20 @@ class _CartItemNote {
   });
 }
 
-class _MakeOrderPageController extends GetxController {
+class _MakeOrderPageController extends GetxController
+    with MixinControllerWorker {
   final addressDetail = RxString("");
   final itemList = RxList<_CartItemNote>();
   final paymentImage = Rxn<Uint8List>();
 
   final distance = RxDouble(.0);
+  final transportFee = RxDouble(.0);
+  final appFee = RxDouble(.0);
 
   late SavedAddressFieldController addressFieldController;
 
   double get total => itemList.fold(
       0, (prev, e) => prev + e.cart.value.qty * e.cart.value.price);
-
-  double get transportCost => itemList.isEmpty
-      ? .0
-      : itemList.first.cart.value.menu.restaurant.transportFee.toDouble();
-
-  double get appCost => itemList.isEmpty
-      ? .0
-      : itemList.first.cart.value.menu.restaurant.appFee.toDouble();
 
   @override
   void onInit() {
@@ -248,7 +247,7 @@ class _MakeOrderPageController extends GetxController {
     CartService.instance.addOnRemoveIndexCallback(_onRemove);
     CartService.instance.addOnQtyChangedIndexCallback(_onQtyChanged);
     super.onInit();
-    Future.delayed(Duration.zero, _loadDistance);
+    Future.delayed(Duration.zero, _loadDistanceAndTransportFee);
   }
 
   @override
@@ -264,12 +263,32 @@ class _MakeOrderPageController extends GetxController {
     super.dispose();
   }
 
-  void _loadDistance() {
-    if (itemList.isEmpty) return;
-    RestaurantRepository.instance.distance(
-      ref: itemList.first.cart.value.menu.restaurant.ref,
-      latLng: SessionService.instance.location.value,
-    );
+  Future<void> _loadDistanceAndTransportFee([_]) async {
+    if (itemList.isEmpty) {
+      Future.delayed(const Duration(seconds: 1), Get.back);
+      return;
+    }
+    final address = addressFieldController.value;
+    if (address == null) return;
+    try {
+      Helper.showLoading();
+      final ref = itemList.first.cart.value.menu.restaurant.ref;
+      distance.value = await MapBoxRepository.instance.getDistance(
+        itemList.first.cart.value.menu.restaurant.latLng,
+        address.latLng,
+      );
+      transportFee.value = await RestaurantRepository.instance.transportFee(
+        ref: ref,
+        distance: distance.value,
+      );
+      appFee.value =
+          itemList.first.cart.value.menu.restaurant.appFee.toDouble();
+      Helper.hideLoadingWithSuccess();
+    } catch (error, st) {
+      ErrorReporter.instance.captureException(error, st);
+      await Helper.hideLoadingWithError();
+      Future.delayed(const Duration(seconds: 1), Get.back);
+    }
   }
 
   void _onRemove(final int index) {
@@ -360,6 +379,8 @@ class _MakeOrderPageController extends GetxController {
         addressDetail: addressDetail.value,
         note: itemList.asMap().map((key, value) =>
             MapEntry(value.cart.value.menu.id.toString(), value.note.value)),
+        transportFee: transportFee.value.toInt(),
+        appFee: appFee.value.toInt(),
       );
       createOrderSuccess = true;
       await PaymentRepository.instance.create(
@@ -385,6 +406,12 @@ class _MakeOrderPageController extends GetxController {
     await imageUtil.loadImageFromFile(file);
     return await imageUtil.compress();
   }
+
+  @override
+  List<Worker> getWorkers() => <Worker>[
+        ever<Address?>(
+            addressFieldController.item, _loadDistanceAndTransportFee),
+      ];
 }
 
 class _CartCard extends StatelessWidget {
