@@ -54,13 +54,12 @@ class RestaurantRepository extends GetConnect
 
   Future<double> transportFee({
     required final RestaurantRef ref,
-    required final LatLng latLng,
+    required final double distance,
   }) async {
     final response = await get(
       "$kRestUrl/restaurant/${ref.id}/fee/transport",
       query: {
-        "lat": latLng.lat.toString(),
-        "lng": latLng.lng.toString(),
+        "distance": distance.toString(),
       },
     );
     if (response.isOk) {
