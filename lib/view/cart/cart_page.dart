@@ -35,6 +35,7 @@ class CartPage extends GetView<_CartPageController> {
                     initialItemCount: controller.itemList.length,
                     itemBuilder: (_, final int index, final animation) =>
                         _AnimatedCartCard(
+                      key: Key(controller.itemList[index].value.uuid),
                       cart: controller.itemList[index],
                       animation: animation,
                     ),
@@ -57,7 +58,13 @@ class CartPage extends GetView<_CartPageController> {
                         fontWeight: FontWeight.bold,
                         fontSize: 24.0,
                       ))),
-                  onPressed: () => Get.offNamed(Routes.makeOrder),
+                  onPressed: () {
+                    if (controller.itemList.isEmpty) {
+                      Helper.showError(text: S.current.errorEmptyCart);
+                    } else {
+                      Get.offNamed(Routes.makeOrder);
+                    }
+                  },
                 ),
               ],
             ),
