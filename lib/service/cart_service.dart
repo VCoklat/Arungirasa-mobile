@@ -87,6 +87,7 @@ class CartService extends GetxService {
       final newCart = itemList[index].updateQty(itemList[index].qty - 1);
       if (newCart.qty < 1) {
         await CartRepository.instance.remove(itemList[index]);
+        itemList.removeAt(index);
         for (final callback in _onRemoveIndexCallbackList) {
           callback(index);
         }
