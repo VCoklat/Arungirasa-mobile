@@ -52,6 +52,24 @@ class RestaurantRepository extends GetConnect
     }
   }
 
+  Future<double> transportFee({
+    required final RestaurantRef ref,
+    required final LatLng latLng,
+  }) async {
+    final response = await get(
+      "$kRestUrl/restaurant/${ref.id}/fee/transport",
+      query: {
+        "lat": latLng.lat.toString(),
+        "lng": latLng.lng.toString(),
+      },
+    );
+    if (response.isOk) {
+      return double.tryParse(response.bodyString ?? "0") ?? 0;
+    } else {
+      throw getException(response);
+    }
+  }
+
   Future<double> rating(final RestaurantRef ref) async {
     final response = await get(
       "$kRestUrl/restaurant/${ref.id}/rating",
