@@ -27,13 +27,12 @@ class SignInPage extends GetView<_SignInPageController> {
           child: ListView(
             shrinkWrap: true,
             padding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
             children: [
               image,
               space,
               helloText,
               appAboutText,
-              const SizedBox(height: 10.0),
               Obx(
                 () => TextField(
                   decoration: InputDecoration(
@@ -48,7 +47,6 @@ class SignInPage extends GetView<_SignInPageController> {
                   onChanged: (final text) => controller.email.value = text,
                 ),
               ),
-              const SizedBox(height: 10.0),
               Obx(
                 () => TextField(
                   decoration: InputDecoration(
@@ -89,34 +87,39 @@ class SignInPage extends GetView<_SignInPageController> {
                   onTap: () => Get.toNamed(Routes.resetPassword),
                 ),
               ),
-              const SizedBox(height: 25.0),
-              LoadingButton(
-                child: Text(S.current.signIn),
-                successChild: const Icon(
-                  Icons.check_sharp,
-                  size: 35,
-                  color: Colors.white,
+              const SizedBox(height: 20.0),
+              SizedBox(
+                height: 50,
+                child: LoadingButton(
+                  child: Text(S.current.signIn),
+                  successChild: const Icon(
+                    Icons.check_sharp,
+                    size: 35,
+                    color: Colors.white,
+                  ),
+                  errorChild: const Icon(
+                    Icons.close_sharp,
+                    size: 35,
+                    color: Colors.white,
+                  ),
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                      ),
+                      backgroundColor:
+                          MaterialStateProperty.all(Get.theme.accentColor),
+                      textStyle: MaterialStateProperty.all(const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.0,
+                      ))),
+                  onPressed: controller.signIn,
                 ),
-                errorChild: const Icon(
-                  Icons.close_sharp,
-                  size: 35,
-                  color: Colors.white,
-                ),
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30))),
-                    ),
-                    backgroundColor:
-                        MaterialStateProperty.all(Get.theme.accentColor),
-                    textStyle: MaterialStateProperty.all(const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24.0,
-                    ))),
-                onPressed: controller.signIn,
               ),
               const SizedBox(height: 10.0),
               signUpLink,
+              space,
               orText,
               space,
               signInWithText,
@@ -141,18 +144,15 @@ class SignInPage extends GetView<_SignInPageController> {
       );
 
   Widget get space => KeyboardVisibilityBuilder(
-        builder: (_, isVisible) => isVisible
-            ? const SizedBox()
-            : const SizedBox(
-                height: 10.0,
-              ),
+        builder: (_, isVisible) =>
+            isVisible ? const SizedBox() : const SizedBox(height: 5.0),
       );
 
   Widget get helloText => KeyboardVisibilityBuilder(
         builder: (_, isVisible) => isVisible
             ? const SizedBox()
             : Text(
-                S.current.hello,
+                S.current.hello + ",",
                 style: const TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -161,8 +161,10 @@ class SignInPage extends GetView<_SignInPageController> {
       );
 
   Widget get appAboutText => KeyboardVisibilityBuilder(
-        builder: (_, isVisible) =>
-            isVisible ? const SizedBox() : Text(S.current.aboutShortText),
+        builder: (_, isVisible) => isVisible
+            ? const SizedBox()
+            : Text(S.current.aboutShortText,
+                style: const TextStyle(height: 1.5, color: Colors.grey)),
       );
 
   Widget get signUpLink => KeyboardVisibilityBuilder(
@@ -173,19 +175,16 @@ class SignInPage extends GetView<_SignInPageController> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(S.current.signUpText),
-                    TextButton(
-                      child: Text(S.current.signUp),
-                      style: ButtonStyle(
-                        textStyle: MaterialStateProperty.all(
-                          const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    InkWell(
+                      child: Text(
+                        S.current.signUp,
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFF05A28),
                         ),
-                        foregroundColor:
-                            MaterialStateProperty.all(const Color(0xFFF05A28)),
                       ),
-                      onPressed: controller.signUp,
+                      onTap: controller.signUp,
                     ),
                   ],
                 ),
