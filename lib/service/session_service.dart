@@ -12,6 +12,7 @@ import 'package:arungi_rasa/service/order_service.dart';
 import 'package:arungi_rasa/service/wistlist_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_connect_repo_mixin/get_connect_repo_mixin.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -163,7 +164,34 @@ class SessionService extends GetxService {
   }
 
   Future<bool> signInFacebook() async {
-    await Helper.showError(text: "Not Yet Implemented.");
+    final result = await FacebookAuth.instance.login();
+    final accessToken = result.accessToken?.token;
+    if (accessToken == null) {
+      return false;
+    }
+    try {
+      Helper.showLoading();
+      final credential = FacebookAuthProvider.credential(accessToken);
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      user.value = userCredential.user;
+      try {
+        await UserRepository.instance.findMe();
+      } on HttpNotFoundException {
+        try {
+          await UserRepository.instance.activate();
+        } catch (error, st) {
+          ErrorReporter.instance.captureException(error, st);
+        }
+      } catch (error, st) {
+        ErrorReporter.instance.captureException(error, st);
+      }
+      Helper.hideLoadingWithSuccess();
+      return true;
+    } catch (error, st) {
+      Helper.hideLoadingWithError();
+      ErrorReporter.instance.captureException(error, st);
+    }
     return false;
   }
 
