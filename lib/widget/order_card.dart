@@ -58,26 +58,27 @@ class OrderCard extends StatelessWidget {
                 children: [
                   const Icon(Icons.delivery_dining_sharp),
                   const SizedBox(width: 5),
-                  Text(
-                    "${S.current.deliverTo} ${order.address.name}",
-                    style: const TextStyle(
-                      fontSize: 14.0,
-                    ),
-                  ),
-                  const SizedBox(width: 5),
                   Expanded(
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                        Helper.formatMoney(order.total),
+                        "${S.current.deliverTo} ${order.address.name}",
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: kPriceColor,
+                          fontSize: 14.0,
                         ),
                       ),
                     ),
                   ),
                 ],
+              ),
+              const Divider(),
+              Text(
+                Helper.formatMoney(order.total),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: kPriceColor,
+                ),
               ),
               const Divider(),
               SizedBox(
