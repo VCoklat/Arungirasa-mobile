@@ -40,7 +40,20 @@ class AddressRepository extends GetConnect
   }
 
   Future<List<Address>> find() async {
-    final response = await get("$kRestUrl/address");
+    final response =
+        await get("$kRestUrl/address", query: {"temporary": "false"});
+    if (response.isOk) {
+      return (response.body as List)
+          .map((e) => Address.fromJson(e as Map<String, dynamic>))
+          .toList(growable: false);
+    } else {
+      throw getException(response);
+    }
+  }
+
+  Future<List<Address>> findTemporary() async {
+    final response =
+        await get("$kRestUrl/address", query: {"temporary": "true"});
     if (response.isOk) {
       return (response.body as List)
           .map((e) => Address.fromJson(e as Map<String, dynamic>))

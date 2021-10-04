@@ -26,6 +26,9 @@ class CreateUpdateAddress {
   @JsonKey(required: true, disallowNullValue: false)
   final String? contactNumber;
 
+  @JsonKey(required: true, disallowNullValue: false)
+  final bool temporary;
+
   CreateUpdateAddress({
     required this.name,
     required this.latitude,
@@ -34,6 +37,7 @@ class CreateUpdateAddress {
     this.note = "",
     this.contactName = "",
     this.contactNumber = "",
+    this.temporary = false,
   });
 
   factory CreateUpdateAddress.fromJson(final Map<String, dynamic> json) =>
@@ -65,8 +69,11 @@ class Address {
   @JsonKey(required: true, disallowNullValue: false)
   final String? contactNumber;
 
+  @JsonKey(required: false, defaultValue: false)
+  final bool temporary;
+
   Address(this.id, this.name, this.latLng, this.detail, this.note,
-      this.contactName, this.contactNumber);
+      this.contactName, this.contactNumber, this.temporary);
 
   factory Address.fromJson(final Map<String, dynamic> json) =>
       _$AddressFromJson(json);
