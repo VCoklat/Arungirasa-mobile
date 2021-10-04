@@ -53,6 +53,7 @@ dependencies:
     git:
       url: https://github.com/LeonColt/get_connect_repo_mixin.git
       ref: 0.0.3
+  flutter_typeahead: ^3.2.1
 
   #utility with native
   google_sign_in: ^5.1.0
