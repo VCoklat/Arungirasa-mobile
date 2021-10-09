@@ -37,30 +37,33 @@ class _OrderPayment extends GetView<_OrderPageController> {
             onTap: controller.selectImage,
           ),
           const SizedBox(height: 10),
-          LoadingButton(
-            child: Text(S.current.processTransaction),
-            successChild: const Icon(
-              Icons.check_sharp,
-              size: 35,
-              color: Colors.white,
+          SizedBox(
+            height: 45,
+            child: LoadingButton(
+              child: Text(S.current.processTransaction),
+              successChild: const Icon(
+                Icons.check_sharp,
+                size: 35,
+                color: Colors.white,
+              ),
+              errorChild: const Icon(
+                Icons.close_sharp,
+                size: 35,
+                color: Colors.white,
+              ),
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30))),
+                  ),
+                  backgroundColor:
+                      MaterialStateProperty.all(Get.theme.accentColor),
+                  textStyle: MaterialStateProperty.all(const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24.0,
+                  ))),
+              onPressed: controller.uploadPayment,
             ),
-            errorChild: const Icon(
-              Icons.close_sharp,
-              size: 35,
-              color: Colors.white,
-            ),
-            style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30))),
-                ),
-                backgroundColor:
-                    MaterialStateProperty.all(Get.theme.accentColor),
-                textStyle: MaterialStateProperty.all(const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24.0,
-                ))),
-            onPressed: controller.uploadPayment,
           ),
         ],
       );

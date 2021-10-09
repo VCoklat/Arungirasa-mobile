@@ -42,29 +42,32 @@ class CartPage extends GetView<_CartPageController> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                ElevatedButton(
-                  child: Text(S.current.ordeButtonr),
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                      ),
-                      padding:
-                          MaterialStateProperty.all(const EdgeInsets.all(15.0)),
-                      backgroundColor:
-                          MaterialStateProperty.all(Get.theme.accentColor),
-                      textStyle: MaterialStateProperty.all(const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24.0,
-                      ))),
-                  onPressed: () {
-                    if (controller.itemList.isEmpty) {
-                      Helper.showError(text: S.current.errorEmptyCart);
-                    } else {
-                      Get.offNamed(Routes.makeOrder);
-                    }
-                  },
+                SizedBox(
+                  height: 45,
+                  child: ElevatedButton(
+                    child: Text(S.current.ordeButtonr),
+                    style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30))),
+                        ),
+                        padding: MaterialStateProperty.all(
+                            const EdgeInsets.all(15.0)),
+                        backgroundColor:
+                            MaterialStateProperty.all(Get.theme.accentColor),
+                        textStyle: MaterialStateProperty.all(const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.0,
+                        ))),
+                    onPressed: () {
+                      if (controller.itemList.isEmpty) {
+                        Helper.showError(text: S.current.errorEmptyCart);
+                      } else {
+                        Get.offNamed(Routes.makeOrder);
+                      }
+                    },
+                  ),
                 ),
               ],
             ),
