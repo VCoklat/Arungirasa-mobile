@@ -50,7 +50,7 @@ class OrderCard extends StatelessWidget {
                 "${S.current.order} ${order.reference}",
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 14.0,
+                  fontSize: 12.0,
                 ),
               ),
               const Divider(),
@@ -65,7 +65,7 @@ class OrderCard extends StatelessWidget {
                         "${S.current.deliverTo} ${order.address.name}",
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 14.0,
+                          fontSize: 10.0,
                         ),
                       ),
                     ),
@@ -78,6 +78,7 @@ class OrderCard extends StatelessWidget {
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   color: kPriceColor,
+                  fontSize: 12.0,
                 ),
               ),
               const Divider(),
@@ -91,12 +92,21 @@ class OrderCard extends StatelessWidget {
                   separatorBuilder: (_, __) => const SizedBox(width: 5),
                   itemBuilder: (_, final int index) => Chip(
                     label: Text(
-                        "${order.menuList[index].menu.name} x ${order.menuList[index].qty}"),
+                      "${order.menuList[index].menu.name} x ${order.menuList[index].qty}",
+                      style: const TextStyle(fontSize: 12.0),
+                    ),
                   ),
                 ),
               ),
               const Divider(),
-              Center(child: Text(order.status.toReadable())),
+              Center(
+                  child: Text(
+                order.status.toReadable(),
+                style: const TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
             ],
           ),
         ),
