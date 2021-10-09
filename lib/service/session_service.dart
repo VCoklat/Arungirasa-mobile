@@ -91,15 +91,25 @@ class SessionService extends GetxService {
   }
 
   void navigate() {
-    _fetchLocation().then((_) => Get.offAllNamed(Routes.home)).timeout(
-      const Duration(seconds: 10),
-      onTimeout: () {
-        if (Get.currentRoute != Routes.home) Get.offAllNamed(Routes.home);
-      },
-    );
+    _fetchLocation().then(_navigateRoute).timeout(
+          const Duration(seconds: 10),
+          onTimeout: _navigateRoute,
+        );
   }
 
-  Future<void> signOut() => FirebaseAuth.instance.signOut();
+  void _navigateRoute([_]) async {
+    if (!await hasViewIntro) {
+      viewIntro();
+    } else {
+      Get.offAllNamed(Routes.home);
+    }
+  }
+
+  Future<void> signOut() async {
+    final preference = await SharedPreferences.getInstance();
+    await preference.clear();
+    await FirebaseAuth.instance.signOut();
+  }
 
   void _onAuthStateChange(final User? user) {
     this.user.value = user;
