@@ -14,7 +14,7 @@ class _OrderPageController extends GetxController {
     final order = this.order.value!;
     switch (order.status) {
       case OrderStatus.unpaid:
-        return Get.height + Get.height / 4 - Get.statusBarHeight + 60;
+        return Get.height + Get.height / 4 - Get.statusBarHeight + 90;
       case OrderStatus.awaitingConfirmation:
       case OrderStatus.onProcess:
         return Get.height;
