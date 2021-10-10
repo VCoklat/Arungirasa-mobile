@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:arungi_rasa/common/config.dart';
 import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/common/helper.dart';
+import 'package:arungi_rasa/repository/fcm.repository.dart';
 import 'package:arungi_rasa/repository/user_repository.dart';
 import 'package:arungi_rasa/service/address_service.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
@@ -11,6 +12,7 @@ import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/service/order_service.dart';
 import 'package:arungi_rasa/service/wistlist_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
@@ -111,7 +113,7 @@ class SessionService extends GetxService {
     await FirebaseAuth.instance.signOut();
   }
 
-  void _onAuthStateChange(final User? user) {
+  void _onAuthStateChange(final User? user) async {
     this.user.value = user;
     if (user == null) {
       CartService.instance.clear();
@@ -124,6 +126,15 @@ class SessionService extends GetxService {
       OrderService.instance.load();
       WishListService.instance.load();
     }
+    final token = await FirebaseMessaging.instance.getToken();
+    if (token == null) {
+      FirebaseMessaging.instance.onTokenRefresh
+          .listen(FcmRepository.instance.register);
+      return;
+    }
+    await FcmRepository.instance.register(token);
+    FirebaseMessaging.instance.onTokenRefresh
+        .listen(FcmRepository.instance.register);
   }
 
   Future<bool> get hasViewIntro async {
