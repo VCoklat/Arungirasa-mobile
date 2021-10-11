@@ -129,5 +129,7 @@
   "orderSent": "Hidangan Anda dalam perjalanan...",
   "orderArrived": "Hidangan Anda telah sampai...",
   "pay": "Pay",
-  "giveRating": "Kasih Rating"
+  "giveRating": "Kasih Rating",
+
+  "notification": "Notification"
 }

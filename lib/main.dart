@@ -36,5 +36,6 @@ class ArungiRasaApp extends StatelessWidget {
         getPages: PageRouter.instance.pages,
         initialRoute: Routes.initial,
         builder: EasyLoading.init(),
+        debugShowCheckedModeBanner: false,
       );
 }

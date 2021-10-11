@@ -9,6 +9,7 @@ import 'package:arungi_rasa/view/cart/cart_page.dart';
 import 'package:arungi_rasa/view/chat_page.dart';
 import 'package:arungi_rasa/view/intro_page.dart';
 import 'package:arungi_rasa/view/main_page/main_page.dart';
+import 'package:arungi_rasa/view/notification_page.dart';
 import 'package:arungi_rasa/view/order/create/create_order_page.dart';
 import 'package:arungi_rasa/view/order/order_list_page.dart';
 import 'package:arungi_rasa/view/order/page/order_page.dart';
@@ -123,6 +124,12 @@ class PageRouter {
         GetPage(
           name: Routes.chat,
           page: () => const ChatPage(),
+          middlewares: [_AuthGuardMiddleWare()],
+        ),
+        GetPage(
+          name: Routes.notification,
+          page: () => const NotificationPage(),
+          binding: NotificationPage.binding(),
           middlewares: [_AuthGuardMiddleWare()],
         ),
       ];

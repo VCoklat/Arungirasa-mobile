@@ -41,7 +41,7 @@ class _MainPageController extends GetxController with MixinControllerWorker {
   Future<void> loadRestaurant() async {
     restaurantList.assignAll(await RestaurantRepository.instance.find());
     restaurant.value = await RestaurantRepository.instance
-        .findOneNearest(SessionService.instance.location.value);
+        .findOneNearest(LocationService.instance.location.value);
     loadMenu();
   }
 

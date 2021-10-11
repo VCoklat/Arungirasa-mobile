@@ -1,24 +1,21 @@
 import 'dart:async';
 
-import 'package:arungi_rasa/common/config.dart';
 import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/common/helper.dart';
-import 'package:arungi_rasa/repository/fcm.repository.dart';
 import 'package:arungi_rasa/repository/user_repository.dart';
 import 'package:arungi_rasa/service/address_service.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
-import 'package:arungi_rasa/model/latlng.dart';
 import 'package:arungi_rasa/routes/routes.dart';
+import 'package:arungi_rasa/service/location_service.dart';
+import 'package:arungi_rasa/service/notification_service.dart';
 import 'package:arungi_rasa/service/order_service.dart';
 import 'package:arungi_rasa/service/wistlist_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_connect_repo_mixin/get_connect_repo_mixin.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _hasViewIntroKey = "has-view-intro";
@@ -49,8 +46,6 @@ class InvalidRefreshTokenException implements Exception {
 class SessionService extends GetxService {
   static SessionService get instance => Get.find<SessionService>();
   final user = Rxn<User>();
-  final location =
-      Rx<LatLng>(const LatLng(lat: kDefaultLatitude, lng: kDefaultLongitude));
 
   late StreamSubscription<User?> sessionSubscription;
 
@@ -93,7 +88,7 @@ class SessionService extends GetxService {
   }
 
   void navigate() {
-    _fetchLocation().then(_navigateRoute).timeout(
+    refreshData().then(_navigateRoute).timeout(
           const Duration(seconds: 10),
           onTimeout: _navigateRoute,
         );
@@ -107,13 +102,19 @@ class SessionService extends GetxService {
     }
   }
 
+  Future<void> refreshData() async => Future.wait([
+        LocationService.instance.fetchLocation(),
+        NotificationService().refreshUnreadCount(),
+      ]);
+
   Future<void> signOut() async {
     final preference = await SharedPreferences.getInstance();
     await preference.clear();
     await FirebaseAuth.instance.signOut();
+    NotificationService.instance.refreshUnreadCount(0);
   }
 
-  void _onAuthStateChange(final User? user) async {
+  void _onAuthStateChange(final User? user) {
     this.user.value = user;
     if (user == null) {
       CartService.instance.clear();
@@ -126,15 +127,7 @@ class SessionService extends GetxService {
       OrderService.instance.load();
       WishListService.instance.load();
     }
-    final token = await FirebaseMessaging.instance.getToken();
-    if (token == null) {
-      FirebaseMessaging.instance.onTokenRefresh
-          .listen(FcmRepository.instance.register);
-      return;
-    }
-    await FcmRepository.instance.register(token);
-    FirebaseMessaging.instance.onTokenRefresh
-        .listen(FcmRepository.instance.register);
+    NotificationService.instance.registerNotification();
   }
 
   Future<bool> get hasViewIntro async {
@@ -214,33 +207,5 @@ class SessionService extends GetxService {
       ErrorReporter.instance.captureException(error, st);
     }
     return false;
-  }
-
-  Future<void> _fetchLocation() async {
-    try {
-      final locator = Location();
-
-      bool serviceEnabled = await locator.serviceEnabled();
-      if (!serviceEnabled) {
-        serviceEnabled = await locator.requestService();
-        if (!serviceEnabled) return;
-      }
-
-      PermissionStatus permission = await locator.hasPermission();
-      if (permission == PermissionStatus.denied) {
-        permission = await locator.requestPermission();
-        if (permission != PermissionStatus.granted) {
-          return;
-        }
-      }
-
-      final locationData = await locator.getLocation();
-      location.value = LatLng(
-        lat: locationData.latitude ?? kDefaultLatitude,
-        lng: locationData.longitude ?? kDefaultLongitude,
-      );
-    } catch (error, st) {
-      ErrorReporter.instance.captureException(error, st);
-    }
   }
 }

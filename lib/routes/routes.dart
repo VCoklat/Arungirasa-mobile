@@ -19,6 +19,7 @@ class Routes {
   static const String giveOrderRatingRoute = "/rating/order/:orderId";
   static const String changePassword = "/changepassword";
   static const String chat = "/chat";
+  static const String notification = "/notification";
 
   static openOrder(final String id) => Get.toNamed("/order/$id");
   static giveOrderRating(final String id) => Get.toNamed("/rating/order/$id");

@@ -129,5 +129,7 @@
   "orderSent": "Your food is sent...",
   "orderArrived": "Your food is arrived...",
   "pay": "Pay",
-  "giveRating": "Give Rating"
+  "giveRating": "Give Rating",
+
+  "notification": "Notifications"
 }

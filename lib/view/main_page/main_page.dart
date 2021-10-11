@@ -12,6 +12,8 @@ import 'package:arungi_rasa/repository/menu_repository.dart';
 import 'package:arungi_rasa/repository/restaurant_repository.dart';
 import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
+import 'package:arungi_rasa/service/location_service.dart';
+import 'package:arungi_rasa/service/notification_service.dart';
 import 'package:arungi_rasa/service/order_service.dart';
 import 'package:arungi_rasa/service/session_service.dart';
 import 'package:arungi_rasa/widget/menu_card.dart';
@@ -54,6 +56,31 @@ class MainPage extends GetView<_MainPageController> {
               title: const _RestaurantSelector(),
               leading: const _UserPhotoProfile(),
               actions: [
+                IconButton(
+                  icon: Badge(
+                    badgeContent: FittedBox(
+                      child: ObxValue<RxInt>(
+                        (obs) => Text(obs.value.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                            )),
+                        NotificationService.instance.unreadCount,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.notifications,
+                      color: Get.theme.primaryColor,
+                      size: 28,
+                    ),
+                    badgeColor: Get.theme.primaryColor,
+                    showBadge: true,
+                    stackFit: StackFit.loose,
+                    toAnimate: true,
+                  ),
+                  color: Get.theme.primaryColor,
+                  onPressed: () => Get.toNamed(Routes.notification),
+                ),
                 IconButton(
                   icon: const Icon(Icons.chat_bubble_outline_sharp),
                   color: Get.theme.primaryColor,

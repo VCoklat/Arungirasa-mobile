@@ -22,3 +22,5 @@ const kPriceColor = Color(0XFFF7931E);
 ///default lat lng Monas Indonesia
 const kDefaultLatitude = -6.1754137242424445;
 const kDefaultLongitude = 106.82715279991743;
+
+const kItemPerPage = 10;
