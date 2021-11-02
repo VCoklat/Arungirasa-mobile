@@ -21,10 +21,14 @@ class Cart {
   @JsonKey(required: true, disallowNullValue: true)
   final int price;
 
-  Cart(this.uuid, this.menu, this.qty, this.price);
+  @JsonKey(required: false, disallowNullValue: false, defaultValue: "")
+  final String note;
+
+  Cart(this.uuid, this.menu, this.qty, this.price, this.note);
 
   factory Cart.fromJson(final Map<String, dynamic> json) =>
       _$CartFromJson(json);
 
-  Cart updateQty(final int qty) => Cart(uuid, menu, qty, price);
+  Cart updateQty(final int qty) => Cart(uuid, menu, qty, price, note);
+  Cart updateNote(final String note) => Cart(uuid, menu, qty, price, note);
 }
