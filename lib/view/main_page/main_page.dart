@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:arungi_rasa/common/config.dart';
 import 'package:arungi_rasa/common/error_reporter.dart';
-import 'package:arungi_rasa/common/helper.dart';
 import 'package:arungi_rasa/common/mixin_controller_worker.dart';
 import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
@@ -16,6 +16,7 @@ import 'package:arungi_rasa/service/location_service.dart';
 import 'package:arungi_rasa/service/notification_service.dart';
 import 'package:arungi_rasa/service/order_service.dart';
 import 'package:arungi_rasa/service/session_service.dart';
+import 'package:arungi_rasa/widget/add_to_cart_dialog.dart';
 import 'package:arungi_rasa/widget/menu_card.dart';
 import 'package:arungi_rasa/widget/order_card.dart';
 import 'package:badges/badges.dart';
@@ -31,10 +32,7 @@ part 'restaurant.banner.dart';
 part 'restaurant.info.dart';
 part 'restaurant.selector.dart';
 part 'cart.button.dart';
-part 'add.to.cart.dialog.dart';
 part 'order.widget.dart';
-
-const _kPriceColor = Color(0XFFF7931E);
 
 class MainPageBinding implements Bindings {
   @override
@@ -93,7 +91,7 @@ class MainPage extends GetView<_MainPageController> {
             key: controller.refreshKey,
             onRefresh: controller.onRefresh,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: kPagePadding,
               child: Stack(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 children: const [
@@ -134,10 +132,13 @@ class _MainPageContent extends GetView<_MainPageController> {
                     key: controller.menuListKey,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (_, index, animation) => AnimatedMenuCard(
-                      menu: controller.menuList[index],
-                      animation: animation,
-                      onAddPressed: controller.showAddToCartDialog,
+                    itemBuilder: (_, index, animation) => Padding(
+                      padding: const EdgeInsets.only(bottom: 40),
+                      child: AnimatedMenuCard(
+                        menu: controller.menuList[index],
+                        animation: animation,
+                        onAddPressed: controller.showAddToCartDialog,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 60.0),

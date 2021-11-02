@@ -1,5 +1,6 @@
 import 'package:arungi_rasa/model/food_drink_menu.dart';
 import 'package:arungi_rasa/service/wistlist_service.dart';
+import 'package:arungi_rasa/widget/add_to_cart_dialog.dart';
 import 'package:arungi_rasa/widget/menu_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,6 +30,8 @@ class WishListPage extends GetView<_WishListPageController> {
                   AnimatedMenuCard(
                 menu: controller.itemList[index],
                 animation: animation,
+                onAddPressed: (menu) async =>
+                    await Get.bottomSheet(AddToCartDialog(menu: menu)),
               ),
             ),
           ),

@@ -1,5 +1,5 @@
+import 'package:arungi_rasa/common/config.dart';
 import 'package:arungi_rasa/common/helper.dart';
-import 'package:arungi_rasa/generated/fonts.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/food_drink_menu.dart';
 import 'package:arungi_rasa/service/wistlist_service.dart';
@@ -8,18 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:octo_image/octo_image.dart';
 
-const _kPriceColor = Color(0XFFF7931E);
-
 class AnimatedMenuCard extends StatelessWidget {
   final FoodDrinkMenu menu;
   final Animation<double> animation;
   final ValueChanged<FoodDrinkMenu>? onAddPressed;
+  final List<Widget> actions;
 
   const AnimatedMenuCard({
     Key? key,
     required this.menu,
     required this.animation,
     this.onAddPressed,
+    this.actions = const [],
   }) : super(key: key);
 
   @override
@@ -31,6 +31,7 @@ class AnimatedMenuCard extends StatelessWidget {
         child: MenuCard(
           menu: menu,
           onAddPressed: onAddPressed,
+          actions: actions,
         ),
       );
 }
@@ -38,116 +39,113 @@ class AnimatedMenuCard extends StatelessWidget {
 class MenuCard extends StatelessWidget {
   final FoodDrinkMenu menu;
   final ValueChanged<FoodDrinkMenu>? onAddPressed;
+  final List<Widget> actions;
 
   const MenuCard({
     Key? key,
     required this.menu,
     this.onAddPressed,
+    this.actions = const [],
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          LayoutBuilder(
-            builder: (_, constraints) => SizedBox(
-              height: constraints.maxWidth * 0.4,
-              child: Row(
-                children: [
-                  Stack(
-                    children: [
-                      _getImage(constraints.maxWidth * 0.4),
-                      Positioned(
-                        top: 5.0,
-                        right: .0,
-                        child: _wishlistButton,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(width: 10.0),
-                  Expanded(
+          SizedBox(
+            height: Get.width * 0.35,
+            child: Row(
+              children: [
+                Stack(
+                  children: [
+                    _getImage(Get.width * 0.35),
+                    Positioned(
+                      top: 7.5,
+                      right: 7.5,
+                      child: _wishlistButton,
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 20.0),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 7.5),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _title,
-                        const SizedBox(height: 5.0),
+                        const SizedBox(height: 10.0),
                         _description,
-                        const SizedBox(height: 5.0),
-                        Row(
-                          textDirection: TextDirection.rtl,
-                          children: [
-                            _addButton,
-                            const SizedBox(width: 5.0),
-                            _priceText,
-                          ],
-                        ),
+                        const SizedBox(height: 10.0),
+                        _priceText,
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 5.0),
-          const Divider(),
+          const SizedBox(height: 20.0),
+          Row(
+            textDirection: TextDirection.rtl,
+            children: [
+              _addButton,
+              ...actions,
+            ],
+          ),
         ],
       );
 
-  Widget get _priceText => Expanded(
-        child: FittedBox(
-          child: Text(
-            Helper.formatMoney(menu.price.toDouble()),
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              color: _kPriceColor,
-              fontSize: 16.0,
-            ),
+  Widget get _priceText => FittedBox(
+        child: Text(
+          Helper.formatMoney(menu.price.toDouble()),
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            color: Get.theme.primaryColor,
+            fontSize: 16.0,
           ),
         ),
       );
 
   Widget get _wishlistButton => SizedBox(
-        height: 25.0,
-        child: IconButton(
-          icon: ObxValue<RxList<FoodDrinkMenu>>(
-            (obs) => obs.any((e) => e.ref == menu.ref)
-                ? const Icon(
-                    Icons.favorite_sharp,
-                    color: Colors.red,
-                  )
-                : const Icon(
-                    Icons.favorite_border_sharp,
-                    color: Colors.red,
-                  ),
-            WishListService.instance.itemList,
+        height: Get.width * 0.4 * 0.2,
+        width: Get.width * 0.4 * 0.2,
+        child: InkWell(
+          child: Container(
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(90))),
+            child: Center(
+              child: ObxValue<RxList<FoodDrinkMenu>>(
+                (obs) => obs.any((e) => e.ref == menu.ref)
+                    ? Icon(
+                        Icons.favorite_sharp,
+                        color: Colors.red,
+                        size: (Get.width * 0.4 * 0.2) - 5,
+                      )
+                    : Icon(
+                        Icons.favorite_border_sharp,
+                        color: Colors.red,
+                        size: (Get.width * 0.4 * 0.2) - 5,
+                      ),
+                WishListService.instance.itemList,
+              ),
+            ),
           ),
-          padding: EdgeInsets.zero,
-          iconSize: 30,
-          onPressed: () => WishListService.instance.toggle(menu),
+          onTap: () => WishListService.instance.toggle(menu),
         ),
       );
 
   Widget get _addButton => onAddPressed == null
-      ? const SizedBox(width: 75)
+      ? const SizedBox()
       : SizedBox(
-          height: 25.0,
-          width: 75,
+          height: kSecondaryButtonHeight,
+          width: secondaryButtonSize,
           child: ElevatedButton(
             child: Text(S.current.add),
-            style: ButtonStyle(
-                padding: MaterialStateProperty.all(
-                    const EdgeInsets.symmetric(horizontal: 5.0)),
-                backgroundColor:
-                    MaterialStateProperty.all(Get.theme.primaryColor),
-                shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15.0)))),
-                textStyle: MaterialStateProperty.all(const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w600,
-                ))),
+            style: seondaryButtonStyle,
             onPressed: onAddPressed != null ? () => onAddPressed!(menu) : null,
           ),
         );
@@ -156,8 +154,9 @@ class MenuCard extends StatelessWidget {
         child: Text(
           menu.description,
           maxLines: null,
-          style: const TextStyle(
-            fontSize: 14.0,
+          style: TextStyle(
+            fontSize: 16.0,
+            color: Get.theme.primaryColor,
           ),
         ),
       );
@@ -167,9 +166,9 @@ class MenuCard extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.w600,
           color: Get.theme.primaryColor,
-          fontSize: 21.0,
+          fontSize: 16.0,
           wordSpacing: 2.5,
-          fontFamily: FontFamily.monetaSans,
+          //fontFamily: FontFamily.monetaSans,
         ),
       );
 

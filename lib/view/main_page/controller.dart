@@ -102,7 +102,7 @@ class _MainPageController extends GetxController with MixinControllerWorker {
   }
 
   Future<void> showAddToCartDialog(final FoodDrinkMenu menu) async {
-    await Get.bottomSheet(_AddToCartDialog(menu: menu));
+    await Get.bottomSheet(AddToCartDialog(menu: menu));
   }
 
   @override
