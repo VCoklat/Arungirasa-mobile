@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:arungi_rasa/common/config.dart';
 import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/common/helper.dart';
 import 'package:arungi_rasa/common/mixin_controller_worker.dart';
@@ -67,7 +68,7 @@ class SavedAddressField extends StatelessWidget {
               ),
               suffix: SizedBox(
                 height: 25.0,
-                width: 50.0,
+                width: secondaryButtonSize,
                 child: MaterialButton(
                   padding: const EdgeInsets.all(7.0),
                   shape: RoundedRectangleBorder(
