@@ -13,6 +13,7 @@ class AnimatedMenuCard extends StatelessWidget {
   final Animation<double> animation;
   final ValueChanged<FoodDrinkMenu>? onAddPressed;
   final List<Widget> actions;
+  final String? note;
 
   const AnimatedMenuCard({
     Key? key,
@@ -20,6 +21,7 @@ class AnimatedMenuCard extends StatelessWidget {
     required this.animation,
     this.onAddPressed,
     this.actions = const [],
+    this.note,
   }) : super(key: key);
 
   @override
@@ -32,6 +34,7 @@ class AnimatedMenuCard extends StatelessWidget {
           menu: menu,
           onAddPressed: onAddPressed,
           actions: actions,
+          note: note,
         ),
       );
 }
@@ -40,17 +43,20 @@ class MenuCard extends StatelessWidget {
   final FoodDrinkMenu menu;
   final ValueChanged<FoodDrinkMenu>? onAddPressed;
   final List<Widget> actions;
+  final String? note;
 
   const MenuCard({
     Key? key,
     required this.menu,
     this.onAddPressed,
     this.actions = const [],
+    this.note,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             height: Get.width * 0.35,
@@ -87,6 +93,31 @@ class MenuCard extends StatelessWidget {
               ],
             ),
           ),
+          note == null ? const SizedBox() : const SizedBox(height: 10.0),
+          note == null
+              ? const SizedBox()
+              : Padding(
+                  padding: EdgeInsets.only(left: Get.width * 0.35 + 20),
+                  child: Text(
+                    S.current.note,
+                    style: TextStyle(
+                      color: Get.theme.primaryColor,
+                      fontSize: 10.0,
+                    ),
+                  ),
+                ),
+          note == null
+              ? const SizedBox()
+              : Padding(
+                  padding: EdgeInsets.only(left: Get.width * 0.35 + 20),
+                  child: Text(
+                    note!,
+                    style: TextStyle(
+                      color: Get.theme.primaryColor,
+                      fontSize: 18.0,
+                    ),
+                  ),
+                ),
           const SizedBox(height: 20.0),
           Row(
             textDirection: TextDirection.rtl,
