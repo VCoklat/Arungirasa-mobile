@@ -5,6 +5,7 @@ import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/model/cart.dart';
 import 'package:arungi_rasa/routes/routes.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
+import 'package:arungi_rasa/widget/cart_qty_editor.dart';
 import 'package:arungi_rasa/widget/menu_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,7 +41,7 @@ class CartPage extends GetView<_CartPageController> {
                       menu: controller.itemList[index].value.menu,
                       animation: animation,
                       actions: [
-                        _CardQtyWidget(cart: controller.itemList[index]),
+                        CardQtyEditor(cart: controller.itemList[index]),
                         const SizedBox(width: 20),
                         _CartNoteWidget(cart: controller.itemList[index]),
                       ],
@@ -165,56 +166,6 @@ class _CartNoteWidget extends StatelessWidget {
   }
 }
 
-class _CardQtyWidget extends StatelessWidget {
-  final Rx<Cart> cart;
-  const _CardQtyWidget({
-    Key? key,
-    required this.cart,
-  }) : super(key: key);
-  @override
-  Widget build(BuildContext context) => Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          InkWell(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(90)),
-                border: Border.fromBorderSide(
-                    BorderSide(color: Get.theme.primaryColor)),
-              ),
-              padding: const EdgeInsets.all(2.5),
-              child: Icon(Icons.remove_sharp, color: Get.theme.primaryColor),
-            ),
-            onTap: () => CartService.instance.subtractCart(cart.value.menu),
-          ),
-          const SizedBox(width: 15),
-          ObxValue<Rx<Cart>>(
-            (obs) => Text(
-              obs.value.qty.toString(),
-              style: TextStyle(
-                color: Get.theme.primaryColor,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            cart,
-          ),
-          const SizedBox(width: 15),
-          InkWell(
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(90)),
-                border: Border.fromBorderSide(
-                    BorderSide(color: Get.theme.primaryColor)),
-              ),
-              padding: const EdgeInsets.all(2.5),
-              child: Icon(Icons.add_sharp, color: Get.theme.primaryColor),
-            ),
-            onTap: () => CartService.instance.addCart(cart.value.menu),
-          ),
-        ],
-      );
-}
-
 class _CartPageController extends GetxController {
   final listState = GlobalKey<AnimatedListState>();
   final itemList = <Rx<Cart>>[];
@@ -251,7 +202,9 @@ class _CartPageController extends GetxController {
         menu: item.value.menu,
         animation: animation,
         actions: [
-          _CardQtyWidget(cart: item),
+          CardQtyEditor(cart: item),
+          const SizedBox(width: 20),
+          _CartNoteWidget(cart: item),
         ],
       ),
     );

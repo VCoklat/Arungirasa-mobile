@@ -114,6 +114,7 @@
   "deliverTo": "Deliver to",
   "portion": "Portion",
   "send": "Send",
+  "errorPaymentImageEmpty": "Please select an image that prove you have made a payment.",
 
   "unpaid": "Unpaid",
   "awaitingConfirmation": "Awaiting Confirmation",

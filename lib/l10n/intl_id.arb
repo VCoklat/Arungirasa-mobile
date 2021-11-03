@@ -114,6 +114,7 @@
   "deliverTo": "Antar ke",
   "portion": "Porsi",
   "send": "Kirim",
+  "errorPaymentImageEmpty": "Mohon pilih foto bukti pembayaran anda.",
 
   "unpaid": "Belum Dibayar",
   "awaitingConfirmation": "Mengunggu Konfirmasi",

@@ -3,7 +3,7 @@ part of 'create_order_page.dart';
 class _CreateOrderPageController extends GetxController
     with MixinControllerWorker {
   final addressDetail = RxString("");
-  final itemList = RxList<_CartItemNote>();
+  final itemList = RxList<Rx<Cart>>();
   final paymentImage = Rxn<Uint8List>();
 
   final distance = RxDouble(.0);
@@ -12,15 +12,12 @@ class _CreateOrderPageController extends GetxController
 
   late SavedAddressFieldController addressFieldController;
 
-  double get total => itemList.fold(
-      0, (prev, e) => prev + e.cart.value.qty * e.cart.value.price);
+  double get total =>
+      itemList.fold(0, (prev, e) => prev + e.value.qty * e.value.price);
 
   @override
   void onInit() {
-    itemList.assignAll(CartService.instance.itemList.map((e) => _CartItemNote(
-          cart: Rx<Cart>(e),
-          note: Rx<String>(""),
-        )));
+    itemList.assignAll(CartService.instance.itemList.map((e) => Rx<Cart>(e)));
     addressFieldController = SavedAddressFieldController();
     CartService.instance.addOnRemoveIndexCallback(_onRemove);
     CartService.instance.addOnQtyChangedIndexCallback(_onQtyChanged);
@@ -50,17 +47,16 @@ class _CreateOrderPageController extends GetxController
     if (address == null) return;
     try {
       Helper.showLoading();
-      final ref = itemList.first.cart.value.menu.restaurant.ref;
+      final ref = itemList.first.value.menu.restaurant.ref;
       distance.value = await MapBoxRepository.instance.getDistance(
-        itemList.first.cart.value.menu.restaurant.latLng,
+        itemList.first.value.menu.restaurant.latLng,
         address.latLng,
       );
       transportFee.value = await RestaurantRepository.instance.transportFee(
         ref: ref,
         distance: distance.value,
       );
-      appFee.value =
-          itemList.first.cart.value.menu.restaurant.appFee.toDouble();
+      appFee.value = itemList.first.value.menu.restaurant.appFee.toDouble();
       Helper.hideLoadingWithSuccess();
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);
@@ -74,7 +70,7 @@ class _CreateOrderPageController extends GetxController
   }
 
   void _onQtyChanged(final int index) {
-    itemList[index].cart.value = CartService.instance.itemList[index];
+    itemList[index].value = CartService.instance.itemList[index];
   }
 
   Future<void> selectImage() async {
@@ -149,6 +145,10 @@ class _CreateOrderPageController extends GetxController
   }
 
   Future<void> createOrder(final LoadingButtonController controller) async {
+    if (paymentImage.value == null) {
+      await Helper.showError(text: S.current.errorPaymentImageEmpty);
+      return;
+    }
     bool createOrderSuccess = false;
     try {
       await controller.loading();
@@ -156,7 +156,7 @@ class _CreateOrderPageController extends GetxController
         addressId: addressFieldController.item.value!.id,
         addressDetail: addressDetail.value,
         note: itemList.asMap().map((key, value) =>
-            MapEntry(value.cart.value.menu.id.toString(), value.note.value)),
+            MapEntry(value.value.menu.id.toString(), value.value.note)),
         transportFee: transportFee.value.toInt(),
         appFee: appFee.value.toInt(),
       );

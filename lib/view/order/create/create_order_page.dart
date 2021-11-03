@@ -17,19 +17,17 @@ import 'package:arungi_rasa/repository/restaurant_repository.dart';
 import 'package:arungi_rasa/service/cart_service.dart';
 import 'package:arungi_rasa/service/order_service.dart';
 import 'package:arungi_rasa/util/image_util.dart';
+import 'package:arungi_rasa/widget/cart_qty_editor.dart';
+import 'package:arungi_rasa/widget/menu_card.dart';
 import 'package:arungi_rasa/widget/saved_address_field.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:document_scanner_flutter/configs/configs.dart';
 import 'package:document_scanner_flutter/document_scanner_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gradient_loading_button/gradient_loading_button.dart';
-import 'package:octo_image/octo_image.dart';
 
 part 'create.button.dart';
-part 'cart.card.dart';
 part 'controller.dart';
-part 'note.dart';
 part 'payment.dart';
 part 'payment.summary.dart';
 
@@ -50,7 +48,7 @@ class CreateOrderPage extends GetView<_CreateOrderPageController> {
             SliverAppBar(title: Text(S.current.order)),
           ],
           body: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: kPagePadding,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -79,9 +77,14 @@ class CreateOrderPage extends GetView<_CreateOrderPageController> {
           separatorBuilder: (_, __) => const SizedBox(height: 10),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (_, final int index) => _CartCard(
-            cart: controller.itemList[index].cart,
-            note: controller.itemList[index].note,
+          itemBuilder: (_, final int index) => MenuCard(
+            menu: controller.itemList[index].value.menu,
+            note: controller.itemList[index].value.note,
+            actions: [
+              CardQtyEditor(
+                cart: controller.itemList[index],
+              ),
+            ],
           ),
         ),
       );
