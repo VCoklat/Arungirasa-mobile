@@ -156,6 +156,7 @@ class _CartNoteWidget extends StatelessWidget {
       ));
       await Future.delayed(const Duration(milliseconds: 500));
       cart.value = cart.value.updateNote(controller.text);
+      await CartService.instance.updateNote(cart.value.menu, controller.text);
     } catch (error, st) {
       ErrorReporter.instance.captureException(error, st);
     } finally {

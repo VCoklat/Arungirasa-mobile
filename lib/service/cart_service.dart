@@ -54,6 +54,29 @@ class CartService extends GetxService {
     itemList.clear();
   }
 
+  Future<void> updateNote(final FoodDrinkMenu menu, final String note) async {
+    Helper.showLoading();
+    try {
+      final index = itemList.indexWhere((e) => e.menu.ref == menu.ref);
+      if (index == -1) {
+        await Future.delayed(const Duration(milliseconds: 500));
+        Helper.hideLoadingWithError();
+        return;
+      }
+
+      final newCart = itemList[index].updateNote(note);
+      final cart = await CartRepository.instance.updateNote(newCart);
+      itemList[index] = cart;
+      for (final callback in _onQtyChangedIndexCallbackList) {
+        callback(index);
+      }
+      Helper.hideLoadingWithSuccess();
+    } catch (error, st) {
+      ErrorReporter.instance.captureException(error, st);
+      Helper.hideLoadingWithError();
+    }
+  }
+
   Future<void> addCart(final FoodDrinkMenu menu) async {
     Helper.showLoading();
     try {
