@@ -22,7 +22,7 @@ class _CreateButton extends GetView<_CreateOrderPageController> {
               const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(30))),
             ),
-            backgroundColor: MaterialStateProperty.all(Get.theme.accentColor),
+            backgroundColor: MaterialStateProperty.all(Get.theme.primaryColor),
             textStyle: MaterialStateProperty.all(
               const TextStyle(
                 fontWeight: FontWeight.bold,

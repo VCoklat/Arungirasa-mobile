@@ -95,7 +95,7 @@ class ForgetPassword extends GetView<_ForgetPasswordPageController> {
                                         BorderRadius.all(Radius.circular(30))),
                               ),
                               backgroundColor: MaterialStateProperty.all(
-                                  Get.theme.accentColor),
+                                  Get.theme.primaryColor),
                               textStyle:
                                   MaterialStateProperty.all(const TextStyle(
                                 fontWeight: FontWeight.bold,

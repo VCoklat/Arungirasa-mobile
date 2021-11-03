@@ -21,8 +21,6 @@ final _themeData = ThemeData(
   appBarTheme: const AppBarTheme(
     backgroundColor: Color(0XFF12676D),
   ),
-  accentColor: const Color(0XFF12676D),
-  accentIconTheme: const IconThemeData(color: Colors.white),
   bottomAppBarColor: const Color(0XFF45A39A),
   indicatorColor: Colors.white,
   tabBarTheme: const TabBarTheme(labelColor: Colors.white),

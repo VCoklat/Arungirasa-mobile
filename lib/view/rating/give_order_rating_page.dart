@@ -116,7 +116,7 @@ class _RatingWidget extends GetView<_GiveOrderRatingPageController> {
                           borderRadius: BorderRadius.all(Radius.circular(30))),
                     ),
                     backgroundColor:
-                        MaterialStateProperty.all(Get.theme.accentColor),
+                        MaterialStateProperty.all(Get.theme.primaryColor),
                     textStyle: MaterialStateProperty.all(const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24.0,
