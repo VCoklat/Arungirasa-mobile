@@ -50,6 +50,18 @@ class CartRepository extends GetConnect
     }
   }
 
+  Future<Cart> updateNote(final Cart cart) async {
+    final response = await patch("$kRestUrl/cart/note", {
+      "uuid": cart.uuid,
+      "note": cart.note,
+    });
+    if (response.isOk) {
+      return Cart.fromJson(response.body as Map<String, dynamic>);
+    } else {
+      throw getException(response);
+    }
+  }
+
   Future<void> remove(final Cart cart) async {
     final response = await delete("$kRestUrl/cart/${cart.uuid}");
     if (!response.isOk) {
