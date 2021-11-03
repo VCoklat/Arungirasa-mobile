@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:arungi_rasa/common/config.dart';
 import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/common/helper.dart';
 import 'package:arungi_rasa/common/mixin_controller_worker.dart';
@@ -34,8 +35,7 @@ class SignUpPage extends GetView<_SignUpPageController> {
         body: SafeArea(
           child: ListView(
             shrinkWrap: true,
-            padding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+            padding: kPagePadding,
             children: [
               photoProfile,
               gap,
@@ -54,10 +54,8 @@ class SignUpPage extends GetView<_SignUpPageController> {
               gap,
               interestList,
               const SizedBox(height: 25.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                ),
+              SizedBox(
+                height: 50,
                 child: LoadingButton(
                   child: Text(S.current.signUp),
                   successChild: const Icon(
@@ -76,8 +74,8 @@ class SignUpPage extends GetView<_SignUpPageController> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(30))),
                       ),
-                      backgroundColor: MaterialStateProperty.all(
-                          const Color.fromRGBO(240, 90, 40, 10)),
+                      backgroundColor:
+                          MaterialStateProperty.all(Get.theme.primaryColor),
                       textStyle: MaterialStateProperty.all(const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24.0,
@@ -262,8 +260,8 @@ class SignUpPage extends GetView<_SignUpPageController> {
                   ),
                 )
               : Wrap(
-                  runSpacing: 10.0,
-                  spacing: 10.0,
+                  //runSpacing: 5.0,
+                  spacing: 5.0,
                   children: controller.interestList
                       .map((e) => _InterestWidget(
                             interest: e,
@@ -307,7 +305,7 @@ class _InterestWidget extends StatelessWidget {
                     width: 1.5,
                   )),
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(5.0),
           child: Text(
             interest.name,
             style: TextStyle(
