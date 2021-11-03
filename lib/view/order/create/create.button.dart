@@ -4,7 +4,7 @@ class _CreateButton extends GetView<_CreateOrderPageController> {
   const _CreateButton();
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: 40,
+        height: 50,
         child: LoadingButton(
           child: Text(S.current.processTransaction),
           successChild: const Icon(
