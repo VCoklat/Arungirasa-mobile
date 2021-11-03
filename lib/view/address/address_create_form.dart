@@ -1,3 +1,4 @@
+import 'package:arungi_rasa/common/config.dart';
 import 'package:arungi_rasa/common/error_reporter.dart';
 import 'package:arungi_rasa/common/helper.dart';
 import 'package:arungi_rasa/common/mixin_controller_worker.dart';
@@ -42,7 +43,7 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
             ),
           ],
           body: ListView(
-            padding: const EdgeInsets.all(20),
+            padding: kPagePadding,
             shrinkWrap: true,
             children: [
               Obx(
@@ -98,39 +99,37 @@ class AddressCreateFormPage extends GetView<_AddressCreateFormPageController> {
                 ),
               ),
               const SizedBox(height: 30),
-              Center(
-                child: SizedBox(
-                  width: 250,
-                  child: LoadingButton(
-                    child: Text(
-                      controller.currentAddress.value == null
-                          ? S.current.addAddress
-                          : S.current.editAddress,
-                    ),
-                    successChild: const Icon(
-                      Icons.check_sharp,
-                      size: 35,
-                      color: Colors.white,
-                    ),
-                    errorChild: const Icon(
-                      Icons.close_sharp,
-                      size: 35,
-                      color: Colors.white,
-                    ),
-                    style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
-                        ),
-                        backgroundColor:
-                            MaterialStateProperty.all(Get.theme.accentColor),
-                        textStyle: MaterialStateProperty.all(const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24.0,
-                        ))),
-                    onPressed: controller.create,
+              SizedBox(
+                height: 50,
+                child: LoadingButton(
+                  child: Text(
+                    controller.currentAddress.value == null
+                        ? S.current.addAddress
+                        : S.current.editAddress,
                   ),
+                  successChild: const Icon(
+                    Icons.check_sharp,
+                    size: 35,
+                    color: Colors.white,
+                  ),
+                  errorChild: const Icon(
+                    Icons.close_sharp,
+                    size: 35,
+                    color: Colors.white,
+                  ),
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30))),
+                      ),
+                      backgroundColor:
+                          MaterialStateProperty.all(Get.theme.accentColor),
+                      textStyle: MaterialStateProperty.all(const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.0,
+                      ))),
+                  onPressed: controller.create,
                 ),
               ),
             ],
