@@ -39,7 +39,7 @@ class CartRepository extends GetConnect
   }
 
   Future<Cart> updateQty(final Cart cart) async {
-    final response = await patch("$kRestUrl/cart", {
+    final response = await patch("$kRestUrl/cart/qty", {
       "uuid": cart.uuid,
       "qty": cart.qty,
     });
