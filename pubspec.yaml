@@ -80,6 +80,9 @@ dependencies:
   firebase_crashlytics: ^2.4.4
   firebase_storage: ^10.2.4
 
+dependency_overrides:
+  photo_view: ^0.13.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
