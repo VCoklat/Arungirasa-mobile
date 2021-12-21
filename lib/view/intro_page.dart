@@ -2,7 +2,6 @@ import 'package:arungi_rasa/generated/assets.gen.dart';
 import 'package:arungi_rasa/generated/fonts.gen.dart';
 import 'package:arungi_rasa/generated/l10n.dart';
 import 'package:arungi_rasa/service/session_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:im_stepper/stepper.dart';
