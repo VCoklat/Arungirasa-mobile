@@ -118,7 +118,45 @@ class MenuCard extends StatelessWidget {
                     ),
                   ),
                 ),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: 5.0),
+          menu.interestList.isEmpty
+              ? const SizedBox()
+              : SizedBox(
+                  height: 20,
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: menu.interestList.length,
+                    separatorBuilder: (_, __) => const SizedBox(width: 5),
+                    itemBuilder: (_, final int index) => Container(
+                      height: kSecondaryButtonHeight,
+                      width: secondaryButtonSize,
+                      decoration: BoxDecoration(
+                          color: Get.theme.primaryColor,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(30))),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Center(
+                          child: FittedBox(
+                            alignment: Alignment.center,
+                            child: Text(
+                              menu.interestList[index].name,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+          menu.interestList.isEmpty
+              ? const SizedBox()
+              : const SizedBox(height: 5.0),
           Row(
             textDirection: TextDirection.rtl,
             children: [

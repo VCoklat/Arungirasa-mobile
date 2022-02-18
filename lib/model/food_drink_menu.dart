@@ -2,6 +2,7 @@ import 'package:arungi_rasa/model/restaurant.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'image_with_blur_hash.dart';
+import 'interest.dart';
 
 part 'food_drink_menu.g.dart';
 
@@ -25,6 +26,9 @@ class FoodDrinkMenu {
   @JsonKey(required: true, disallowNullValue: true)
   final Restaurant restaurant;
 
+  @JsonKey(required: false, disallowNullValue: false, defaultValue: [])
+  final List<Interest> interestList;
+
   FoodDrinkMenu({
     required this.id,
     required this.name,
@@ -32,6 +36,7 @@ class FoodDrinkMenu {
     required this.price,
     required this.imageList,
     required this.restaurant,
+    required this.interestList,
   });
 
   factory FoodDrinkMenu.fromJson(final Map<String, dynamic> json) =>
